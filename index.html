@@ -1218,6 +1218,112 @@
             ]
         };
 
+        // โค้ด Google Apps Script สำหรับแสดงในหน้าต่างผู้ดูแลระบบ
+        const GAS_CODE_TEMPLATE = `/**
+ * Google Apps Script สำหรับระบบสำรวจข้อมูลพื้นที่ BCH
+ * วิธีใช้งาน:
+ * 1.วางโค้ดนี้ใน Extensions > Apps Script ของ Google Sheets
+ * 2.กด Deploy > New deployment > เลือก Web app
+ * 3.ตั้งค่า Execute as: Me และ Who has access: Anyone
+ */
+
+const SHEET_NAME = 'BCH_Space_Survey';
+
+function doPost(e) {
+  try {
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    let sheet = ss.getSheetByName(SHEET_NAME);
+    
+    // สร้างชีตและหัวตารางอัตโนมัติหากยังไม่มี
+    if (!sheet) {
+      sheet = ss.insertSheet(SHEET_NAME);
+      const headers = [
+        'วันเวลาที่บันทึก', 'สายงาน', 'หน่วยงาน/แผนก', 'ชื่อผู้ให้ข้อมูล', 'เบอร์โทรติดต่อ', 'เวลาทำการ', 'ความเชื่อมโยงกับแผนกอื่น',
+        'จำนวนแพทย์', 'จำนวนพยาบาล', 'จำนวนสายสนับสนุน', 'รวมบุคลากรทั้งหมด', 'บุคลากรสูงสุดใน 1 กะ (Peak Shift)',
+        'โต๊ะทำงานประจำ (ตัว)', 'โต๊ะส่วนกลาง (ตัว)', 'ตู้ล็อกเกอร์ (ชุด)', 'ห้องพักเบรก/ห้องเปลี่ยนชุด',
+        'มีผู้รับบริการหรือไม่', 'ผู้รับบริการเฉลี่ยต่อวัน (คน)', 'ช่วงเวลา Peak Hour', 'ที่นั่งพักคอย (ที่นั่ง)',
+        'จุดจอดรถเข็น Wheelchair (คัน)', 'จุดจอดเตียงเข็น Stretcher (เตียง)', 'หมายเหตุพื้นที่จอดรถเข็น/เตียง',
+        'ห้องตรวจ/ให้คำปรึกษา (ห้อง)', 'ห้องหัตถการ/รักษา (ห้อง)',
+        'ห้องเก็บเวชภัณฑ์/ยา (ห้อง)', 'หมายเหตุห้องเก็บยา', 'ห้องเก็บอุปกรณ์การแพทย์ (ห้อง)', 'หมายเหตุห้องเก็บอุปกรณ์',
+        'ห้อง/ตู้เก็บเอกสาร (ห้อง)', 'หมายเหตุที่เก็บเอกสาร',
+        'ห้อง/โซนซักล้าง (จุด)', 'จุดทิ้งขยะทั่วไป (จุด)', 'จุดทิ้งขยะติดเชื้อ (จุด)',
+        'ตู้เก็บของขนาดใหญ่ (ใบ)', 'ชั้นวางของ (ชุด)', 'เตียงตรวจ (เตียง)',
+        'เครื่องถ่ายเอกสาร (เครื่อง)', 'เครื่องสแกนเนอร์ (เครื่อง)', 'เครื่องพิมพ์ Printer (เครื่อง)', 'ครุภัณฑ์พิเศษอื่นๆ',
+        'คอมพิวเตอร์ PC (เครื่อง)', 'Notebook (เครื่อง)', 'แท็บเล็ต/iPad (เครื่อง)',
+        'จุดปลั๊กไฟ (จุด)', 'จุดสาย LAN (จุด)', 'จุด Wi-Fi Router (จุด)',
+        'จุดก๊าซทางการแพทย์ (จุด)', 'ระบบวิศวกรรมพิเศษอื่นๆ',
+        'ปัญหาพื้นที่ในปัจจุบัน', 'โครงการหรือบริการใหม่ในอนาคต'
+      ];
+      sheet.appendRow(headers);
+      sheet.getRange(1, 1, 1, headers.length).setFontWeight('bold').setBackground('#4e21b6').setFontColor('#ffffff');
+      sheet.setFrozenRows(1);
+    }
+
+    const data = JSON.parse(e.postData.contents);
+    const row = [
+      new Date(),
+      data.division || '',
+      data.department || '',
+      data.respondentName || '',
+      "'" + (data.respondentPhone || ''),
+      data.operatingHours || '',
+      data.adjacency || '',
+      Number(data.staffDoctors || 0),
+      Number(data.staffNurses || 0),
+      Number(data.staffSupport || 0),
+      Number(data.staffTotal || 0),
+      Number(data.staffPeakShift || 0),
+      Number(data.fixedDesks || 0),
+      Number(data.sharedDesks || 0),
+      Number(data.staffLockers || 0),
+      data.breakChangingRoom || '',
+      data.hasPatients ? 'มีผู้รับบริการ' : 'ไม่มีผู้รับบริการโดยตรง',
+      Number(data.patientsPerDay || 0),
+      data.peakHours || '',
+      Number(data.waitingSeats || 0),
+      Number(data.wheelchairParking || 0),
+      Number(data.stretcherParking || 0),
+      data.mobilityParkingNote || '',
+      Number(data.examRooms || 0),
+      Number(data.treatmentRooms || 0),
+      Number(data.storageMedRooms || 0),
+      data.storageMedNote || '',
+      Number(data.storageEquipRooms || 0),
+      data.storageEquipNote || '',
+      Number(data.storageDocRooms || 0),
+      data.storageDocNote || '',
+      Number(data.washingZones || 0),
+      Number(data.generalWastePoints || 0),
+      Number(data.infectiousWastePoints || 0),
+      Number(data.largeCabinets || 0),
+      Number(data.shelves || 0),
+      Number(data.examBeds || 0),
+      Number(data.copiers || 0),
+      Number(data.scanners || 0),
+      Number(data.printers || 0),
+      data.otherEquipmentNote || '',
+      Number(data.itPCs || 0),
+      Number(data.itNotebooks || 0),
+      Number(data.itTablets || 0),
+      Number(data.powerOutlets || 0),
+      Number(data.lanPorts || 0),
+      Number(data.wifiPoints || 0),
+      Number(data.medicalGasPoints || 0),
+      data.infrastructureNote || '',
+      data.currentIssues || '',
+      data.futureProjects || ''
+    ];
+
+    sheet.appendRow(row);
+
+    return ContentService.createTextOutput(JSON.stringify({ status: 'success', message: 'บันทึกข้อมูลสำเร็จ' }))
+      .setMimeType(ContentService.MimeType.JSON);
+
+  } catch (error) {
+    return ContentService.createTextOutput(JSON.stringify({ status: 'error', message: error.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}`;
 
         // =========================================================================
         // 2. INITIALIZATION & CASCADING DROPDOWN LOGIC
