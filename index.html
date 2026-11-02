@@ -1,0 +1,1903 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ระบบสำรวจข้อมูลพื้นที่ BCH - โรงพยาบาลกรุงเทพคริสเตียน</title>
+    
+    <!-- Google Fonts: Prompt -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Prompt', 'sans-serif'],
+                    },
+                    colors: {
+                        bch: {
+                            50: '#f4f3ff',
+                            100: '#ebe9fe',
+                            200: '#d9d6fe',
+                            300: '#beb4fe',
+                            400: '#9d8afb',
+                            500: '#7f5af7',
+                            600: '#6d38ee',
+                            700: '#5e27da',
+                            800: '#4e21b6',
+                            900: '#411d95',
+                        },
+                        med: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                            700: '#0f766e',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Prompt', sans-serif;
+            background-color: #f8fafc;
+            -webkit-tap-highlight-color: transparent;
+        }
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        /* Remove default number arrows */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+        .section-card {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .stepper-btn:active {
+            transform: scale(0.92);
+        }
+        .swal2-popup {
+            font-family: 'Prompt', sans-serif !important;
+            border-radius: 1.25rem !important;
+        }
+    </style>
+</head>
+<body class="text-slate-800 pb-28">
+
+    <!-- Top Header & Sticky Navigation -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-200/80">
+        <!-- Brand Bar -->
+        <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-bch-600 to-indigo-800 flex items-center justify-center text-white shadow-md shadow-bch-500/20">
+                    <i class="fa-solid fa-hospital-user text-lg"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="font-bold text-base sm:text-lg text-slate-900 leading-tight">ระบบสำรวจพื้นที่ BCH</h1>
+                        <span id="draftStatusBadge" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+                            <i class="fa-solid fa-cloud-arrow-up text-[10px]"></i> พร้อมใช้งาน
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate-500">โครงการจัดสรรพื้นที่อาคารใหม่ โรงพยาบาลกรุงเทพคริสเตียน</p>
+                </div>
+            </div>
+
+            <!-- Action Buttons (History & Admin Setup) -->
+            <div class="flex items-center gap-1.5">
+                <button type="button" onclick="openHistoryModal()" class="p-2.5 rounded-xl text-slate-600 hover:bg-slate-100 active:bg-slate-200 transition relative" title="ประวัติการส่งข้อมูล">
+                    <i class="fa-solid fa-clock-rotate-left text-base"></i>
+                    <span id="historyCountBadge" class="hidden absolute top-1 right-1 w-4 h-4 bg-bch-600 text-white text-[10px] font-bold rounded-full flex items-center justify-center">0</span>
+                </button>
+                <button type="button" onclick="openAdminModal()" class="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 transition" title="ตั้งค่า Google Sheets & โค้ดหลังบ้าน">
+                    <i class="fa-solid fa-gear text-bch-600"></i>
+                    <span class="hidden sm:inline">ตั้งค่า / โค้ด GAS</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="w-full bg-slate-100 h-1.5 overflow-hidden">
+            <div id="formProgressBar" class="bg-gradient-to-r from-bch-600 via-indigo-500 to-med-500 h-full transition-all duration-300" style="width: 15%"></div>
+        </div>
+
+        <!-- Quick Category Jump Pills (Mobile Horizontal Scroll) -->
+        <div class="max-w-3xl mx-auto px-3 py-2 flex items-center gap-2 overflow-x-auto no-scrollbar bg-slate-50/70">
+            <a href="#sec-1" onclick="setActivePill(1)" id="pill-1" class="nav-pill shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-bch-600 text-white shadow-sm transition">
+                <i class="fa-solid fa-building-user"></i> 1. ข้อมูลทั่วไป
+            </a>
+            <a href="#sec-2" onclick="setActivePill(2)" id="pill-2" class="nav-pill shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-white text-slate-600 border border-slate-200 hover:border-bch-300 transition">
+                <i class="fa-solid fa-user-doctor"></i> 2. บุคลากร
+            </a>
+            <a href="#sec-3" onclick="setActivePill(3)" id="pill-3" class="nav-pill shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-white text-slate-600 border border-slate-200 hover:border-bch-300 transition">
+                <i class="fa-solid fa-hospital-user"></i> 3. ผู้รับบริการ
+            </a>
+            <a href="#sec-4" onclick="setActivePill(4)" id="pill-4" class="nav-pill shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-white text-slate-600 border border-slate-200 hover:border-bch-300 transition">
+                <i class="fa-solid fa-door-open"></i> 4. พื้นที่ใช้สอย
+            </a>
+            <a href="#sec-5" onclick="setActivePill(5)" id="pill-5" class="nav-pill shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-white text-slate-600 border border-slate-200 hover:border-bch-300 transition">
+                <i class="fa-solid fa-couch"></i> 5. ครุภัณฑ์
+            </a>
+            <a href="#sec-6" onclick="setActivePill(6)" id="pill-6" class="nav-pill shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-white text-slate-600 border border-slate-200 hover:border-bch-300 transition">
+                <i class="fa-solid fa-network-wired"></i> 6. ระบบ IT/โครงสร้าง
+            </a>
+            <a href="#sec-7" onclick="setActivePill(7)" id="pill-7" class="nav-pill shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-white text-slate-600 border border-slate-200 hover:border-bch-300 transition">
+                <i class="fa-solid fa-lightbulb"></i> 7. ข้อเสนอแนะ
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-3xl mx-auto px-3 sm:px-4 pt-4 space-y-5">
+
+        <!-- Hero Banner -->
+        <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-bch-800 via-bch-700 to-indigo-900 text-white p-5 shadow-lg">
+            <div class="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div class="space-y-1.5">
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-white/15 backdrop-blur-sm text-bch-100">
+                        <i class="fa-solid fa-wand-magic-sparkles text-amber-300"></i> แบบสำรวจออนไลน์สำหรับมือถือ
+                    </span>
+                    <h2 class="text-lg sm:text-xl font-bold">สำรวจความต้องการพื้นที่และสิ่งอำนวยความสะดวก</h2>
+                    <p class="text-xs sm:text-sm text-bch-100/90 leading-relaxed">
+                        ข้อมูลของท่านจะถูกนำไปใช้วางผังและออกแบบพื้นที่ใช้สอยของแต่ละหน่วยงานในอาคารใหม่ เพื่อให้เหมาะสมกับการปฏิบัติงานจริงมากที่สุด
+                    </p>
+                </div>
+                <div class="shrink-0 flex sm:flex-col gap-2">
+                    <button type="button" onclick="resetFormWithConfirm()" class="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium bg-white/10 hover:bg-white/20 text-white border border-white/15 transition">
+                        <i class="fa-solid fa-rotate-left"></i> ล้างฟอร์ม
+                    </button>
+                </div>
+            </div>
+            <!-- Decorative background icon -->
+            <i class="fa-solid fa-building-circle-check absolute -right-4 -bottom-6 text-8xl text-white/5 pointer-events-none"></i>
+        </div>
+
+        <!-- SURVEY FORM -->
+        <form id="bchSurveyForm" onsubmit="handleFormSubmit(event)" class="space-y-5" novalidate>
+
+            <!-- ==========================================
+                 หมวดที่ 1: ข้อมูลทั่วไปของแผนก
+                 ========================================== -->
+            <section id="sec-1" class="section-card bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden scroll-mt-28">
+                <div class="bg-gradient-to-r from-bch-50 to-indigo-50/50 px-4 py-3.5 border-b border-slate-200/70 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-xl bg-bch-600 text-white flex items-center justify-center font-bold shadow-sm">
+                            <i class="fa-solid fa-building-user"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-800 text-base">1. หมวดข้อมูลทั่วไปของแผนก</h3>
+                            <p class="text-xs text-slate-500">ระบุสายงาน หน่วยงาน และข้อมูลผู้ประสานงาน</p>
+                        </div>
+                    </div>
+                    <span class="text-[11px] font-semibold text-rose-600 bg-rose-50 px-2.5 py-1 rounded-full border border-rose-200">* จำเป็น</span>
+                </div>
+
+                <div class="p-4 sm:p-5 space-y-4">
+                    <!-- สายงาน & หน่วยงาน (Cascading Dropdowns) -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- สายงาน -->
+                        <div>
+                            <label for="division" class="block text-sm font-semibold text-slate-700 mb-1.5">
+                                <i class="fa-solid fa-sitemap text-bch-600 mr-1"></i> สายงาน <span class="text-rose-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <select id="division" name="division" required onchange="handleDivisionChange()"
+                                    class="w-full appearance-none rounded-xl border border-slate-300 bg-slate-50/50 px-3.5 py-3 pr-10 text-sm text-slate-800 font-medium focus:border-bch-600 focus:bg-white focus:outline-none focus:ring-2 focus:ring-bch-500/20 transition">
+                                    <option value="">-- เลือกสายงาน --</option>
+                                    <option value="ขึ้นตรงผู้บริหาร">ขึ้นตรงผู้บริหาร</option>
+                                    <option value="สายการแพทย์">สายการแพทย์</option>
+                                    <option value="สายการพยาบาล">สายการพยาบาล</option>
+                                    <option value="สายผู้จัดการ">สายผู้จัดการ</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-slate-400">
+                                    <i class="fa-solid fa-chevron-down text-xs"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- หน่วยงาน -->
+                        <div>
+                            <div class="flex items-center justify-between mb-1.5">
+                                <label for="department" class="block text-sm font-semibold text-slate-700">
+                                    <i class="fa-solid fa-hospital text-bch-600 mr-1"></i> หน่วยงาน/แผนก <span class="text-rose-500">*</span>
+                                </label>
+                                <button type="button" onclick="openDepartmentSearchModal()" class="text-xs text-bch-600 hover:text-bch-800 font-medium flex items-center gap-1">
+                                    <i class="fa-solid fa-magnifying-glass text-[10px]"></i> ค้นหาด่วน
+                                </button>
+                            </div>
+                            <div class="relative">
+                                <select id="department" name="department" required disabled onchange="saveDraft()"
+                                    class="w-full appearance-none rounded-xl border border-slate-300 bg-slate-100 px-3.5 py-3 pr-10 text-sm text-slate-800 font-medium focus:border-bch-600 focus:bg-white focus:outline-none focus:ring-2 focus:ring-bch-500/20 disabled:opacity-60 transition">
+                                    <option value="">-- กรุณาเลือกสายงานก่อน --</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-slate-400">
+                                    <i class="fa-solid fa-chevron-down text-xs"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ชื่อผู้ให้ข้อมูล & เบอร์โทร -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="respondentName" class="block text-sm font-semibold text-slate-700 mb-1.5">
+                                <i class="fa-solid fa-user-pen text-bch-600 mr-1"></i> ชื่อผู้ให้ข้อมูล <span class="text-rose-500">*</span>
+                            </label>
+                            <input type="text" id="respondentName" name="respondentName" required placeholder="ระบุชื่อ-นามสกุล ผู้ประสานงาน"
+                                class="w-full rounded-xl border border-slate-300 bg-slate-50/50 px-3.5 py-2.5 text-sm focus:border-bch-600 focus:bg-white focus:outline-none focus:ring-2 focus:ring-bch-500/20 transition">
+                        </div>
+
+                        <div>
+                            <label for="respondentPhone" class="block text-sm font-semibold text-slate-700 mb-1.5">
+                                <i class="fa-solid fa-phone-volume text-bch-600 mr-1"></i> เบอร์โทรศัพท์ / เบอร์ภายใน <span class="text-rose-500">*</span>
+                            </label>
+                            <input type="tel" id="respondentPhone" name="respondentPhone" required placeholder="เช่น ต่อ 1234 หรือ 08x-xxx-xxxx"
+                                class="w-full rounded-xl border border-slate-300 bg-slate-50/50 px-3.5 py-2.5 text-sm focus:border-bch-600 focus:bg-white focus:outline-none focus:ring-2 focus:ring-bch-500/20 transition">
+                        </div>
+                    </div>
+
+                    <!-- เวลาทำการ -->
+                    <div>
+                        <label for="operatingHours" class="block text-sm font-semibold text-slate-700 mb-1.5">
+                            <i class="fa-solid fa-clock text-bch-600 mr-1"></i> เวลาทำการของแผนก <span class="text-rose-500">*</span>
+                        </label>
+                        <!-- Quick Select Chips -->
+                        <div class="flex flex-wrap gap-1.5 mb-2">
+                            <button type="button" onclick="setQuickValue('operatingHours', '24 ชั่วโมง')" class="px-2.5 py-1 rounded-lg text-xs font-medium bg-bch-50 text-bch-700 hover:bg-bch-100 border border-bch-200 transition">
+                                <i class="fa-regular fa-clock mr-1"></i>24 ชั่วโมง
+                            </button>
+                            <button type="button" onclick="setQuickValue('operatingHours', '08:00 - 16:00 น. (จันทร์-ศุกร์)')" class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 transition">
+                                08:00 - 16:00 น. (จ.-ศ.)
+                            </button>
+                            <button type="button" onclick="setQuickValue('operatingHours', '08:00 - 16:00 น. (ทุกวัน)')" class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 transition">
+                                08:00 - 16:00 น. (ทุกวัน)
+                            </button>
+                            <button type="button" onclick="setQuickValue('operatingHours', '07:00 - 20:00 น.')" class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 transition">
+                                07:00 - 20:00 น.
+                            </button>
+                        </div>
+                        <input type="text" id="operatingHours" name="operatingHours" required placeholder="ระบุเวลาทำการ เช่น 24 ชั่วโมง หรือ 08:00-16:00 น."
+                            class="w-full rounded-xl border border-slate-300 bg-slate-50/50 px-3.5 py-2.5 text-sm focus:border-bch-600 focus:bg-white focus:outline-none focus:ring-2 focus:ring-bch-500/20 transition">
+                    </div>
+
+                    <!-- ความเชื่อมโยงกับแผนกอื่น -->
+                    <div>
+                        <label for="adjacency" class="block text-sm font-semibold text-slate-700 mb-1">
+                            <i class="fa-solid fa-diagram-project text-bch-600 mr-1"></i> ความเชื่อมโยงกับแผนกอื่น (Adjacency)
+                        </label>
+                        <p class="text-xs text-slate-500 mb-2">แผนกใดที่ต้องติดต่อประสานงานบ่อย หรือจำเป็นต้องมีพื้นที่ตั้งอยู่ใกล้เคียงกัน</p>
+                        <div class="flex flex-wrap gap-1.5 mb-2">
+                            <button type="button" onclick="appendQuickTag('adjacency', 'การเงินผู้ป่วยนอก')" class="px-2 py-1 rounded-md text-[11px] bg-slate-100 hover:bg-bch-50 text-slate-600 hover:text-bch-700 border border-slate-200 transition">+ การเงิน</button>
+                            <button type="button" onclick="appendQuickTag('adjacency', 'ห้องยา/เภสัชกรรม')" class="px-2 py-1 rounded-md text-[11px] bg-slate-100 hover:bg-bch-50 text-slate-600 hover:text-bch-700 border border-slate-200 transition">+ ห้องยา</button>
+                            <button type="button" onclick="appendQuickTag('adjacency', 'เจาะเลือด/แล็บ')" class="px-2 py-1 rounded-md text-[11px] bg-slate-100 hover:bg-bch-50 text-slate-600 hover:text-bch-700 border border-slate-200 transition">+ แล็บ/เจาะเลือด</button>
+                            <button type="button" onclick="appendQuickTag('adjacency', 'รังสีเทคนิค/X-Ray')" class="px-2 py-1 rounded-md text-[11px] bg-slate-100 hover:bg-bch-50 text-slate-600 hover:text-bch-700 border border-slate-200 transition">+ รังสี/X-Ray</button>
+                            <button type="button" onclick="appendQuickTag('adjacency', 'เวชระเบียน')" class="px-2 py-1 rounded-md text-[11px] bg-slate-100 hover:bg-bch-50 text-slate-600 hover:text-bch-700 border border-slate-200 transition">+ เวชระเบียน</button>
+                            <button type="button" onclick="appendQuickTag('adjacency', 'ฉุกเฉิน (ER)')" class="px-2 py-1 rounded-md text-[11px] bg-slate-100 hover:bg-bch-50 text-slate-600 hover:text-bch-700 border border-slate-200 transition">+ ฉุกเฉิน</button>
+                        </div>
+                        <textarea id="adjacency" name="adjacency" rows="2" placeholder="ระบุแผนกที่ควรอยู่ใกล้กัน เพื่อความรวดเร็วในการส่งต่อผู้ป่วยหรือประสานงาน..."
+                            class="w-full rounded-xl border border-slate-300 bg-slate-50/50 p-3 text-sm focus:border-bch-600 focus:bg-white focus:outline-none focus:ring-2 focus:ring-bch-500/20 transition"></textarea>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==========================================
+                 หมวดที่ 2: ข้อมูลบุคลากร (Personnel Data)
+                 ========================================== -->
+            <section id="sec-2" class="section-card bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden scroll-mt-28">
+                <div class="bg-gradient-to-r from-indigo-50 to-blue-50/50 px-4 py-3.5 border-b border-slate-200/70 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-bold shadow-sm">
+                            <i class="fa-solid fa-user-doctor"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-800 text-base">2. หมวดข้อมูลบุคลากร (Personnel Data)</h3>
+                            <p class="text-xs text-slate-500">จำนวนผู้ปฏิบัติงานและความต้องการพื้นที่ทำงาน</p>
+                        </div>
+                    </div>
+                    <!-- Total Staff Badge -->
+                    <div class="text-right">
+                        <span class="text-[11px] text-slate-500 block">รวมบุคลากร</span>
+                        <span id="totalStaffDisplay" class="text-sm font-bold text-indigo-700 bg-indigo-100 px-2.5 py-0.5 rounded-full">0 คน</span>
+                    </div>
+                </div>
+
+                <div class="p-4 sm:p-5 space-y-5">
+                    <!-- จำนวนบุคลากรแยกตามกลุ่ม -->
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-2.5">
+                            <i class="fa-solid fa-users text-indigo-600 mr-1"></i> จำนวนบุคลากรทั้งหมดในแผนก (แยกตามสายวิชาชีพ)
+                        </label>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <!-- แพทย์ -->
+                            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex sm:flex-col items-center sm:items-start justify-between gap-2">
+                                <div class="flex items-center gap-2">
+                                    <i class="fa-solid fa-stethoscope text-indigo-600"></i>
+                                    <span class="text-xs font-semibold text-slate-700">แพทย์ (คน)</span>
+                                </div>
+                                <div class="flex items-center gap-1.5 w-32 sm:w-full">
+                                    <button type="button" onclick="stepNumber('staffDoctors', -1)" class="stepper-btn w-9 h-9 rounded-lg bg-white border border-slate-300 text-slate-700 hover:bg-slate-100 flex items-center justify-center font-bold shadow-sm">-</button>
+                                    <input type="number" id="staffDoctors" name="staffDoctors" min="0" value="0" oninput="calculateTotalStaff()"
+                                        class="w-full text-center font-bold text-sm py-1.5 rounded-lg border border-slate-300 bg-white focus:border-indigo-600 focus:outline-none">
+                                    <button type="button" onclick="stepNumber('staffDoctors', 1)" class="stepper-btn w-9 h-9 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 flex items-center justify-center font-bold shadow-sm">+</button>
+                                </div>
+                            </div>
+
+                            <!-- พยาบาล -->
+                            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex sm:flex-col items-center sm:items-start justify-between gap-2">
+                                <div class="flex items-center gap-2">
+                                    <i class="fa-solid fa-user-nurse text-indigo-600"></i>
+                                    <span class="text-xs font-semibold text-slate-700">พยาบาล (คน)</span>
+                                </div>
+                                <div class="flex items-center gap-1.5 w-32 sm:w-full">
+                                    <button type="button" onclick="stepNumber('staffNurses', -1)" class="stepper-btn w-9 h-9 rounded-lg bg-white border border-slate-300 text-slate-700 hover:bg-slate-100 flex items-center justify-center font-bold shadow-sm">-</button>
+                                    <input type="number" id="staffNurses" name="staffNurses" min="0" value="0" oninput="calculateTotalStaff()"
+                                        class="w-full text-center font-bold text-sm py-1.5 rounded-lg border border-slate-300 bg-white focus:border-indigo-600 focus:outline-none">
+                                    <button type="button" onclick="stepNumber('staffNurses', 1)" class="stepper-btn w-9 h-9 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 flex items-center justify-center font-bold shadow-sm">+</button>
+                                </div>
+                            </div>
+
+                            <!-- เจ้าหน้าที่สายสนับสนุน -->
+                            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex sm:flex-col items-center sm:items-start justify-between gap-2">
+                                <div class="flex items-center gap-2">
+                                    <i class="fa-solid fa-id-card-clip text-indigo-600"></i>
+                                    <span class="text-xs font-semibold text-slate-700">สายสนับสนุน/อื่นๆ (คน)</span>
+                                </div>
+                                <div class="flex items-center gap-1.5 w-32 sm:w-full">
+                                    <button type="button" onclick="stepNumber('staffSupport', -1)" class="stepper-btn w-9 h-9 rounded-lg bg-white border border-slate-300 text-slate-700 hover:bg-slate-100 flex items-center justify-center font-bold shadow-sm">-</button>
+                                    <input type="number" id="staffSupport" name="staffSupport" min="0" value="0" oninput="calculateTotalStaff()"
+                                        class="w-full text-center font-bold text-sm py-1.5 rounded-lg border border-slate-300 bg-white focus:border-indigo-600 focus:outline-none">
+                                    <button type="button" onclick="stepNumber('staffSupport', 1)" class="stepper-btn w-9 h-9 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 flex items-center justify-center font-bold shadow-sm">+</button>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="staffTotal" name="staffTotal" value="0">
+                    </div>
+
+                    <!-- จำนวนบุคลากรสูงสุดใน 1 กะ (Peak Shift) -->
+                    <div class="p-3.5 rounded-xl bg-indigo-50/60 border border-indigo-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div>
+                            <label for="staffPeakShift" class="block text-sm font-semibold text-slate-800">
+                                <i class="fa-solid fa-people-group text-indigo-600 mr-1"></i> จำนวนบุคลากรปฏิบัติงานพร้อมกันสูงสุดใน 1 กะ (Peak Shift)
+                            </label>
+                            <p class="text-xs text-slate-500">เพื่อคำนวณพื้นที่ทำงาน ณ ช่วงเวลาที่มีเจ้าหน้าที่อยู่พร้อมกันมากที่สุด (คน)</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 w-36 shrink-0 self-end sm:self-center">
+                            <button type="button" onclick="stepNumber('staffPeakShift', -1)" class="stepper-btn w-9 h-9 rounded-lg bg-white border border-slate-300 text-slate-700 hover:bg-slate-100 flex items-center justify-center font-bold shadow-sm">-</button>
+                            <input type="number" id="staffPeakShift" name="staffPeakShift" min="0" value="0"
+                                class="w-full text-center font-bold text-sm py-1.5 rounded-lg border border-indigo-300 bg-white focus:border-indigo-600 focus:outline-none">
+                            <button type="button" onclick="stepNumber('staffPeakShift', 1)" class="stepper-btn w-9 h-9 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 flex items-center justify-center font-bold shadow-sm">+</button>
+                        </div>
+                    </div>
+
+                    <!-- ความต้องการพื้นที่ส่วนตัว/ส่วนรวม -->
+                    <div class="space-y-3 pt-1">
+                        <label class="block text-sm font-semibold text-slate-700">
+                            <i class="fa-solid fa-chair text-indigo-600 mr-1"></i> ความต้องการพื้นที่ทำงานส่วนตัว / ส่วนรวม
+                        </label>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <!-- โต๊ะทำงานประจำ -->
+                            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex sm:flex-col items-center sm:items-start justify-between gap-2">
+                                <div>
+                                    <span class="text-xs font-semibold text-slate-700 block">โต๊ะทำงานประจำ</span>
+                                    <span class="text-[11px] text-slate-400">Fixed Desk (ตัว)</span>
+                                </div>
+                                <div class="flex items-center gap-1.5 w-32 sm:w-full">
+                                    <button type="button" onclick="stepNumber('fixedDesks', -1)" class="stepper-btn w-9 h-9 rounded-lg bg-white border border-slate-300 text-slate-700 hover:bg-slate-100 flex items-center justify-center font-bold shadow-sm">-</button>
+                                    <input type="number" id="fixedDesks" name="fixedDesks" min="0" value="0"
+                                        class="w-full text-center font-bold text-sm py-1.5 rounded-lg border border-slate-300 bg-white focus:border-indigo-600 focus:outline-none">
+                                    <button type="button" onclick="stepNumber('fixedDesks', 1)" class="stepper-btn w-9 h-9 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 flex items-center justify-center font-bold shadow-sm">+</button>
+                                </div>
+                            </div>
+
+                            <!-- โต๊ะทำงานส่วนกลาง -->
+                            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex sm:flex-col items-center sm:items-start justify-between gap-2">
+                                <div>
+                                    <span class="text-xs font-semibold text-slate-700 block">โต๊ะทำงานส่วนกลาง</span>
+                                    <span class="text-[11px] text-slate-400">Shared / Hot Desk (ตัว)</span>
+                                </div>
+                                <div class="flex items-center gap-1.5 w-32 sm:w-full">
+                                    <button type="button" onclick="stepNumber('sharedDesks', -1)" class="stepper-btn w-9 h-9 rounded-lg bg-white border border-slate-300 text-slate-700 hover:bg-slate-100 flex items-center justify-center font-bold shadow-sm">-</button>
+                                    <input type="number" id="sharedDesks" name="sharedDesks" min="0" value="0"
+                                        class="w-full text-center font-bold text-sm py-1.5 rounded-lg border border-slate-300 bg-white focus:border-indigo-600 focus:outline-none">
+                                    <button type="button" onclick="stepNumber('sharedDesks', 1)" class="stepper-btn w-9 h-9 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 flex items-center justify-center font-bold shadow-sm">+</button>
+                                </div>
+                            </div>
+
+                            <!-- ตู้ล็อกเกอร์พนักงาน -->
+                            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex sm:flex-col items-center sm:items-start justify-between gap-2">
+                                <div>
+                                    <span class="text-xs font-semibold text-slate-700 block">ตู้ล็อกเกอร์พนักงาน</span>
+                                    <span class="text-[11px] text-slate-400">จำนวนช่อง/ชุด</span>
+                                </div>
+                                <div class="flex items-center gap-1.5 w-32 sm:w-full">
+                                    <button type="button" onclick="stepNumber('staffLockers', -1)" class="stepper-btn w-9 h-9 rounded-lg bg-white border border-slate-300 text-slate-700 hover:bg-slate-100 flex items-center justify-center font-bold shadow-sm">-</button>
+                                    <input type="number" id="staffLockers" name="staffLockers" min="0" value="0"
+                                        class="w-full text-center font-bold text-sm py-1.5 rounded-lg border border-slate-300 bg-white focus:border-indigo-600 focus:outline-none">
+                                    <button type="button" onclick="stepNumber('staffLockers', 1)" class="stepper-btn w-9 h-9 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 flex items-center justify-center font-bold shadow-sm">+</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ห้องพักเบรก / ห้องเปลี่ยนชุด -->
+                        <div class="pt-2">
+                            <label for="breakChangingRoom" class="block text-xs font-semibold text-slate-700 mb-1.5">
+                                <i class="fa-solid fa-mug-hot text-indigo-600 mr-1"></i> ความต้องการห้องพักเบรก / ห้องเปลี่ยนชุดของเจ้าหน้าที่
+                            </label>
+                            <div class="flex flex-wrap gap-1.5 mb-2">
+                                <button type="button" onclick="setQuickValue('breakChangingRoom', 'ต้องการทั้งห้องพักเบรกและห้องเปลี่ยนชุด')" class="px-2.5 py-1 rounded-lg text-xs font-medium bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border border-indigo-200 transition">
+                                    ต้องการทั้งสองอย่าง
+                                </button>
+                                <button type="button" onclick="setQuickValue('breakChangingRoom', 'ต้องการเฉพาะโซนพักเบรก/รับประทานอาหาร')" class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 transition">
+                                    เฉพาะห้องพักเบรก
+                                </button>
+                                <button type="button" onclick="setQuickValue('breakChangingRoom', 'ต้องการเฉพาะห้องเปลี่ยนชุด')" class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 transition">
+                                    เฉพาะห้องเปลี่ยนชุด
+                                </button>
+                                <button type="button" onclick="setQuickValue('breakChangingRoom', 'ใช้พื้นที่ส่วนกลางร่วมกับแผนกอื่นได้')" class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 transition">
+                                    ใช้ส่วนกลางร่วมกันได้
+                                </button>
+                            </div>
+                            <input type="text" id="breakChangingRoom" name="breakChangingRoom" placeholder="ระบุความต้องการห้องพักเบรก/ห้องเปลี่ยนชุด และจำนวนคนที่รองรับ..."
+                                class="w-full rounded-xl border border-slate-300 bg-slate-50/50 px-3.5 py-2.5 text-sm focus:border-indigo-600 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 transition">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==========================================
+                 หมวดที่ 3: ข้อมูลผู้รับบริการ (ถ้ามี)
+                 ========================================== -->
+            <section id="sec-3" class="section-card bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden scroll-mt-28">
+                <div class="bg-gradient-to-r from-med-50 to-teal-50/50 px-4 py-3.5 border-b border-slate-200/70 flex items-center justify-between gap-2">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-xl bg-med-600 text-white flex items-center justify-center font-bold shadow-sm">
+                            <i class="fa-solid fa-hospital-user"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-800 text-base">3. หมวดข้อมูลผู้รับบริการ (ถ้ามี)</h3>
+                            <p class="text-xs text-slate-500">จำนวนผู้ป่วย/ผู้ติดต่อ และพื้นที่พักคอย</p>
+                        </div>
+                    </div>
+                    <!-- Toggle Switch for Has Patients -->
+                    <label class="inline-flex items-center cursor-pointer select-none">
+                        <input type="checkbox" id="hasPatientsToggle" checked onchange="togglePatientSection()" class="sr-only peer">
+                        <div class="w-10 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all relative peer-checked:bg-med-600"></div>
+                        <span id="hasPatientsLabel" class="ml-2 text-xs font-semibold text-med-700">มีผู้รับบริการ</span>
+                    </label>
+                </div>
+
+                <div id="patientSectionBody" class="p-4 sm:p-5 space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- จำนวนผู้ป่วยเฉลี่ยต่อวัน -->
+                        <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 flex items-center justify-between gap-3">
+                            <div>
+                                <label for="patientsPerDay" class="block text-xs font-semibold text-slate-700">
+                                    <i class="fa-solid fa-user-injured text-med-600 mr-1"></i> ผู้ป่วย/ผู้รับบริการเฉลี่ยต่อวัน
+                                </label>
+                                <span class="text-[11px] text-slate-400">จำนวนเฉลี่ย (คน/วัน)</span>
+                            </div>
+                            <div class="flex items-center gap-1.5 w-36 shrink-0">
+                                <button type="button" onclick="stepNumber('patientsPerDay', -5)" class="stepper-btn w-9 h-9 rounded-lg bg-white border border-slate-300 text-slate-700 hover:bg-slate-100 flex items-center justify-center font-bold shadow-sm">-</button>
+                                <input type="number" id="patientsPerDay" name="patientsPerDay" min="0" value="0"
+                                    class="w-full text-center font-bold text-sm py-1.5 rounded-lg border border-slate-300 bg-white focus:border-med-600 focus:outline-none">
+                                <button type="button" onclick="stepNumber('patientsPerDay', 5)" class="stepper-btn w-9 h-9 rounded-lg bg-med-600 text-white hover:bg-med-700 flex items-center justify-center font-bold shadow-sm">+</button>
+                            </div>
+                        </div>
+
+                        <!-- จำนวนที่นั่งพักคอยที่ต้องการ -->
+                        <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 flex items-center justify-between gap-3">
+                            <div>
+                                <label for="waitingSeats" class="block text-xs font-semibold text-slate-700">
+                                    <i class="fa-solid fa-couch text-med-600 mr-1"></i> จำนวนที่นั่งพักคอยที่ต้องการ
+                                </label>
+                                <span class="text-[11px] text-slate-400">รองรับผู้ป่วยและญาติ (ที่นั่ง)</span>
+                            </div>
+                            <div class="flex items-center gap-1.5 w-36 shrink-0">
+                                <button type="button" onclick="stepNumber('waitingSeats', -5)" class="stepper-btn w-9 h-9 rounded-lg bg-white border border-slate-300 text-slate-700 hover:bg-slate-100 flex items-center justify-center font-bold shadow-sm">-</button>
+                                <input type="number" id="waitingSeats" name="waitingSeats" min="0" value="0"
+                                    class="w-full text-center font-bold text-sm py-1.5 rounded-lg border border-slate-300 bg-white focus:border-med-600 focus:outline-none">
+                                <button type="button" onclick="stepNumber('waitingSeats', 5)" class="stepper-btn w-9 h-9 rounded-lg bg-med-600 text-white hover:bg-med-700 flex items-center justify-center font-bold shadow-sm">+</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ช่วงเวลาที่มีผู้รับบริการสูงสุด (Peak Hour) -->
+                    <div>
+                        <label for="peakHours" class="block text-sm font-semibold text-slate-700 mb-1.5">
+                            <i class="fa-solid fa-chart-line text-med-600 mr-1"></i> ช่วงเวลาที่มีผู้รับบริการสูงสุด (Peak Hour)
+                        </label>
+                        <div class="flex flex-wrap gap-1.5 mb-2">
+                            <button type="button" onclick="setQuickValue('peakHours', '08:00 - 11:00 น.')" class="px-2.5 py-1 rounded-lg text-xs font-medium bg-med-50 text-med-700 hover:bg-med-100 border border-med-200 transition">08:00 - 11:00 น.</button>
+                            <button type="button" onclick="setQuickValue('peakHours', '09:00 - 12:00 น.')" class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 transition">09:00 - 12:00 น.</button>
+                            <button type="button" onclick="setQuickValue('peakHours', '13:00 - 16:00 น.')" class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 transition">13:00 - 16:00 น.</button>
+                            <button type="button" onclick="setQuickValue('peakHours', '17:00 - 20:00 น.')" class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 transition">17:00 - 20:00 น.</button>
+                            <button type="button" onclick="setQuickValue('peakHours', 'ตลอดทั้งวัน')" class="px-2.5 py-1 rounded-lg text-xs font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200 transition">ตลอดทั้งวัน</button>
+                        </div>
+                        <input type="text" id="peakHours" name="peakHours" placeholder="ระบุช่วงเวลาที่คนไข้หรือผู้ติดต่อหนาแน่นที่สุด..."
+                            class="w-full rounded-xl border border-slate-300 bg-slate-50/50 px-3.5 py-2.5 text-sm focus:border-med-600 focus:bg-white focus:outline-none focus:ring-2 focus:ring-med-500/20 transition">
+                    </div>
+
+                    <!-- พื้นที่จอดรออุปกรณ์เคลื่อนย้าย -->
+                    <div class="space-y-2.5">
+                        <label class="block text-sm font-semibold text-slate-700">
+                            <i class="fa-solid fa-wheelchair text-med-600 mr-1"></i> พื้นที่จอดรออุปกรณ์เคลื่อนย้ายผู้ป่วย (Wheelchair / Stretcher)
+                        </label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex items-center justify-between">
+                                <span class="text-xs font-semibold text-slate-700"><i class="fa-solid fa-wheelchair text-slate-500 mr-1.5"></i>รถเข็นนั่ง (Wheelchair)</span>
+                                <div class="flex items-center gap-1.5 w-28">
+                                    <button type="button" onclick="stepNumber('wheelchairParking', -1)" class="stepper-btn w-8 h-8 rounded-lg bg-white border border-slate-300 text-slate-700 flex items-center justify-center font-bold">-</button>
+                                    <input type="number" id="wheelchairParking" name="wheelchairParking" min="0" value="0" class="w-full text-center font-bold text-sm py-1 rounded-lg border border-slate-300 bg-white">
+                                    <button type="button" onclick="stepNumber('wheelchairParking', 1)" class="stepper-btn w-8 h-8 rounded-lg bg-med-600 text-white flex items-center justify-center font-bold">+</button>
+                                </div>
+                            </div>
+                            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex items-center justify-between">
+                                <span class="text-xs font-semibold text-slate-700"><i class="fa-solid fa-bed-pulse text-slate-500 mr-1.5"></i>เตียงเข็น (Stretcher)</span>
+                                <div class="flex items-center gap-1.5 w-28">
+                                    <button type="button" onclick="stepNumber('stretcherParking', -1)" class="stepper-btn w-8 h-8 rounded-lg bg-white border border-slate-300 text-slate-700 flex items-center justify-center font-bold">-</button>
+                                    <input type="number" id="stretcherParking" name="stretcherParking" min="0" value="0" class="w-full text-center font-bold text-sm py-1 rounded-lg border border-slate-300 bg-white">
+                                    <button type="button" onclick="stepNumber('stretcherParking', 1)" class="stepper-btn w-8 h-8 rounded-lg bg-med-600 text-white flex items-center justify-center font-bold">+</button>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="text" id="mobilityParkingNote" name="mobilityParkingNote" placeholder="รายละเอียดพื้นที่จอดรออุปกรณ์เคลื่อนย้ายเพิ่มเติม (ถ้ามี)..."
+                            class="w-full rounded-xl border border-slate-300 bg-slate-50/50 px-3.5 py-2 text-sm focus:border-med-600 focus:bg-white focus:outline-none">
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==========================================
+                 หมวดที่ 4: พื้นที่ใช้งานและพื้นที่สนับสนุน
+                 ========================================== -->
+            <section id="sec-4" class="section-card bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden scroll-mt-28">
+                <div class="bg-gradient-to-r from-violet-50 to-purple-50/50 px-4 py-3.5 border-b border-slate-200/70 flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-xl bg-violet-600 text-white flex items-center justify-center font-bold shadow-sm">
+                        <i class="fa-solid fa-door-open"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-800 text-base">4. หมวดพื้นที่ใช้งานและพื้นที่สนับสนุน</h3>
+                        <p class="text-xs text-slate-500">ห้องตรวจ ห้องหัตถการ พื้นที่จัดเก็บ และโซนสุขอนามัย</p>
+                    </div>
+                </div>
+
+                <div class="p-4 sm:p-5 space-y-5">
+                    <!-- ห้องตรวจ & ห้องหัตถการ -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 flex items-center justify-between gap-2">
+                            <div>
+                                <span class="text-xs font-semibold text-slate-800 block"><i class="fa-solid fa-user-md text-violet-600 mr-1"></i>ห้องตรวจ / ห้องให้คำปรึกษา</span>
+                                <span class="text-[11px] text-slate-400">จำนวนห้องที่ต้องการ (ห้อง)</span>
+                            </div>
+                            <div class="flex items-center gap-1.5 w-32 shrink-0">
+                                <button type="button" onclick="stepNumber('examRooms', -1)" class="stepper-btn w-9 h-9 rounded-lg bg-white border border-slate-300 text-slate-700 flex items-center justify-center font-bold shadow-sm">-</button>
+                                <input type="number" id="examRooms" name="examRooms" min="0" value="0" class="w-full text-center font-bold text-sm py-1.5 rounded-lg border border-slate-300 bg-white">
+                                <button type="button" onclick="stepNumber('examRooms', 1)" class="stepper-btn w-9 h-9 rounded-lg bg-violet-600 text-white flex items-center justify-center font-bold shadow-sm">+</button>
+                            </div>
+                        </div>
+
+                        <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 flex items-center justify-between gap-2">
+                            <div>
+                                <span class="text-xs font-semibold text-slate-800 block"><i class="fa-solid fa-kit-medical text-violet-600 mr-1"></i>ห้องหัตถการ / ห้องรักษา</span>
+                                <span class="text-[11px] text-slate-400">จำนวนห้องที่ต้องการ (ห้อง)</span>
+                            </div>
+                            <div class="flex items-center gap-1.5 w-32 shrink-0">
+                                <button type="button" onclick="stepNumber('treatmentRooms', -1)" class="stepper-btn w-9 h-9 rounded-lg bg-white border border-slate-300 text-slate-700 flex items-center justify-center font-bold shadow-sm">-</button>
+                                <input type="number" id="treatmentRooms" name="treatmentRooms" min="0" value="0" class="w-full text-center font-bold text-sm py-1.5 rounded-lg border border-slate-300 bg-white">
+                                <button type="button" onclick="stepNumber('treatmentRooms', 1)" class="stepper-btn w-9 h-9 rounded-lg bg-violet-600 text-white flex items-center justify-center font-bold shadow-sm">+</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- พื้นที่จัดเก็บ (Storage) -->
+                    <div class="space-y-3">
+                        <label class="block text-sm font-semibold text-slate-700">
+                            <i class="fa-solid fa-boxes-stacked text-violet-600 mr-1"></i> พื้นที่จัดเก็บ (ระบุจำนวนห้อง หรือรายละเอียดขนาดพื้นที่)
+                        </label>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <!-- ห้องเก็บเวชภัณฑ์/ยา -->
+                            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-semibold text-slate-700"><i class="fa-solid fa-pills text-violet-600 mr-1"></i>ห้องเก็บเวชภัณฑ์/ยา</span>
+                                    <span class="text-[10px] text-slate-400">ห้อง</span>
+                                </div>
+                                <div class="flex items-center gap-1.5">
+                                    <button type="button" onclick="stepNumber('storageMedRooms', -1)" class="stepper-btn w-8 h-8 rounded-lg bg-white border border-slate-300 text-slate-700 flex items-center justify-center font-bold">-</button>
+                                    <input type="number" id="storageMedRooms" name="storageMedRooms" min="0" value="0" class="w-full text-center font-bold text-sm py-1 rounded-lg border border-slate-300 bg-white">
+                                    <button type="button" onclick="stepNumber('storageMedRooms', 1)" class="stepper-btn w-8 h-8 rounded-lg bg-violet-600 text-white flex items-center justify-center font-bold">+</button>
+                                </div>
+                                <input type="text" id="storageMedNote" name="storageMedNote" placeholder="หมายเหตุ เช่น ต้องคุมอุณหภูมิ" class="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs">
+                            </div>
+
+                            <!-- ห้องเก็บอุปกรณ์ทางการแพทย์ -->
+                            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-semibold text-slate-700"><i class="fa-solid fa-microscope text-violet-600 mr-1"></i>เก็บอุปกรณ์การแพทย์</span>
+                                    <span class="text-[10px] text-slate-400">ห้อง</span>
+                                </div>
+                                <div class="flex items-center gap-1.5">
+                                    <button type="button" onclick="stepNumber('storageEquipRooms', -1)" class="stepper-btn w-8 h-8 rounded-lg bg-white border border-slate-300 text-slate-700 flex items-center justify-center font-bold">-</button>
+                                    <input type="number" id="storageEquipRooms" name="storageEquipRooms" min="0" value="0" class="w-full text-center font-bold text-sm py-1 rounded-lg border border-slate-300 bg-white">
+                                    <button type="button" onclick="stepNumber('storageEquipRooms', 1)" class="stepper-btn w-8 h-8 rounded-lg bg-violet-600 text-white flex items-center justify-center font-bold">+</button>
+                                </div>
+                                <input type="text" id="storageEquipNote" name="storageEquipNote" placeholder="ระบุอุปกรณ์หลักที่ต้องเก็บ" class="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs">
+                            </div>
+
+                            <!-- ห้อง/ตู้เก็บเอกสาร -->
+                            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-semibold text-slate-700"><i class="fa-solid fa-folder-open text-violet-600 mr-1"></i>ห้อง/โซนเก็บเอกสาร</span>
+                                    <span class="text-[10px] text-slate-400">ห้อง/จุด</span>
+                                </div>
+                                <div class="flex items-center gap-1.5">
+                                    <button type="button" onclick="stepNumber('storageDocRooms', -1)" class="stepper-btn w-8 h-8 rounded-lg bg-white border border-slate-300 text-slate-700 flex items-center justify-center font-bold">-</button>
+                                    <input type="number" id="storageDocRooms" name="storageDocRooms" min="0" value="0" class="w-full text-center font-bold text-sm py-1 rounded-lg border border-slate-300 bg-white">
+                                    <button type="button" onclick="stepNumber('storageDocRooms', 1)" class="stepper-btn w-8 h-8 rounded-lg bg-violet-600 text-white flex items-center justify-center font-bold">+</button>
+                                </div>
+                                <input type="text" id="storageDocNote" name="storageDocNote" placeholder="เช่น แฟ้มเวชระเบียน/เอกสาร" class="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- พื้นที่จัดการสุขอนามัย -->
+                    <div class="space-y-3 pt-1">
+                        <label class="block text-sm font-semibold text-slate-700">
+                            <i class="fa-solid fa-hands-bubbles text-violet-600 mr-1"></i> พื้นที่จัดการสุขอนามัย (จำนวนห้อง/จุดที่ต้องการ)
+                        </label>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <!-- ห้อง/โซนซักล้าง -->
+                            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex sm:flex-col items-center sm:items-start justify-between gap-2">
+                                <div>
+                                    <span class="text-xs font-semibold text-slate-700 block"><i class="fa-solid fa-faucet-drip text-sky-600 mr-1"></i>ห้อง/โซนซักล้าง</span>
+                                    <span class="text-[11px] text-slate-400">Dirty Utility (จุด/ห้อง)</span>
+                                </div>
+                                <div class="flex items-center gap-1.5 w-28 sm:w-full">
+                                    <button type="button" onclick="stepNumber('washingZones', -1)" class="stepper-btn w-8 h-8 rounded-lg bg-white border border-slate-300 text-slate-700 flex items-center justify-center font-bold">-</button>
+                                    <input type="number" id="washingZones" name="washingZones" min="0" value="0" class="w-full text-center font-bold text-sm py-1 rounded-lg border border-slate-300 bg-white">
+                                    <button type="button" onclick="stepNumber('washingZones', 1)" class="stepper-btn w-8 h-8 rounded-lg bg-violet-600 text-white flex items-center justify-center font-bold">+</button>
+                                </div>
+                            </div>
+
+                            <!-- จุดทิ้งขยะทั่วไป -->
+                            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex sm:flex-col items-center sm:items-start justify-between gap-2">
+                                <div>
+                                    <span class="text-xs font-semibold text-slate-700 block"><i class="fa-solid fa-trash-can text-emerald-600 mr-1"></i>จุดพักขยะทั่วไป</span>
+                                    <span class="text-[11px] text-slate-400">จำนวนจุด</span>
+                                </div>
+                                <div class="flex items-center gap-1.5 w-28 sm:w-full">
+                                    <button type="button" onclick="stepNumber('generalWastePoints', -1)" class="stepper-btn w-8 h-8 rounded-lg bg-white border border-slate-300 text-slate-700 flex items-center justify-center font-bold">-</button>
+                                    <input type="number" id="generalWastePoints" name="generalWastePoints" min="0" value="0" class="w-full text-center font-bold text-sm py-1 rounded-lg border border-slate-300 bg-white">
+                                    <button type="button" onclick="stepNumber('generalWastePoints', 1)" class="stepper-btn w-8 h-8 rounded-lg bg-violet-600 text-white flex items-center justify-center font-bold">+</button>
+                                </div>
+                            </div>
+
+                            <!-- จุดทิ้งขยะติดเชื้อ -->
+                            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex sm:flex-col items-center sm:items-start justify-between gap-2">
+                                <div>
+                                    <span class="text-xs font-semibold text-slate-700 block"><i class="fa-solid fa-biohazard text-rose-600 mr-1"></i>จุดพักขยะติดเชื้อ</span>
+                                    <span class="text-[11px] text-slate-400">จำนวนจุด</span>
+                                </div>
+                                <div class="flex items-center gap-1.5 w-28 sm:w-full">
+                                    <button type="button" onclick="stepNumber('infectiousWastePoints', -1)" class="stepper-btn w-8 h-8 rounded-lg bg-white border border-slate-300 text-slate-700 flex items-center justify-center font-bold">-</button>
+                                    <input type="number" id="infectiousWastePoints" name="infectiousWastePoints" min="0" value="0" class="w-full text-center font-bold text-sm py-1 rounded-lg border border-slate-300 bg-white">
+                                    <button type="button" onclick="stepNumber('infectiousWastePoints', 1)" class="stepper-btn w-8 h-8 rounded-lg bg-violet-600 text-white flex items-center justify-center font-bold">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==========================================
+                 หมวดที่ 5: ครุภัณฑ์ (Furniture & Equipment)
+                 ========================================== -->
+            <section id="sec-5" class="section-card bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden scroll-mt-28">
+                <div class="bg-gradient-to-r from-amber-50 to-orange-50/50 px-4 py-3.5 border-b border-slate-200/70 flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-xl bg-amber-500 text-white flex items-center justify-center font-bold shadow-sm">
+                        <i class="fa-solid fa-couch"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-800 text-base">5. หมวดครุภัณฑ์</h3>
+                        <p class="text-xs text-slate-500">เฟอร์นิเจอร์หลักและอุปกรณ์สำนักงานส่วนกลาง</p>
+                    </div>
+                </div>
+
+                <div class="p-4 sm:p-5 space-y-5">
+                    <!-- เฟอร์นิเจอร์หลัก -->
+                    <div class="space-y-3">
+                        <label class="block text-sm font-semibold text-slate-700">
+                            <i class="fa-solid fa-box-archive text-amber-600 mr-1"></i> เฟอร์นิเจอร์หลักและครุภัณฑ์
+                        </label>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <!-- ตู้เก็บของขนาดใหญ่ -->
+                            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex sm:flex-col items-center sm:items-start justify-between gap-2">
+                                <div>
+                                    <span class="text-xs font-semibold text-slate-700 block">ตู้เก็บของขนาดใหญ่</span>
+                                    <span class="text-[11px] text-slate-400">จำนวน (ตู้/ใบ)</span>
+                                </div>
+                                <div class="flex items-center gap-1.5 w-28 sm:w-full">
+                                    <button type="button" onclick="stepNumber('largeCabinets', -1)" class="stepper-btn w-8 h-8 rounded-lg bg-white border border-slate-300 text-slate-700 flex items-center justify-center font-bold">-</button>
+                                    <input type="number" id="largeCabinets" name="largeCabinets" min="0" value="0" class="w-full text-center font-bold text-sm py-1 rounded-lg border border-slate-300 bg-white">
+                                    <button type="button" onclick="stepNumber('largeCabinets', 1)" class="stepper-btn w-8 h-8 rounded-lg bg-amber-500 text-white flex items-center justify-center font-bold">+</button>
+                                </div>
+                            </div>
+
+                            <!-- ชั้นวางของ -->
+                            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex sm:flex-col items-center sm:items-start justify-between gap-2">
+                                <div>
+                                    <span class="text-xs font-semibold text-slate-700 block">ชั้นวางของ</span>
+                                    <span class="text-[11px] text-slate-400">จำนวน (ชุด/ตัว)</span>
+                                </div>
+                                <div class="flex items-center gap-1.5 w-28 sm:w-full">
+                                    <button type="button" onclick="stepNumber('shelves', -1)" class="stepper-btn w-8 h-8 rounded-lg bg-white border border-slate-300 text-slate-700 flex items-center justify-center font-bold">-</button>
+                                    <input type="number" id="shelves" name="shelves" min="0" value="0" class="w-full text-center font-bold text-sm py-1 rounded-lg border border-slate-300 bg-white">
+                                    <button type="button" onclick="stepNumber('shelves', 1)" class="stepper-btn w-8 h-8 rounded-lg bg-amber-500 text-white flex items-center justify-center font-bold">+</button>
+                                </div>
+                            </div>
+
+                            <!-- เตียงตรวจ -->
+                            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex sm:flex-col items-center sm:items-start justify-between gap-2">
+                                <div>
+                                    <span class="text-xs font-semibold text-slate-700 block">เตียงตรวจ / หัตถการ</span>
+                                    <span class="text-[11px] text-slate-400">จำนวน (เตียง)</span>
+                                </div>
+                                <div class="flex items-center gap-1.5 w-28 sm:w-full">
+                                    <button type="button" onclick="stepNumber('examBeds', -1)" class="stepper-btn w-8 h-8 rounded-lg bg-white border border-slate-300 text-slate-700 flex items-center justify-center font-bold">-</button>
+                                    <input type="number" id="examBeds" name="examBeds" min="0" value="0" class="w-full text-center font-bold text-sm py-1 rounded-lg border border-slate-300 bg-white">
+                                    <button type="button" onclick="stepNumber('examBeds', 1)" class="stepper-btn w-8 h-8 rounded-lg bg-amber-500 text-white flex items-center justify-center font-bold">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- อุปกรณ์สำนักงานส่วนกลาง -->
+                    <div class="space-y-3">
+                        <label class="block text-sm font-semibold text-slate-700">
+                            <i class="fa-solid fa-print text-amber-600 mr-1"></i> อุปกรณ์สำนักงานส่วนกลาง
+                        </label>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <!-- เครื่องถ่ายเอกสาร -->
+                            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex sm:flex-col items-center sm:items-start justify-between gap-2">
+                                <div>
+                                    <span class="text-xs font-semibold text-slate-700 block">เครื่องถ่ายเอกสาร</span>
+                                    <span class="text-[11px] text-slate-400">จำนวน (เครื่อง)</span>
+                                </div>
+                                <div class="flex items-center gap-1.5 w-28 sm:w-full">
+                                    <button type="button" onclick="stepNumber('copiers', -1)" class="stepper-btn w-8 h-8 rounded-lg bg-white border border-slate-300 text-slate-700 flex items-center justify-center font-bold">-</button>
+                                    <input type="number" id="copiers" name="copiers" min="0" value="0" class="w-full text-center font-bold text-sm py-1 rounded-lg border border-slate-300 bg-white">
+                                    <button type="button" onclick="stepNumber('copiers', 1)" class="stepper-btn w-8 h-8 rounded-lg bg-amber-500 text-white flex items-center justify-center font-bold">+</button>
+                                </div>
+                            </div>
+
+                            <!-- เครื่องสแกนเนอร์ -->
+                            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex sm:flex-col items-center sm:items-start justify-between gap-2">
+                                <div>
+                                    <span class="text-xs font-semibold text-slate-700 block">เครื่องสแกนเนอร์</span>
+                                    <span class="text-[11px] text-slate-400">จำนวน (เครื่อง)</span>
+                                </div>
+                                <div class="flex items-center gap-1.5 w-28 sm:w-full">
+                                    <button type="button" onclick="stepNumber('scanners', -1)" class="stepper-btn w-8 h-8 rounded-lg bg-white border border-slate-300 text-slate-700 flex items-center justify-center font-bold">-</button>
+                                    <input type="number" id="scanners" name="scanners" min="0" value="0" class="w-full text-center font-bold text-sm py-1 rounded-lg border border-slate-300 bg-white">
+                                    <button type="button" onclick="stepNumber('scanners', 1)" class="stepper-btn w-8 h-8 rounded-lg bg-amber-500 text-white flex items-center justify-center font-bold">+</button>
+                                </div>
+                            </div>
+
+                            <!-- เครื่องพิมพ์ (Printer) -->
+                            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex sm:flex-col items-center sm:items-start justify-between gap-2">
+                                <div>
+                                    <span class="text-xs font-semibold text-slate-700 block">เครื่องพิมพ์ (Printer)</span>
+                                    <span class="text-[11px] text-slate-400">จำนวน (เครื่อง)</span>
+                                </div>
+                                <div class="flex items-center gap-1.5 w-28 sm:w-full">
+                                    <button type="button" onclick="stepNumber('printers', -1)" class="stepper-btn w-8 h-8 rounded-lg bg-white border border-slate-300 text-slate-700 flex items-center justify-center font-bold">-</button>
+                                    <input type="number" id="printers" name="printers" min="0" value="0" class="w-full text-center font-bold text-sm py-1 rounded-lg border border-slate-300 bg-white">
+                                    <button type="button" onclick="stepNumber('printers', 1)" class="stepper-btn w-8 h-8 rounded-lg bg-amber-500 text-white flex items-center justify-center font-bold">+</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <input type="text" id="otherEquipmentNote" name="otherEquipmentNote" placeholder="ระบุเครื่องมือแพทย์ขนาดใหญ่ หรือครุภัณฑ์พิเศษอื่นๆ ที่ต้องเผื่อพื้นที่ติดตั้ง..."
+                            class="w-full rounded-xl border border-slate-300 bg-slate-50/50 px-3.5 py-2.5 text-sm focus:border-amber-500 focus:bg-white focus:outline-none">
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==========================================
+                 หมวดที่ 6: ระบบโครงสร้างพื้นฐานและ IT
+                 ========================================== -->
+            <section id="sec-6" class="section-card bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden scroll-mt-28">
+                <div class="bg-gradient-to-r from-sky-50 to-cyan-50/50 px-4 py-3.5 border-b border-slate-200/70 flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-xl bg-sky-600 text-white flex items-center justify-center font-bold shadow-sm">
+                        <i class="fa-solid fa-network-wired"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-800 text-base">6. หมวดระบบโครงสร้างพื้นฐานและ IT</h3>
+                        <p class="text-xs text-slate-500">คอมพิวเตอร์ จุดเชื่อมต่อเครือข่าย ปลั๊กไฟ และระบบก๊าซทางการแพทย์</p>
+                    </div>
+                </div>
+
+                <div class="p-4 sm:p-5 space-y-5">
+                    <!-- อุปกรณ์คอมพิวเตอร์ -->
+                    <div class="space-y-2.5">
+                        <label class="block text-sm font-semibold text-slate-700">
+                            <i class="fa-solid fa-computer text-sky-600 mr-1"></i> อุปกรณ์คอมพิวเตอร์
+                        </label>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <!-- PC -->
+                            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex sm:flex-col items-center sm:items-start justify-between gap-2">
+                                <div>
+                                    <span class="text-xs font-semibold text-slate-700 block"><i class="fa-solid fa-desktop text-sky-600 mr-1"></i>คอมพิวเตอร์ PC</span>
+                                    <span class="text-[11px] text-slate-400">จำนวน (เครื่อง)</span>
+                                </div>
+                                <div class="flex items-center gap-1.5 w-28 sm:w-full">
+                                    <button type="button" onclick="stepNumber('itPCs', -1)" class="stepper-btn w-8 h-8 rounded-lg bg-white border border-slate-300 text-slate-700 flex items-center justify-center font-bold">-</button>
+                                    <input type="number" id="itPCs" name="itPCs" min="0" value="0" class="w-full text-center font-bold text-sm py-1 rounded-lg border border-slate-300 bg-white">
+                                    <button type="button" onclick="stepNumber('itPCs', 1)" class="stepper-btn w-8 h-8 rounded-lg bg-sky-600 text-white flex items-center justify-center font-bold">+</button>
+                                </div>
+                            </div>
+
+                            <!-- Notebook -->
+                            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex sm:flex-col items-center sm:items-start justify-between gap-2">
+                                <div>
+                                    <span class="text-xs font-semibold text-slate-700 block"><i class="fa-solid fa-laptop text-sky-600 mr-1"></i>Notebook</span>
+                                    <span class="text-[11px] text-slate-400">จำนวน (เครื่อง)</span>
+                                </div>
+                                <div class="flex items-center gap-1.5 w-28 sm:w-full">
+                                    <button type="button" onclick="stepNumber('itNotebooks', -1)" class="stepper-btn w-8 h-8 rounded-lg bg-white border border-slate-300 text-slate-700 flex items-center justify-center font-bold">-</button>
+                                    <input type="number" id="itNotebooks" name="itNotebooks" min="0" value="0" class="w-full text-center font-bold text-sm py-1 rounded-lg border border-slate-300 bg-white">
+                                    <button type="button" onclick="stepNumber('itNotebooks', 1)" class="stepper-btn w-8 h-8 rounded-lg bg-sky-600 text-white flex items-center justify-center font-bold">+</button>
+                                </div>
+                            </div>
+
+                            <!-- Tablet -->
+                            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex sm:flex-col items-center sm:items-start justify-between gap-2">
+                                <div>
+                                    <span class="text-xs font-semibold text-slate-700 block"><i class="fa-solid fa-tablet-screen-button text-sky-600 mr-1"></i>แท็บเล็ต / iPad</span>
+                                    <span class="text-[11px] text-slate-400">จำนวน (เครื่อง)</span>
+                                </div>
+                                <div class="flex items-center gap-1.5 w-28 sm:w-full">
+                                    <button type="button" onclick="stepNumber('itTablets', -1)" class="stepper-btn w-8 h-8 rounded-lg bg-white border border-slate-300 text-slate-700 flex items-center justify-center font-bold">-</button>
+                                    <input type="number" id="itTablets" name="itTablets" min="0" value="0" class="w-full text-center font-bold text-sm py-1 rounded-lg border border-slate-300 bg-white">
+                                    <button type="button" onclick="stepNumber('itTablets', 1)" class="stepper-btn w-8 h-8 rounded-lg bg-sky-600 text-white flex items-center justify-center font-bold">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- จุดเชื่อมต่อเครือข่ายและไฟฟ้า -->
+                    <div class="space-y-2.5">
+                        <label class="block text-sm font-semibold text-slate-700">
+                            <i class="fa-solid fa-plug-circle-bolt text-sky-600 mr-1"></i> จุดเชื่อมต่อเครือข่ายและปลั๊กไฟ
+                        </label>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <!-- จุดปลั๊กไฟ -->
+                            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex sm:flex-col items-center sm:items-start justify-between gap-2">
+                                <div>
+                                    <span class="text-xs font-semibold text-slate-700 block"><i class="fa-solid fa-plug text-amber-500 mr-1"></i>จำนวนจุดปลั๊กไฟ</span>
+                                    <span class="text-[11px] text-slate-400">จำนวน (จุด)</span>
+                                </div>
+                                <div class="flex items-center gap-1.5 w-28 sm:w-full">
+                                    <button type="button" onclick="stepNumber('powerOutlets', -1)" class="stepper-btn w-8 h-8 rounded-lg bg-white border border-slate-300 text-slate-700 flex items-center justify-center font-bold">-</button>
+                                    <input type="number" id="powerOutlets" name="powerOutlets" min="0" value="0" class="w-full text-center font-bold text-sm py-1 rounded-lg border border-slate-300 bg-white">
+                                    <button type="button" onclick="stepNumber('powerOutlets', 1)" class="stepper-btn w-8 h-8 rounded-lg bg-sky-600 text-white flex items-center justify-center font-bold">+</button>
+                                </div>
+                            </div>
+
+                            <!-- จุดเสียบสาย LAN -->
+                            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex sm:flex-col items-center sm:items-start justify-between gap-2">
+                                <div>
+                                    <span class="text-xs font-semibold text-slate-700 block"><i class="fa-solid fa-ethernet text-sky-600 mr-1"></i>จุดเสียบสาย LAN</span>
+                                    <span class="text-[11px] text-slate-400">จำนวน (พอร์ต/จุด)</span>
+                                </div>
+                                <div class="flex items-center gap-1.5 w-28 sm:w-full">
+                                    <button type="button" onclick="stepNumber('lanPorts', -1)" class="stepper-btn w-8 h-8 rounded-lg bg-white border border-slate-300 text-slate-700 flex items-center justify-center font-bold">-</button>
+                                    <input type="number" id="lanPorts" name="lanPorts" min="0" value="0" class="w-full text-center font-bold text-sm py-1 rounded-lg border border-slate-300 bg-white">
+                                    <button type="button" onclick="stepNumber('lanPorts', 1)" class="stepper-btn w-8 h-8 rounded-lg bg-sky-600 text-white flex items-center justify-center font-bold">+</button>
+                                </div>
+                            </div>
+
+                            <!-- จุดติดตั้ง Wi-Fi Router -->
+                            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex sm:flex-col items-center sm:items-start justify-between gap-2">
+                                <div>
+                                    <span class="text-xs font-semibold text-slate-700 block"><i class="fa-solid fa-wifi text-sky-600 mr-1"></i>จุด Wi-Fi Router</span>
+                                    <span class="text-[11px] text-slate-400">Access Point (จุด)</span>
+                                </div>
+                                <div class="flex items-center gap-1.5 w-28 sm:w-full">
+                                    <button type="button" onclick="stepNumber('wifiPoints', -1)" class="stepper-btn w-8 h-8 rounded-lg bg-white border border-slate-300 text-slate-700 flex items-center justify-center font-bold">-</button>
+                                    <input type="number" id="wifiPoints" name="wifiPoints" min="0" value="0" class="w-full text-center font-bold text-sm py-1 rounded-lg border border-slate-300 bg-white">
+                                    <button type="button" onclick="stepNumber('wifiPoints', 1)" class="stepper-btn w-8 h-8 rounded-lg bg-sky-600 text-white flex items-center justify-center font-bold">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ระบบทางการแพทย์ -->
+                    <div class="p-3.5 rounded-xl bg-sky-50/60 border border-sky-100 space-y-3">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <div>
+                                <label for="medicalGasPoints" class="block text-sm font-semibold text-slate-800">
+                                    <i class="fa-solid fa-lungs text-sky-600 mr-1"></i> ระบบทางการแพทย์: จุดเชื่อมต่อระบบก๊าซทางการแพทย์
+                                </label>
+                                <p class="text-xs text-slate-500">จำนวนหัวจ่าย Oxygen, Vacuum, Medical Air รวมทั้งหมดที่ต้องการ (จุด)</p>
+                            </div>
+                            <div class="flex items-center gap-1.5 w-36 shrink-0 self-end sm:self-center">
+                                <button type="button" onclick="stepNumber('medicalGasPoints', -1)" class="stepper-btn w-9 h-9 rounded-lg bg-white border border-slate-300 text-slate-700 flex items-center justify-center font-bold shadow-sm">-</button>
+                                <input type="number" id="medicalGasPoints" name="medicalGasPoints" min="0" value="0" class="w-full text-center font-bold text-sm py-1.5 rounded-lg border border-sky-300 bg-white">
+                                <button type="button" onclick="stepNumber('medicalGasPoints', 1)" class="stepper-btn w-9 h-9 rounded-lg bg-sky-600 text-white flex items-center justify-center font-bold shadow-sm">+</button>
+                            </div>
+                        </div>
+                        <input type="text" id="infrastructureNote" name="infrastructureNote" placeholder="ความต้องการด้านวิศวกรรมพิเศษอื่นๆ เช่น ห้องแรงดันลบ, ระบบปรับอากาศเฉพาะ, ระบบคิวหน้าห้อง..."
+                            class="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-sm focus:border-sky-600 focus:outline-none">
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==========================================
+                 หมวดที่ 7: ข้อเสนอแนะและการพัฒนา (Future Needs)
+                 ========================================== -->
+            <section id="sec-7" class="section-card bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden scroll-mt-28">
+                <div class="bg-gradient-to-r from-emerald-50 to-teal-50/50 px-4 py-3.5 border-b border-slate-200/70 flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold shadow-sm">
+                        <i class="fa-solid fa-lightbulb"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-800 text-base">7. หมวดข้อเสนอแนะและการพัฒนา (Future Needs)</h3>
+                        <p class="text-xs text-slate-500">ปัญหาพื้นที่เดิมและแผนการขยายบริการในอนาคต</p>
+                    </div>
+                </div>
+
+                <div class="p-4 sm:p-5 space-y-4">
+                    <!-- ปัญหาพื้นที่ในปัจจุบัน -->
+                    <div>
+                        <label for="currentIssues" class="block text-sm font-semibold text-slate-700 mb-1">
+                            <i class="fa-solid fa-triangle-exclamation text-amber-500 mr-1"></i> ปัญหาพื้นที่ในปัจจุบันที่ต้องการแก้ไขในอาคารใหม่
+                        </label>
+                        <div class="flex flex-wrap gap-1.5 mb-2">
+                            <button type="button" onclick="appendQuickTag('currentIssues', 'พื้นที่ทำงานคับแคบ')" class="px-2 py-1 rounded-md text-[11px] bg-slate-100 hover:bg-emerald-50 text-slate-600 hover:text-emerald-700 border border-slate-200 transition">+ พื้นที่ทำงานคับแคบ</button>
+                            <button type="button" onclick="appendQuickTag('currentIssues', 'ที่นั่งพักคอยผู้ป่วยไม่เพียงพอ')" class="px-2 py-1 rounded-md text-[11px] bg-slate-100 hover:bg-emerald-50 text-slate-600 hover:text-emerald-700 border border-slate-200 transition">+ ที่นั่งรอไม่พอ</button>
+                            <button type="button" onclick="appendQuickTag('currentIssues', 'พื้นที่เก็บของ/เวชภัณฑ์ไม่พอ')" class="px-2 py-1 rounded-md text-[11px] bg-slate-100 hover:bg-emerald-50 text-slate-600 hover:text-emerald-700 border border-slate-200 transition">+ ห้องเก็บของไม่พอ</button>
+                            <button type="button" onclick="appendQuickTag('currentIssues', 'ขาดความเป็นส่วนตัวในการให้คำปรึกษาคนไข้')" class="px-2 py-1 rounded-md text-[11px] bg-slate-100 hover:bg-emerald-50 text-slate-600 hover:text-emerald-700 border border-slate-200 transition">+ ขาดความเป็นส่วนตัว</button>
+                            <button type="button" onclick="appendQuickTag('currentIssues', 'จุดปลั๊กไฟและสาย LAN ไม่เพียงพอ')" class="px-2 py-1 rounded-md text-[11px] bg-slate-100 hover:bg-emerald-50 text-slate-600 hover:text-emerald-700 border border-slate-200 transition">+ ปลั๊ก/LAN ไม่พอ</button>
+                        </div>
+                        <textarea id="currentIssues" name="currentIssues" rows="3" placeholder="ระบุปัญหาหรือข้อจำกัดของพื้นที่ปัจจุบันที่ต้องการให้ปรับปรุงในอาคารใหม่..."
+                            class="w-full rounded-xl border border-slate-300 bg-slate-50/50 p-3 text-sm focus:border-emerald-600 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 transition"></textarea>
+                    </div>
+
+                    <!-- โครงการหรือบริการใหม่ในอนาคต -->
+                    <div>
+                        <label for="futureProjects" class="block text-sm font-semibold text-slate-700 mb-1">
+                            <i class="fa-solid fa-rocket text-emerald-600 mr-1"></i> แผนกมีโครงการหรือบริการใหม่ที่ต้องเผื่อพื้นที่ในอนาคตหรือไม่
+                        </label>
+                        <textarea id="futureProjects" name="futureProjects" rows="3" placeholder="เช่น แผนเปิดคลินิกเฉพาะทางเพิ่ม, การเพิ่มเครื่องมือแพทย์ใหม่, การลดพื้นที่เก็บกระดาษเป็นระบบ Digital..."
+                            class="w-full rounded-xl border border-slate-300 bg-slate-50/50 p-3 text-sm focus:border-emerald-600 focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 transition"></textarea>
+                    </div>
+                </div>
+            </section>
+
+        </form>
+    </main>
+
+    <!-- Sticky Bottom Submit Bar (Mobile Optimized) -->
+    <div class="fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-lg px-4 py-3">
+        <div class="max-w-3xl mx-auto flex items-center justify-between gap-3">
+            <div class="hidden sm:block">
+                <p id="selectedDeptFooter" class="text-xs font-semibold text-slate-700 truncate max-w-xs">ยังไม่ได้เลือกหน่วยงาน</p>
+                <p class="text-[11px] text-slate-400">ตรวจสอบข้อมูลก่อนกดบันทึก</p>
+            </div>
+            <div class="flex items-center gap-2.5 w-full sm:w-auto">
+                <button type="button" onclick="previewSummary()" class="px-4 py-3 rounded-xl text-xs sm:text-sm font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 active:scale-95 transition flex items-center justify-center gap-1.5 shrink-0">
+                    <i class="fa-solid fa-eye text-bch-600"></i> ตรวจทาน
+                </button>
+                <button type="button" onclick="triggerSubmit()" class="w-full sm:w-64 py-3 px-6 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-bch-600 to-indigo-600 hover:from-bch-700 hover:to-indigo-700 shadow-md shadow-bch-600/25 active:scale-95 transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-paper-plane"></i> บันทึกข้อมูลสำรวจ
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+         ADMIN MODAL: ตั้งค่า Google Apps Script & โค้ดหลังบ้าน
+         ========================================== -->
+    <div id="adminModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden border border-slate-200">
+            <!-- Modal Header -->
+            <div class="px-5 py-4 bg-slate-900 text-white flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                    <i class="fa-solid fa-server text-bch-400 text-lg"></i>
+                    <div>
+                        <h3 class="font-bold text-base">ตั้งค่าเชื่อมต่อ Google Sheets & โค้ดหลังบ้าน</h3>
+                        <p class="text-xs text-slate-400">สำหรับผู้ดูแลระบบ (GitHub Pages + Google Apps Script)</p>
+                    </div>
+                </div>
+                <button type="button" onclick="closeAdminModal()" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center text-white">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-5 overflow-y-auto space-y-5 text-sm">
+                <!-- 1. ตั้งค่า URL -->
+                <div class="p-4 rounded-xl bg-bch-50 border border-bch-200 space-y-2.5">
+                    <label for="gasUrlInput" class="block font-bold text-bch-900 text-xs sm:text-sm">
+                        <i class="fa-solid fa-link mr-1"></i> 1. วางลิงก์ Google Apps Script Web App URL
+                    </label>
+                    <p class="text-xs text-slate-600">
+                        เมื่อ Deploy โค้ดด้านล่างใน Google Sheets เป็น Web App แล้วให้นำ URL ที่ลงท้ายด้วย <code class="bg-white px-1.5 py-0.5 rounded border text-rose-600">/exec</code> มาวางที่นี่ (หรือใส่ไว้ในตัวแปร <code class="bg-white px-1.5 py-0.5 rounded border">DEFAULT_GAS_URL</code> ในโค้ดก่อนอัปโหลดขึ้น GitHub)
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <input type="url" id="gasUrlInput" placeholder="https://script.google.com/macros/s/xxxxxx/exec"
+                            class="flex-1 rounded-xl border border-slate-300 bg-white px-3.5 py-2 text-xs sm:text-sm focus:border-bch-600 focus:outline-none">
+                        <button type="button" onclick="saveGasUrl()" class="px-4 py-2 rounded-xl bg-bch-600 hover:bg-bch-700 text-white font-semibold text-xs sm:text-sm shrink-0">
+                            <i class="fa-solid fa-floppy-disk mr-1"></i> บันทึก URL
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 2. โค้ด Google Apps Script (Code.gs) -->
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="font-bold text-slate-800 text-xs sm:text-sm">
+                            <i class="fa-brands fa-google-drive text-emerald-600 mr-1"></i> 2. โค้ดหลังบ้าน Google Apps Script (<code class="text-indigo-600">Code.gs</code>)
+                        </span>
+                        <button type="button" onclick="copyGasCode()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm transition">
+                            <i class="fa-regular fa-copy"></i> คัดลอกโค้ด Code.gs
+                        </button>
+                    </div>
+                    <p class="text-xs text-slate-500">
+                        วิธีติดตั้ง: เปิดไฟล์ Google Sheets ใหม่ &rarr; ไปที่เมนู <b>ส่วนขยาย (Extensions) &gt; Apps Script</b> &rarr; ลบโค้ดเดิมและวางโค้ดนี้ลงไป &rarr; กด <b>Deploy &gt; New deployment</b> &rarr; เลือกชนิดเป็น <b>Web app</b> &rarr; ตั้งค่า Who has access เป็น <b>Anyone (ทุกคน)</b>
+                    </p>
+                    <pre id="gasCodeBlock" class="bg-slate-900 text-emerald-300 p-3.5 rounded-xl text-[11px] leading-relaxed overflow-x-auto max-h-60 font-mono select-all"></pre>
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="px-5 py-3 bg-slate-50 border-t border-slate-200 flex justify-end">
+                <button type="button" onclick="closeAdminModal()" class="px-4 py-2 rounded-xl text-xs font-semibold bg-slate-200 hover:bg-slate-300 text-slate-700">
+                    ปิดหน้าต่าง
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // =========================================================================
+        // 1. ตั้งค่า GOOGLE APPS SCRIPT WEB APP URL เริ่มต้น
+        // ผู้ดูแลระบบสามารถนำ URL ที่ได้จากการ Deploy มาใส่ใน DEFAULT_GAS_URL ด้านล่างนี้ก่อนนำขึ้น GitHub
+        // =========================================================================
+        const DEFAULT_GAS_URL = "https://script.google.com/macros/s/AKfycbyaVcZf61gsY4hyFIiL9rmiREVpV16cFtSIeiAHC64rablIqMqV1Dtehrn6boPOU6K6/exec"; 
+
+        // ข้อมูลสายงานและหน่วยงานทั้งหมดของโรงพยาบาลกรุงเทพคริสเตียน (BCH)
+        const BCH_DEPARTMENTS = {
+            "ขึ้นตรงผู้บริหาร": [
+                "ผู้บริหาร",
+                "ฝ่ายศาสนกิจ",
+                "หน่วยประกาศพระกิตติคุณ",
+                "หน่วยการอภิบาล",
+                "หน่วยบริการชุมชนและสังคม",
+                "สำนักงานผู้บริหาร",
+                "หน่วยเลขานุการและประสานงานกรรมการอำนวยการโรงพยาบาล",
+                "ผู้ประสานงานของผู้อำนวยการโรงพยาบาล",
+                "สำนักเทคโนโลยีและนวัตกรรม",
+                "ฝ่ายพัฒนานวัตกรรม",
+                "พัฒนานวัตกรรมและวิเคราะห์ข้อมูลเพื่อการบริหาร",
+                "เวชระเบียนและเวชสถิติ",
+                "หน่วยลงทะเบียนรับผู้ป่วยใน",
+                "ฝ่ายเทคโนโลยีสารสนเทศ",
+                "สนับสนุนระบบสารสนเทศ",
+                "สนับสนุนระบบคอมพิวเตอร์",
+                "พัฒนาโปรแกรม",
+                "ฝ่ายวิศวกรรมการแพทย์"
+            ],
+            "สายการแพทย์": [
+                "ส่วนการแพทย์",
+                "ส่วนสนับสนุนการแพทย์",
+                "ปฏิบัติการเทคนิคการแพทย์",
+                "รังสีเทคนิค",
+                "กายภาพบำบัด",
+                "ฝ่ายบริการผู้ป่วย",
+                "ประสานสิทธิ์ และ UR Nurse",
+                "หน่วยรับและจำหน่ายผู้ป่วยใน",
+                "เอกสารทางการแพทย์",
+                "จ่ายกลาง",
+                "ฝ่ายเภสัชกรรม",
+                "จ่ายเภสัชภัณฑ์และบริการผู้ป่วยนอก",
+                "คลังเภสัชภัณฑ์",
+                "จ่ายเภสัชภัณฑ์และบริการผู้ป่วยใน",
+                "หน่วยจ่ายเภสัชภัณฑ์และบริการผู้ป่วยนอกเด็ก",
+                "ผลิตยา",
+                "จ่ายเภสัชภัณฑ์และบริการผู้ป่วยนอกเบาหวานและหัวใจ"
+            ],
+            "สายการพยาบาล": [
+                "สำนักพยาบาล",
+                "ฝ่ายวิชาการ",
+                "ฝ่ายบริการผู้ป่วยอายุรกรรม",
+                "อายุรกรรมผู้ป่วยนอก",
+                "เบาหวานและหัวใจ",
+                "ไตเทียม",
+                "ตรวจสุขภาพ",
+                "ผิวหนังผิวพรรณ",
+                "พยาบาลคัดกรอง",
+                "แวลส์ 9",
+                "แวลส์ 10",
+                "แวลส์ 11",
+                "แวลส์ 12",
+                "ICU 9",
+                "วิกฤตหัวใจ",
+                "ดูแลผู้ป่วยประคับประคอง",
+                "ฝ่ายบริการผู้ป่วยศัลยกรรม",
+                "ศัลยกรรมผู้ป่วยนอก",
+                "ศัลยกรรมกระดูก-ระบบประสาท",
+                "หู คอ จมูก",
+                "จักษุ",
+                "ทันตกรรม",
+                "ฉุกเฉิน",
+                "บริการเคลื่อนย้ายผู้ป่วย",
+                "แวลส์ 6",
+                "แวลส์ 7",
+                "แวลส์ 8",
+                "ICU 3",
+                "วิสัญญี",
+                "ห้องผ่าตัด",
+                "ฝ่ายบริการผู้ป่วยกุมารเวชกรรม และสูตินรีเวชกรรม",
+                "กุมารเวชกรรมผู้ป่วยนอก",
+                "เด็กแรกเกิดและคลินิกนมแม่",
+                "แวลส์ 15",
+                "แวลส์ 16",
+                "PICU",
+                "NICU",
+                "สูตินรีเวชกรรมผู้ป่วยนอก",
+                "ห้องคลอด และแวลส์ 4"
+            ],
+            "สายผู้จัดการ": [
+                "ผู้ช่วยผู้จัดการ",
+                "ฝ่ายยุทธศาสตร์และพัฒนาคุณภาพ",
+                "บริหารคุณภาพ",
+                "บริหารความเสี่ยง",
+                "ป้องกันและควบคุมการติดเชื้อ",
+                "ฝ่ายทรัพยากรบุคคล",
+                "สรรหา สร้างความผูกพันและพัฒนาบุคลากร",
+                "ค่าตอบแทนและสวัสดิการ",
+                "ฝ่ายสนับสนุนการบริการ",
+                "เคหะรักษ์",
+                "บริการผ้า",
+                "โภชนาการ",
+                "รักษาความปลอดภัยและอาคารจอดรถ",
+                "แผนกยานพาหนะ",
+                "ฝ่ายอาคารสถานที่และสิ่งแวดล้อม",
+                "ซ่อมบำรุง",
+                "การจัดการพลังงานและสิ่งแวดล้อม",
+                "ฝ่ายจัดซื้อและการคลัง",
+                "จัดซื้อ",
+                "คลังสินค้า",
+                "ฝ่ายกฎหมายและทรัพย์สิน",
+                "นิติการ",
+                "อาคารพานิชย์",
+                "หอพัก",
+                "พิพิธภัณฑ์",
+                "ฝ่ายบัญชีและการเงิน",
+                "บัญชี",
+                "หน่วยบัญชีลูกหนี้",
+                "การเงิน",
+                "หน่วยการเงินผู้ป่วยนอก",
+                "พยาบาลประสานการเงิน",
+                "ฝ่ายการตลาดและสื่อสารองค์กร",
+                "การตลาด",
+                "ประชาสัมพันธ์องค์กร",
+                "ต้อนรับ",
+                "รับโทรศัพท์",
+                "ดูแลผู้ป่วยต่างประเทศ",
+                "ฝ่ายโครงการพิเศษ",
+                "วิศวกรรมและการออกแบบ",
+                "ประสานการพัฒนาและปรับปรุงอาคาร"
+            ]
+        };
+
+
+        // =========================================================================
+        // 2. INITIALIZATION & CASCADING DROPDOWN LOGIC
+        // =========================================================================
+        window.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('gasCodeBlock').textContent = GAS_CODE_TEMPLATE;
+            loadSavedGasUrl();
+            loadDraft();
+            updateHistoryBadge();
+
+            // Auto-save listener on form inputs
+            const form = document.getElementById('bchSurveyForm');
+            form.addEventListener('input', () => {
+                saveDraft();
+                updateProgressBar();
+            });
+        });
+
+        function handleDivisionChange(selectedDept = '') {
+            const divisionSelect = document.getElementById('division');
+            const deptSelect = document.getElementById('department');
+            const division = divisionSelect.value;
+
+            deptSelect.innerHTML = '';
+
+            if (!division || !BCH_DEPARTMENTS[division]) {
+                deptSelect.disabled = true;
+                deptSelect.classList.add('bg-slate-100');
+                deptSelect.innerHTML = '<option value="">-- กรุณาเลือกสายงานก่อน --</option>';
+                updateFooterDept();
+                return;
+            }
+
+            deptSelect.disabled = false;
+            deptSelect.classList.remove('bg-slate-100');
+            deptSelect.classList.add('bg-slate-50/50');
+
+            const defaultOpt = document.createElement('option');
+            defaultOpt.value = '';
+            defaultOpt.textContent = `-- เลือกหน่วยงานใน${division} (${BCH_DEPARTMENTS[division].length} หน่วยงาน) --`;
+            deptSelect.appendChild(defaultOpt);
+
+            BCH_DEPARTMENTS[division].forEach(dept => {
+                const opt = document.createElement('option');
+                opt.value = dept;
+                opt.textContent = dept;
+                if (dept === selectedDept) opt.selected = true;
+                deptSelect.appendChild(opt);
+            });
+
+            deptSelect.addEventListener('change', updateFooterDept);
+            updateFooterDept();
+            saveDraft();
+            updateProgressBar();
+        }
+
+        function updateFooterDept() {
+            const div = document.getElementById('division').value;
+            const dept = document.getElementById('department').value;
+            const footerEl = document.getElementById('selectedDeptFooter');
+            if (div && dept) {
+                footerEl.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-500 mr-1"></i>${div} &rsaquo; <span class="text-bch-700">${dept}</span>`;
+            } else {
+                footerEl.textContent = 'ยังไม่ได้เลือกสายงานและหน่วยงาน';
+            }
+        }
+
+        // ค้นหาหน่วยงานด่วนผ่าน SweetAlert2
+        async function openDepartmentSearchModal() {
+            const allOptions = [];
+            Object.entries(BCH_DEPARTMENTS).forEach(([div, depts]) => {
+                depts.forEach(d => allOptions.push({ division: div, department: d }));
+            });
+
+            const { value: searchTerm } = await Swal.fire({
+                title: 'ค้นหาหน่วยงานด่วน',
+                input: 'text',
+                inputPlaceholder: 'พิมพ์ชื่อแผนก เช่น แวลส์, เภสัช, การเงิน, ฉุกเฉิน...',
+                showCancelButton: true,
+                confirmButtonText: '<i class="fa-solid fa-magnifying-glass mr-1"></i> ค้นหา',
+                cancelButtonText: 'ยกเลิก',
+                confirmButtonColor: '#6d38ee'
+            });
+
+            if (searchTerm) {
+                const q = searchTerm.trim().toLowerCase();
+                const matches = allOptions.filter(item =>
+                    item.department.toLowerCase().includes(q) || item.division.toLowerCase().includes(q)
+                );
+
+                if (matches.length === 0) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'ไม่พบหน่วยงานที่ค้นหา',
+                        text: `ไม่พบคำว่า "${searchTerm}" กรุณาลองใหม่อีกครั้ง`,
+                        confirmButtonColor: '#6d38ee'
+                    });
+                    return;
+                }
+
+                const inputOptions = {};
+                matches.forEach((m, idx) => {
+                    inputOptions[idx] = `[${m.division}] ${m.department}`;
+                });
+
+                const { value: selectedIdx } = await Swal.fire({
+                    title: `พบ ${matches.length} หน่วยงาน`,
+                    input: 'select',
+                    inputOptions,
+                    inputPlaceholder: '-- เลือกหน่วยงาน --',
+                    showCancelButton: true,
+                    confirmButtonText: 'เลือกหน่วยงานนี้',
+                    cancelButtonText: 'ปิด',
+                    confirmButtonColor: '#6d38ee'
+                });
+
+                if (selectedIdx !== undefined && selectedIdx !== '') {
+                    const chosen = matches[Number(selectedIdx)];
+                    document.getElementById('division').value = chosen.division;
+                    handleDivisionChange(chosen.department);
+                    Swal.fire({
+                        toast: true,
+                        position: 'top-end',
+                        icon: 'success',
+                        title: `เลือก: ${chosen.department}`,
+                        showConfirmButton: false,
+                        timer: 1800
+                    });
+                }
+            }
+        }
+
+        // =========================================================================
+        // 3. INTERACTIVE HELPERS (STEPPERS, QUICK CHIPS, TOGGLES, PILLS)
+        // =========================================================================
+        function stepNumber(inputId, delta) {
+            const el = document.getElementById(inputId);
+            if (!el) return;
+            const current = parseInt(el.value || '0', 10);
+            const next = Math.max(0, current + delta);
+            el.value = next;
+
+            if (['staffDoctors', 'staffNurses', 'staffSupport'].includes(inputId)) {
+                calculateTotalStaff();
+            }
+            saveDraft();
+            updateProgressBar();
+        }
+
+        function calculateTotalStaff() {
+            const doc = parseInt(document.getElementById('staffDoctors').value || '0', 10);
+            const nur = parseInt(document.getElementById('staffNurses').value || '0', 10);
+            const sup = parseInt(document.getElementById('staffSupport').value || '0', 10);
+            const total = Math.max(0, doc + nur + sup);
+
+            document.getElementById('staffTotal').value = total;
+            document.getElementById('totalStaffDisplay').textContent = `${total} คน`;
+        }
+
+        function setQuickValue(inputId, val) {
+            const el = document.getElementById(inputId);
+            if (!el) return;
+            el.value = val;
+            saveDraft();
+            updateProgressBar();
+        }
+
+        function appendQuickTag(textareaId, text) {
+            const el = document.getElementById(textareaId);
+            if (!el) return;
+            const current = el.value.trim();
+            if (!current) {
+                el.value = text;
+            } else if (!current.includes(text)) {
+                el.value = current + ', ' + text;
+            }
+            saveDraft();
+        }
+
+        function togglePatientSection() {
+            const checked = document.getElementById('hasPatientsToggle').checked;
+            const body = document.getElementById('patientSectionBody');
+            const label = document.getElementById('hasPatientsLabel');
+
+            if (checked) {
+                body.classList.remove('opacity-40', 'pointer-events-none');
+                label.textContent = 'มีผู้รับบริการ';
+                label.className = 'ml-2 text-xs font-semibold text-med-700';
+            } else {
+                body.classList.add('opacity-40', 'pointer-events-none');
+                label.textContent = 'ไม่มีผู้รับบริการ';
+                label.className = 'ml-2 text-xs font-semibold text-slate-400';
+            }
+            saveDraft();
+        }
+
+        function setActivePill(num) {
+            document.querySelectorAll('.nav-pill').forEach((pill, idx) => {
+                if (idx + 1 === num) {
+                    pill.className = 'nav-pill shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-bch-600 text-white shadow-sm transition';
+                } else {
+                    pill.className = 'nav-pill shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-white text-slate-600 border border-slate-200 hover:border-bch-300 transition';
+                }
+            });
+        }
+
+        function updateProgressBar() {
+            let filled = 0;
+            const totalChecks = 6;
+            if (document.getElementById('division').value) filled++;
+            if (document.getElementById('department').value) filled++;
+            if (document.getElementById('respondentName').value.trim()) filled++;
+            if (document.getElementById('respondentPhone').value.trim()) filled++;
+            if (document.getElementById('operatingHours').value.trim()) filled++;
+            if (parseInt(document.getElementById('staffTotal').value || '0', 10) > 0 || parseInt(document.getElementById('staffPeakShift').value || '0', 10) > 0) filled++;
+
+            const pct = Math.min(100, Math.max(12, Math.round((filled / totalChecks) * 100)));
+            document.getElementById('formProgressBar').style.width = `${pct}%`;
+        }
+
+        // =========================================================================
+        // 4. AUTO-SAVE DRAFT & FORM DATA COLLECTION
+        // =========================================================================
+        function collectFormData() {
+            return {
+                timestamp: new Date().toLocaleString('th-TH'),
+                division: document.getElementById('division').value,
+                department: document.getElementById('department').value,
+                respondentName: document.getElementById('respondentName').value.trim(),
+                respondentPhone: document.getElementById('respondentPhone').value.trim(),
+                operatingHours: document.getElementById('operatingHours').value.trim(),
+                adjacency: document.getElementById('adjacency').value.trim(),
+                
+                staffDoctors: document.getElementById('staffDoctors').value,
+                staffNurses: document.getElementById('staffNurses').value,
+                staffSupport: document.getElementById('staffSupport').value,
+                staffTotal: document.getElementById('staffTotal').value,
+                staffPeakShift: document.getElementById('staffPeakShift').value,
+                fixedDesks: document.getElementById('fixedDesks').value,
+                sharedDesks: document.getElementById('sharedDesks').value,
+                staffLockers: document.getElementById('staffLockers').value,
+                breakChangingRoom: document.getElementById('breakChangingRoom').value.trim(),
+
+                hasPatients: document.getElementById('hasPatientsToggle').checked,
+                patientsPerDay: document.getElementById('patientsPerDay').value,
+                peakHours: document.getElementById('peakHours').value.trim(),
+                waitingSeats: document.getElementById('waitingSeats').value,
+                wheelchairParking: document.getElementById('wheelchairParking').value,
+                stretcherParking: document.getElementById('stretcherParking').value,
+                mobilityParkingNote: document.getElementById('mobilityParkingNote').value.trim(),
+
+                examRooms: document.getElementById('examRooms').value,
+                treatmentRooms: document.getElementById('treatmentRooms').value,
+                storageMedRooms: document.getElementById('storageMedRooms').value,
+                storageMedNote: document.getElementById('storageMedNote').value.trim(),
+                storageEquipRooms: document.getElementById('storageEquipRooms').value,
+                storageEquipNote: document.getElementById('storageEquipNote').value.trim(),
+                storageDocRooms: document.getElementById('storageDocRooms').value,
+                storageDocNote: document.getElementById('storageDocNote').value.trim(),
+                washingZones: document.getElementById('washingZones').value,
+                generalWastePoints: document.getElementById('generalWastePoints').value,
+                infectiousWastePoints: document.getElementById('infectiousWastePoints').value,
+
+                largeCabinets: document.getElementById('largeCabinets').value,
+                shelves: document.getElementById('shelves').value,
+                examBeds: document.getElementById('examBeds').value,
+                copiers: document.getElementById('copiers').value,
+                scanners: document.getElementById('scanners').value,
+                printers: document.getElementById('printers').value,
+                otherEquipmentNote: document.getElementById('otherEquipmentNote').value.trim(),
+
+                itPCs: document.getElementById('itPCs').value,
+                itNotebooks: document.getElementById('itNotebooks').value,
+                itTablets: document.getElementById('itTablets').value,
+                powerOutlets: document.getElementById('powerOutlets').value,
+                lanPorts: document.getElementById('lanPorts').value,
+                wifiPoints: document.getElementById('wifiPoints').value,
+                medicalGasPoints: document.getElementById('medicalGasPoints').value,
+                infrastructureNote: document.getElementById('infrastructureNote').value.trim(),
+
+                currentIssues: document.getElementById('currentIssues').value.trim(),
+                futureProjects: document.getElementById('futureProjects').value.trim()
+            };
+        }
+
+        function saveDraft() {
+            try {
+                const data = collectFormData();
+                localStorage.setItem('bch_survey_draft', JSON.stringify(data));
+                const badge = document.getElementById('draftStatusBadge');
+                badge.innerHTML = `<i class="fa-solid fa-check text-[10px]"></i> บันทึกร่างอัตโนมัติ`;
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function loadDraft() {
+            try {
+                const raw = localStorage.getItem('bch_survey_draft');
+                if (!raw) return;
+                const data = JSON.parse(raw);
+
+                if (data.division) {
+                    document.getElementById('division').value = data.division;
+                    handleDivisionChange(data.department || '');
+                }
+
+                const textFields = [
+                    'respondentName', 'respondentPhone', 'operatingHours', 'adjacency',
+                    'staffDoctors', 'staffNurses', 'staffSupport', 'staffPeakShift',
+                    'fixedDesks', 'sharedDesks', 'staffLockers', 'breakChangingRoom',
+                    'patientsPerDay', 'peakHours', 'waitingSeats', 'wheelchairParking', 'stretcherParking', 'mobilityParkingNote',
+                    'examRooms', 'treatmentRooms', 'storageMedRooms', 'storageMedNote',
+                    'storageEquipRooms', 'storageEquipNote', 'storageDocRooms', 'storageDocNote',
+                    'washingZones', 'generalWastePoints', 'infectiousWastePoints',
+                    'largeCabinets', 'shelves', 'examBeds', 'copiers', 'scanners', 'printers', 'otherEquipmentNote',
+                    'itPCs', 'itNotebooks', 'itTablets', 'powerOutlets', 'lanPorts', 'wifiPoints',
+                    'medicalGasPoints', 'infrastructureNote', 'currentIssues', 'futureProjects'
+                ];
+
+                textFields.forEach(id => {
+                    if (data[id] !== undefined && document.getElementById(id)) {
+                        document.getElementById(id).value = data[id];
+                    }
+                });
+
+                if (typeof data.hasPatients === 'boolean') {
+                    document.getElementById('hasPatientsToggle').checked = data.hasPatients;
+                    togglePatientSection();
+                }
+
+                calculateTotalStaff();
+                updateProgressBar();
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function resetFormWithConfirm() {
+            Swal.fire({
+                title: 'ล้างข้อมูลในฟอร์ม?',
+                text: 'ข้อมูลที่กรอกค้างไว้ในหน้านี้จะถูกรีเซ็ตเป็นค่าเริ่มต้น',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#e11d48',
+                cancelButtonColor: '#64748b',
+                confirmButtonText: 'ใช่, ล้างข้อมูล',
+                cancelButtonText: 'ยกเลิก'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('bchSurveyForm').reset();
+                    localStorage.removeItem('bch_survey_draft');
+                    handleDivisionChange();
+                    calculateTotalStaff();
+                    togglePatientSection();
+                    updateProgressBar();
+                    Swal.fire({
+                        toast: true,
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'ล้างข้อมูลเรียบร้อยแล้ว',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            });
+        }
+
+        // =========================================================================
+        // 5. PREVIEW SUMMARY & SUBMISSION TO GOOGLE APPS SCRIPT
+        // =========================================================================
+        function validateRequiredFields() {
+            const data = collectFormData();
+            const missing = [];
+            if (!data.division) missing.push('สายงาน');
+            if (!data.department) missing.push('หน่วยงาน/แผนก');
+            if (!data.respondentName) missing.push('ชื่อผู้ให้ข้อมูล');
+            if (!data.respondentPhone) missing.push('เบอร์โทรศัพท์ติดต่อ');
+            if (!data.operatingHours) missing.push('เวลาทำการ');
+
+            if (missing.length > 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'กรุณากรอกข้อมูลสำคัญให้ครบถ้วน',
+                    html: `<div class="text-left text-sm bg-rose-50 text-rose-800 p-3 rounded-xl border border-rose-200">
+                        <p class="font-semibold mb-1">รายการที่ยังไม่ได้ระบุในหมวดที่ 1:</p>
+                        <ul class="list-disc pl-5 space-y-0.5">
+                            ${missing.map(m => `<li>${m}</li>`).join('')}
+                        </ul>
+                    </div>`,
+                    confirmButtonText: 'ตกลง, ไปกรอกข้อมูล',
+                    confirmButtonColor: '#6d38ee'
+                }).then(() => {
+                    document.getElementById('sec-1').scrollIntoView({ behavior: 'smooth' });
+                });
+                return false;
+            }
+            return true;
+        }
+
+        function buildSummaryHtml(d) {
+            return `
+                <div class="text-left text-xs sm:text-sm space-y-2.5 max-h-80 overflow-y-auto p-1">
+                    <div class="p-3 rounded-xl bg-bch-50 border border-bch-200">
+                        <div class="font-bold text-bch-900 text-sm">${d.division} &rsaquo; ${d.department}</div>
+                        <div class="text-slate-600 mt-1">ผู้ให้ข้อมูล: <b>${d.respondentName}</b> (${d.respondentPhone})</div>
+                        <div class="text-slate-600">เวลาทำการ: <b>${d.operatingHours}</b></div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="p-2.5 rounded-lg bg-slate-50 border">
+                            <span class="text-slate-500 block text-[11px]">บุคลากรรวม / สูงสุดต่อกะ</span>
+                            <b class="text-slate-800">${d.staffTotal} คน / กะละ ${d.staffPeakShift} คน</b>
+                        </div>
+                        <div class="p-2.5 rounded-lg bg-slate-50 border">
+                            <span class="text-slate-500 block text-[11px]">โต๊ะประจำ / โต๊ะส่วนกลาง</span>
+                            <b class="text-slate-800">${d.fixedDesks} ตัว / ${d.sharedDesks} ตัว</b>
+                        </div>
+                        <div class="p-2.5 rounded-lg bg-slate-50 border">
+                            <span class="text-slate-500 block text-[11px]">ผู้รับบริการ/วัน & ที่นั่งรอ</span>
+                            <b class="text-slate-800">${d.hasPatients ? `${d.patientsPerDay} คน / ${d.waitingSeats} ที่นั่ง` : 'ไม่มีผู้รับบริการ'}</b>
+                        </div>
+                        <div class="p-2.5 rounded-lg bg-slate-50 border">
+                            <span class="text-slate-500 block text-[11px]">ห้องตรวจ / ห้องหัตถการ</span>
+                            <b class="text-slate-800">${d.examRooms} ห้อง / ${d.treatmentRooms} ห้อง</b>
+                        </div>
+                        <div class="p-2.5 rounded-lg bg-slate-50 border">
+                            <span class="text-slate-500 block text-[11px]">คอมพิวเตอร์ (PC/NB/Tab)</span>
+                            <b class="text-slate-800">${d.itPCs} / ${d.itNotebooks} / ${d.itTablets} เครื่อง</b>
+                        </div>
+                        <div class="p-2.5 rounded-lg bg-slate-50 border">
+                            <span class="text-slate-500 block text-[11px]">ปลั๊กไฟ / LAN / ก๊าซการแพทย์</span>
+                            <b class="text-slate-800">${d.powerOutlets} / ${d.lanPorts} / ${d.medicalGasPoints} จุด</b>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function previewSummary() {
+            const d = collectFormData();
+            Swal.fire({
+                title: 'สรุปข้อมูลสำรวจพื้นที่ BCH',
+                html: buildSummaryHtml(d),
+                showCancelButton: true,
+                confirmButtonText: '<i class="fa-solid fa-paper-plane mr-1"></i> ยืนยันส่งข้อมูล',
+                cancelButtonText: 'กลับไปแก้ไข',
+                confirmButtonColor: '#6d38ee'
+            }).then((res) => {
+                if (res.isConfirmed) {
+                    triggerSubmit();
+                }
+            });
+        }
+
+        function triggerSubmit() {
+            if (!validateRequiredFields()) return;
+            const data = collectFormData();
+
+            Swal.fire({
+                title: 'ยืนยันการส่งข้อมูลสำรวจ?',
+                html: buildSummaryHtml(data),
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#6d38ee',
+                cancelButtonColor: '#64748b',
+                confirmButtonText: '<i class="fa-solid fa-cloud-arrow-up mr-1"></i> บันทึกข้อมูลทันที',
+                cancelButtonText: 'ตรวจสอบอีกครั้ง'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    submitDataToBackend(data);
+                }
+            });
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            triggerSubmit();
+        }
+
+        async function submitDataToBackend(data) {
+            const gasUrl = getActiveGasUrl();
+
+            Swal.fire({
+                title: 'กำลังบันทึกข้อมูล...',
+                html: 'กรุณารอสักครู่ ระบบกำลังส่งข้อมูลไปยังฐานข้อมูล BCH',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            // Save to local history regardless so user never loses a submission
+            saveToLocalHistory(data);
+
+            if (!gasUrl) {
+                // Demo / Local Mode when GAS URL isn't configured yet
+                setTimeout(() => {
+                    localStorage.removeItem('bch_survey_draft');
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'บันทึกข้อมูลสำเร็จ! (โหมดจำลอง)',
+                        html: `<div class="text-xs sm:text-sm text-slate-600 space-y-2">
+                            <p>บันทึกข้อมูลของหน่วยงาน <b>${data.department}</b> ลงในเครื่องเรียบร้อยแล้ว</p>
+                            <p class="p-2.5 rounded-xl bg-amber-50 text-amber-800 border border-amber-200 text-left">
+                                <i class="fa-solid fa-circle-info mr-1"></i> <b>หมายเหตุสำหรับผู้ดูแลระบบ:</b> ปัจจุบันยังไม่ได้ตั้งค่า URL ของ Google Apps Script ท่านสามารถกดปุ่ม <b>"ตั้งค่า / โค้ด GAS"</b> ด้านบนเพื่อเชื่อมต่อ Google Sheets หรือดาวน์โหลดไฟล์ CSV จากเมนูประวัติได้ทันที
+                            </p>
+                        </div>`,
+                        confirmButtonText: 'ตกลง',
+                        confirmButtonColor: '#0d9488'
+                    });
+                }, 900);
+                return;
+            }
+
+            try {
+                await fetch(gasUrl, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'text/plain;charset=utf-8'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                localStorage.removeItem('bch_survey_draft');
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'บันทึกข้อมูลลง Google Sheets สำเร็จ!',
+                    html: `<p class="text-sm text-slate-600">ขอบคุณสำหรับข้อมูลของ <b>${data.department} (${data.division})</b></p>`,
+                    confirmButtonText: 'เรียบร้อย',
+                    confirmButtonColor: '#6d38ee'
+                });
+            } catch (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'เกิดข้อผิดพลาดในการเชื่อมต่อเครือข่าย',
+                    html: `<p class="text-xs sm:text-sm text-slate-600">แต่ระบบได้สำรองข้อมูลของท่านไว้ในอุปกรณ์นี้แล้ว (${error.message})</p>`,
+                    confirmButtonText: 'รับทราบ',
+                    confirmButtonColor: '#e11d48'
+                });
+            }
+        }
+
+        // =========================================================================
+        // 6. LOCAL HISTORY & CSV EXPORT
+        // =========================================================================
+        function saveToLocalHistory(entry) {
+            try {
+                const raw = localStorage.getItem('bch_survey_history');
+                const list = raw ? JSON.parse(raw) : [];
+                list.unshift(entry);
+                localStorage.setItem('bch_survey_history', JSON.stringify(list.slice(0, 50)));
+                updateHistoryBadge();
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function updateHistoryBadge() {
+            try {
+                const raw = localStorage.getItem('bch_survey_history');
+                const list = raw ? JSON.parse(raw) : [];
+                const badge = document.getElementById('historyCountBadge');
+                if (list.length > 0) {
+                    badge.textContent = list.length;
+                    badge.classList.remove('hidden');
+                } else {
+                    badge.classList.add('hidden');
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function openHistoryModal() {
+            const raw = localStorage.getItem('bch_survey_history');
+            const list = raw ? JSON.parse(raw) : [];
+
+            if (list.length === 0) {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'ยังไม่มีประวัติการส่งข้อมูล',
+                    text: 'เมื่อท่านกดบันทึกข้อมูลสำรวจ รายการที่ส่งแล้วจะแสดงที่นี่',
+                    confirmButtonColor: '#6d38ee'
+                });
+                return;
+            }
+
+            const itemsHtml = list.map((item, idx) => `
+                <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 text-left flex items-center justify-between gap-2">
+                    <div>
+                        <div class="font-bold text-slate-800 text-xs sm:text-sm">${idx + 1}. ${item.department}</div>
+                        <div class="text-[11px] text-slate-500">${item.division} | ผู้กรอก: ${item.respondentName} | ${item.timestamp}</div>
+                    </div>
+                    <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-100 text-emerald-700 shrink-0">บันทึกแล้ว</span>
+                </div>
+            `).join('');
+
+            Swal.fire({
+                title: `ประวัติการส่งข้อมูล (${list.length} รายการ)`,
+                html: `<div class="space-y-2 max-h-72 overflow-y-auto my-2">${itemsHtml}</div>`,
+                showCancelButton: true,
+                confirmButtonText: '<i class="fa-solid fa-file-csv mr-1"></i> ดาวน์โหลด CSV',
+                cancelButtonText: 'ปิด',
+                confirmButtonColor: '#0d9488'
+            }).then((res) => {
+                if (res.isConfirmed) {
+                    exportHistoryToCSV(list);
+                }
+            });
+        }
+
+        function exportHistoryToCSV(list) {
+            if (!list || list.length === 0) return;
+            const keys = Object.keys(list[0]);
+            const csvRows = [
+                keys.join(','),
+                ...list.map(row => keys.map(k => `"${String(row[k] ?? '').replace(/"/g, '""')}"`).join(','))
+            ];
+            const csvContent = '\uFEFF' + csvRows.join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `BCH_Space_Survey_${new Date().toISOString().slice(0,10)}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        // =========================================================================
+        // 7. ADMIN MODAL & GAS CONFIGURATION
+        // =========================================================================
+        function getActiveGasUrl() {
+            return localStorage.getItem('bch_gas_webapp_url') || DEFAULT_GAS_URL;
+        }
+
+        function loadSavedGasUrl() {
+            const url = getActiveGasUrl();
+            document.getElementById('gasUrlInput').value = url;
+        }
+
+        function openAdminModal() {
+            loadSavedGasUrl();
+            document.getElementById('adminModal').classList.remove('hidden');
+        }
+
+        function closeAdminModal() {
+            document.getElementById('adminModal').classList.add('hidden');
+        }
+
+        function saveGasUrl() {
+            const url = document.getElementById('gasUrlInput').value.trim();
+            localStorage.setItem('bch_gas_webapp_url', url);
+            Swal.fire({
+                icon: 'success',
+                title: 'บันทึก Web App URL สำเร็จ',
+                text: url ? 'ระบบพร้อมส่งข้อมูลเข้า Google Sheets โดยตรง' : 'ล้างค่า URL แล้ว (ทำงานในโหมดจำลอง)',
+                confirmButtonColor: '#6d38ee'
+            });
+        }
+
+        function copyGasCode() {
+            const temp = document.createElement('textarea');
+            temp.value = GAS_CODE_TEMPLATE;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                title: 'คัดลอกโค้ด Code.gs เรียบร้อยแล้ว!',
+                showConfirmButton: false,
+                timer: 2000
+            });
+        }
+    </script>
+</body>
+</html>
