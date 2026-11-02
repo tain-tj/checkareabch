@@ -22,29 +22,10 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Prompt', 'sans-serif'],
-                    },
+                    fontFamily: { sans: ['Prompt', 'sans-serif'] },
                     colors: {
-                        bch: {
-                            50: '#f4f3ff',
-                            100: '#ebe9fe',
-                            200: '#d9d6fe',
-                            300: '#beb4fe',
-                            400: '#9d8afb',
-                            500: '#7f5af7',
-                            600: '#6d38ee',
-                            700: '#5e27da',
-                            800: '#4e21b6',
-                            900: '#411d95',
-                        },
-                        med: {
-                            50: '#f0fdfa',
-                            100: '#ccfbf1',
-                            500: '#14b8a6',
-                            600: '#0d9488',
-                            700: '#0f766e',
-                        }
+                        bch: { 50: '#f4f3ff', 100: '#ebe9fe', 200: '#d9d6fe', 300: '#beb4fe', 400: '#9d8afb', 500: '#7f5af7', 600: '#6d38ee', 700: '#5e27da', 800: '#4e21b6', 900: '#411d95' },
+                        med: { 50: '#f0fdfa', 100: '#ccfbf1', 500: '#14b8a6', 600: '#0d9488', 700: '#0f766e' }
                     }
                 }
             }
@@ -52,34 +33,19 @@
     </script>
 
     <style>
-        html { font-size: 18px; } /* ขยาย Base Font Size ทำให้ทั้งระบบอ่านง่ายขึ้น */
-        body {
-            font-family: 'Prompt', sans-serif;
-            background-color: #f8fafc;
-            -webkit-tap-highlight-color: transparent;
-        }
+        html { font-size: 18px; }
+        body { font-family: 'Prompt', sans-serif; background-color: #f8fafc; -webkit-tap-highlight-color: transparent; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        input[type=number]::-webkit-inner-spin-button, 
-        input[type=number]::-webkit-outer-spin-button { 
-            -webkit-appearance: none; 
-            margin: 0; 
-        }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
         input[type=number] { -moz-appearance: textfield; }
         .section-card { transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); }
         .stepper-btn:active { transform: scale(0.92); }
-        .swal2-popup {
-            font-family: 'Prompt', sans-serif !important;
-            border-radius: 1.25rem !important;
-        }
+        .swal2-popup { font-family: 'Prompt', sans-serif !important; border-radius: 1.25rem !important; }
     </style>
 </head>
 <body class="text-slate-800 pb-28">
 
-    <!-- Top Header & Sticky Navigation -->
     <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-200/80">
         <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
             <div class="flex items-center gap-3">
@@ -120,7 +86,6 @@
     </header>
 
     <main class="max-w-3xl mx-auto px-3 sm:px-4 pt-4 space-y-5">
-        <!-- Hero Banner -->
         <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-bch-800 via-bch-700 to-indigo-900 text-white p-5 shadow-lg">
             <div class="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div class="space-y-1.5">
@@ -128,7 +93,7 @@
                         <i class="fa-solid fa-wand-magic-sparkles text-amber-300"></i> แบบสำรวจออนไลน์สำหรับมือถือ
                     </span>
                     <h2 class="text-lg sm:text-xl font-bold">สำรวจความต้องการพื้นที่และสิ่งอำนวยความสะดวก</h2>
-                    <p class="text-xs sm:text-sm text-bch-100/90 leading-relaxed">ข้อมูลของท่านจะถูกนำไปใช้วางผังและออกแบบพื้นที่ใช้สอยของแต่ละหน่วยงานในอาคารใหม่ เพื่อให้เหมาะสมกับการปฏิบัติงานจริงมากที่สุด</p>
+                    <p class="text-xs sm:text-sm text-bch-100/90 leading-relaxed">ข้อมูลของท่านจะถูกนำไปใช้วางผังและออกแบบพื้นที่ใช้สอยของแต่ละหน่วยงานในอาคารใหม่</p>
                 </div>
                 <div class="shrink-0 flex sm:flex-col gap-2">
                     <button type="button" onclick="resetFormWithConfirm()" class="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium bg-white/10 hover:bg-white/20 text-white border border-white/15 transition">
@@ -139,10 +104,9 @@
             <i class="fa-solid fa-building-circle-check absolute -right-4 -bottom-6 text-8xl text-white/5 pointer-events-none"></i>
         </div>
 
-        <!-- SURVEY FORM -->
         <form id="bchSurveyForm" onsubmit="handleFormSubmit(event)" class="space-y-5" novalidate>
 
-            <!-- หมวดที่ 1 -->
+            <!-- ======================= หมวดที่ 1 ======================= -->
             <section id="sec-1" class="section-card bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden scroll-mt-28">
                 <div class="bg-gradient-to-r from-bch-50 to-indigo-50/50 px-4 py-3.5 border-b border-slate-200/70 flex items-center justify-between">
                     <div class="flex items-center gap-3">
@@ -209,7 +173,7 @@
                         </div>
                         <input type="text" id="operatingHours" name="operatingHours" required placeholder="ระบุเวลาทำการ เช่น 24 ชั่วโมง หรือ 08:00-17:00 น." class="w-full rounded-xl border border-slate-300 bg-slate-50/50 px-3.5 py-2.5 text-base focus:border-bch-600 focus:bg-white focus:outline-none focus:ring-2 focus:ring-bch-500/20 transition">
                     </div>
-                    <!-- ความเชื่อมโยงกับแผนกอื่น -->
+                    <!-- ความเชื่อมโยง -->
                     <div>
                         <label for="adjacency" class="block text-base font-semibold text-slate-700 mb-1"><i class="fa-solid fa-diagram-project text-bch-600 mr-1"></i> ความเชื่อมโยงกับแผนกอื่น (Adjacency)</label>
                         <p class="text-xs text-slate-500 mb-2">แผนกใดที่ต้องติดต่อประสานงานบ่อย หรือจำเป็นต้องมีพื้นที่ตั้งอยู่ใกล้เคียงกัน</p>
@@ -226,7 +190,7 @@
                 </div>
             </section>
 
-            <!-- หมวดที่ 2 -->
+            <!-- ======================= หมวดที่ 2 ======================= -->
             <section id="sec-2" class="section-card bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden scroll-mt-28">
                 <div class="bg-gradient-to-r from-indigo-50 to-blue-50/50 px-4 py-3.5 border-b border-slate-200/70 flex items-center justify-between">
                     <div class="flex items-center gap-3">
@@ -262,7 +226,7 @@
                                 </div>
                             </div>
                             <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex sm:flex-col items-center sm:items-start justify-between gap-2">
-                                <div class="flex items-center gap-2"><i class="fa-solid fa-id-card-clip text-indigo-600"></i><span class="text-sm font-semibold text-slate-700">สายสนับสนุน/อื่นๆ (คน)</span></div>
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-id-card-clip text-indigo-600"></i><span class="text-sm font-semibold text-slate-700">สายสนับสนุน/อื่นๆ</span></div>
                                 <div class="flex items-center gap-1.5 w-32 sm:w-full">
                                     <button type="button" onclick="stepNumber('staffSupport', -1)" class="stepper-btn w-9 h-9 rounded-lg bg-white border border-slate-300 text-slate-700 font-bold shadow-sm">-</button>
                                     <input type="number" id="staffSupport" name="staffSupport" min="0" value="0" oninput="calculateTotalStaff()" class="w-full text-center font-bold text-base py-1.5 rounded-lg border border-slate-300 bg-white">
@@ -319,7 +283,7 @@
                 </div>
             </section>
 
-            <!-- หมวดที่ 3 -->
+            <!-- ======================= หมวดที่ 3 ======================= -->
             <section id="sec-3" class="section-card bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden scroll-mt-28">
                 <div class="bg-gradient-to-r from-med-50 to-teal-50/50 px-4 py-3.5 border-b border-slate-200/70 flex items-center justify-between gap-2">
                     <div class="flex items-center gap-3">
@@ -389,7 +353,7 @@
                 </div>
             </section>
 
-            <!-- หมวดที่ 4 -->
+            <!-- ======================= หมวดที่ 4 ======================= -->
             <section id="sec-4" class="section-card bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden scroll-mt-28">
                 <div class="bg-gradient-to-r from-violet-50 to-purple-50/50 px-4 py-3.5 border-b border-slate-200/70 flex items-center gap-3">
                     <div class="w-9 h-9 rounded-xl bg-violet-600 text-white flex items-center justify-center font-bold shadow-sm"><i class="fa-solid fa-door-open"></i></div>
@@ -478,7 +442,7 @@
                 </div>
             </section>
 
-            <!-- หมวดที่ 5 -->
+            <!-- ======================= หมวดที่ 5 ======================= -->
             <section id="sec-5" class="section-card bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden scroll-mt-28">
                 <div class="bg-gradient-to-r from-amber-50 to-orange-50/50 px-4 py-3.5 border-b border-slate-200/70 flex items-center gap-3">
                     <div class="w-9 h-9 rounded-xl bg-amber-500 text-white flex items-center justify-center font-bold shadow-sm"><i class="fa-solid fa-couch"></i></div>
@@ -542,7 +506,7 @@
                 </div>
             </section>
 
-            <!-- หมวดที่ 6 -->
+            <!-- ======================= หมวดที่ 6 ======================= -->
             <section id="sec-6" class="section-card bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden scroll-mt-28">
                 <div class="bg-gradient-to-r from-sky-50 to-cyan-50/50 px-4 py-3.5 border-b border-slate-200/70 flex items-center gap-3">
                     <div class="w-9 h-9 rounded-xl bg-sky-600 text-white flex items-center justify-center font-bold shadow-sm"><i class="fa-solid fa-network-wired"></i></div>
@@ -611,7 +575,7 @@
                 </div>
             </section>
 
-            <!-- หมวดที่ 7 -->
+            <!-- ======================= หมวดที่ 7 ======================= -->
             <section id="sec-7" class="section-card bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden scroll-mt-28">
                 <div class="bg-gradient-to-r from-emerald-50 to-teal-50/50 px-4 py-3.5 border-b border-slate-200/70 flex items-center gap-3">
                     <div class="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold shadow-sm"><i class="fa-solid fa-lightbulb"></i></div>
@@ -650,7 +614,9 @@
 
     <!-- Script -->
     <script>
+        // *** วางลิงก์ Google Apps Script ของคุณที่นี่ ***
         const DEFAULT_GAS_URL = "https://script.google.com/macros/s/AKfycbyaVcZf61gsY4hyFIiL9rmiREVpV16cFtSIeiAHC64rablIqMqV1Dtehrn6boPOU6K6/exec";
+        
         const BCH_DEPARTMENTS = {
             "ขึ้นตรงผู้บริหาร": ["ผู้บริหาร","ฝ่ายศาสนกิจ","หน่วยประกาศพระกิตติคุณ","หน่วยการอภิบาล","หน่วยบริการชุมชนและสังคม","สำนักงานผู้บริหาร","หน่วยเลขานุการและประสานงานกรรมการอำนวยการโรงพยาบาล","ผู้ประสานงานของผู้อำนวยการโรงพยาบาล","สำนักเทคโนโลยีและนวัตกรรม","ฝ่ายพัฒนานวัตกรรม","พัฒนานวัตกรรมและวิเคราะห์ข้อมูลเพื่อการบริหาร","เวชระเบียนและเวชสถิติ","หน่วยลงทะเบียนรับผู้ป่วยใน","ฝ่ายเทคโนโลยีสารสนเทศ","สนับสนุนระบบสารสนเทศ","สนับสนุนระบบคอมพิวเตอร์","พัฒนาโปรแกรม","ฝ่ายวิศวกรรมการแพทย์"],
             "สายการแพทย์": ["ส่วนการแพทย์","ส่วนสนับสนุนการแพทย์","ปฏิบัติการเทคนิคการแพทย์","รังสีเทคนิค","กายภาพบำบัด","ฝ่ายบริการผู้ป่วย","ประสานสิทธิ์ และ UR Nurse","หน่วยรับและจำหน่ายผู้ป่วยใน","เอกสารทางการแพทย์","จ่ายกลาง","ฝ่ายเภสัชกรรม","จ่ายเภสัชภัณฑ์และบริการผู้ป่วยนอก","คลังเภสัชภัณฑ์","จ่ายเภสัชภัณฑ์และบริการผู้ป่วยใน","หน่วยจ่ายเภสัชภัณฑ์และบริการผู้ป่วยนอกเด็ก","ผลิตยา","จ่ายเภสัชภัณฑ์และบริการผู้ป่วยนอกเบาหวานและหัวใจ"],
@@ -752,7 +718,7 @@
             document.getElementById('formProgressBar').style.width = `${Math.min(100, Math.max(12, Math.round((filled / totalChecks) * 100)))}%`;
         }
 
-        // JS Crash (Cannot Verify/Save) Fixed by removing obsolete fields!
+        // โค้ดดึงข้อมูลได้รับการปรับใหม่ 100% ไม่มีการเรียกใช้ id ที่โดนลบออกไปแล้ว
         function collectFormData() {
             return {
                 timestamp: new Date().toLocaleString('th-TH'),
@@ -762,6 +728,7 @@
                 respondentPhone: document.getElementById('respondentPhone').value.trim(),
                 operatingHours: document.getElementById('operatingHours').value.trim(),
                 adjacency: document.getElementById('adjacency').value.trim(),
+                
                 staffDoctors: document.getElementById('staffDoctors').value,
                 staffNurses: document.getElementById('staffNurses').value,
                 staffSupport: document.getElementById('staffSupport').value,
@@ -771,6 +738,7 @@
                 sharedDesks: document.getElementById('sharedDesks').value,
                 staffLockers: document.getElementById('staffLockers').value,
                 breakChangingRoom: document.getElementById('breakChangingRoom').value.trim(),
+                
                 hasPatients: document.getElementById('hasPatientsToggle').checked,
                 patientsPerDay: document.getElementById('patientsPerDay').value,
                 peakHours: document.getElementById('peakHours').value.trim(),
@@ -778,6 +746,7 @@
                 wheelchairParking: document.getElementById('wheelchairParking').value,
                 stretcherParking: document.getElementById('stretcherParking').value,
                 mobilityParkingNote: document.getElementById('mobilityParkingNote').value.trim(),
+                
                 examRooms: document.getElementById('examRooms').value,
                 treatmentRooms: document.getElementById('treatmentRooms').value,
                 storageMedRooms: document.getElementById('storageMedRooms').value,
@@ -789,18 +758,21 @@
                 washingZones: document.getElementById('washingZones').value,
                 generalWastePoints: document.getElementById('generalWastePoints').value,
                 infectiousWastePoints: document.getElementById('infectiousWastePoints').value,
+                
                 largeCabinets: document.getElementById('largeCabinets').value,
                 shelves: document.getElementById('shelves').value,
                 examBeds: document.getElementById('examBeds').value,
                 scanners: document.getElementById('scanners').value,
                 printers: document.getElementById('printers').value,
                 otherEquipmentNote: document.getElementById('otherEquipmentNote').value.trim(),
+                
                 itPCs: document.getElementById('itPCs').value,
                 powerOutlets: document.getElementById('powerOutlets').value,
                 lanPorts: document.getElementById('lanPorts').value,
                 wifiPoints: document.getElementById('wifiPoints').value,
                 medicalGasPoints: document.getElementById('medicalGasPoints').value,
                 infrastructureNote: document.getElementById('infrastructureNote').value.trim(),
+                
                 currentIssues: document.getElementById('currentIssues').value.trim(),
                 futureProjects: document.getElementById('futureProjects').value.trim()
             };
