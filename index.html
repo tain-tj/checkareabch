@@ -64,7 +64,7 @@
                             <i class="fa-solid fa-cloud-arrow-up text-[10px]"></i> พร้อมใช้งาน
                         </span>
                     </div>
-                    <p class="text-xs text-slate-500">โครงการจัดสรรพื้นที่อาคารใหม่ โรงพยาบาลกรุงเทพคริสเตียน</p>
+                    <p class="text-xs text-slate-500">โครงการจัดสรรพื้นที่ โรงพยาบาลกรุงเทพคริสเตียน</p>
                 </div>
             </div>
             <div class="flex items-center gap-1.5">
@@ -95,7 +95,7 @@
             <div class="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div class="space-y-1.5">
                     <h2 class="text-lg sm:text-xl font-bold">สำรวจความต้องการพื้นที่และสิ่งอำนวยความสะดวก</h2>
-                    <p class="text-xs sm:text-sm text-bch-100/90 leading-relaxed">ข้อมูลของท่านจะถูกนำไปใช้วางผังและออกแบบพื้นที่ใช้สอยของแต่ละหน่วยงานในอาคารใหม่</p>
+                    <p class="text-xs sm:text-sm text-bch-100/90 leading-relaxed">ข้อมูลของท่านจะถูกนำไปใช้วางผังและออกแบบพื้นที่ใช้สอยของแต่ละหน่วยงาน</p>
                 </div>
                 <div class="shrink-0 flex sm:flex-col gap-2">
                     <button type="button" onclick="resetFormWithConfirm()" class="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium bg-white/10 hover:bg-white/20 text-white border border-white/15 transition">
@@ -322,14 +322,14 @@
                         </div>
                     </div>
                     <div>
-                        <label for="peakHours" class="block text-base font-semibold text-slate-700 mb-1.5"><i class="fa-solid fa-chart-line text-med-600 mr-1"></i> ช่วงเวลาที่มีผู้รับบริการสูงสุด (Peak Hour)</label>
+                        <label for="peakHours" class="block text-base font-semibold text-slate-700 mb-1.5"><i class="fa-solid fa-chart-line text-med-600 mr-1"></i> ช่วงเวลาที่มีผู้รับบริการสูงสุด </label>
                         <input type="text" id="peakHours" name="peakHours" placeholder="เช่น 08:00 - 11:00 น." class="w-full rounded-xl border border-slate-300 bg-slate-50/50 px-3.5 py-2.5 text-base focus:border-med-600 focus:bg-white focus:outline-none transition">
                     </div>
                     <div class="space-y-2.5">
                         <label class="block text-base font-semibold text-slate-700"><i class="fa-solid fa-wheelchair text-med-600 mr-1"></i> พื้นที่จอดรออุปกรณ์เคลื่อนย้าย</label>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex items-center justify-between">
-                                <span class="text-sm font-semibold text-slate-700">รถเข็นนั่ง (Wheelchair)</span>
+                                <span class="text-sm font-semibold text-slate-700">รถเข็นนั่ง </span>
                                 <div class="flex items-center gap-1.5 w-28">
                                     <button type="button" onclick="stepNumber('wheelchairParking', -1)" class="stepper-btn w-8 h-8 rounded-lg bg-white border border-slate-300 text-slate-700 font-bold">-</button>
                                     <input type="number" id="wheelchairParking" name="wheelchairParking" min="0" value="0" class="w-full text-center font-bold text-base py-1 rounded-lg border border-slate-300 bg-white">
@@ -337,7 +337,7 @@
                                 </div>
                             </div>
                             <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex items-center justify-between">
-                                <span class="text-sm font-semibold text-slate-700">เตียงเข็น (Stretcher)</span>
+                                <span class="text-sm font-semibold text-slate-700">เตียงเข็น </span>
                                 <div class="flex items-center gap-1.5 w-28">
                                     <button type="button" onclick="stepNumber('stretcherParking', -1)" class="stepper-btn w-8 h-8 rounded-lg bg-white border border-slate-300 text-slate-700 font-bold">-</button>
                                     <input type="number" id="stretcherParking" name="stretcherParking" min="0" value="0" class="w-full text-center font-bold text-base py-1 rounded-lg border border-slate-300 bg-white">
@@ -520,7 +520,7 @@
                             </div>
                             <!-- ย้าย Printer มาที่นี่ -->
                             <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex sm:flex-col items-center sm:items-start justify-between gap-2">
-                                <span class="text-sm font-semibold text-slate-700 block">เครื่องพิมพ์ (Printer)</span>
+                                <span class="text-sm font-semibold text-slate-700 block">เครื่องพิมพ์ </span>
                                 <div class="flex items-center gap-1.5 w-28 sm:w-full">
                                     <button type="button" onclick="stepNumber('printers', -1)" class="stepper-btn w-8 h-8 rounded-lg bg-white border border-slate-300 text-slate-700 font-bold">-</button>
                                     <input type="number" id="printers" name="printers" min="0" value="0" class="w-full text-center font-bold text-base py-1 rounded-lg border border-slate-300 bg-white">
@@ -591,7 +591,7 @@
                         <label for="totalAreaSqm" class="block text-base font-bold text-emerald-800 mb-1">
                             <i class="fa-solid fa-ruler-combined mr-1"></i> ขนาดพื้นที่รวมที่ต้องการ (ตารางเมตร)
                         </label>
-                        <p class="text-xs text-emerald-600/80 mb-3">โปรดประเมินขนาดพื้นที่รวมทั้งหมดของแผนกในอาคารใหม่</p>
+                        <p class="text-xs text-emerald-600/80 mb-3">โปรดประเมินขนาดพื้นที่รวมทั้งหมดของแผนก</p>
                         <div class="relative">
                             <input type="number" id="totalAreaSqm" name="totalAreaSqm" min="0" placeholder="ตัวอย่าง: 150" class="w-full rounded-xl border border-emerald-300 bg-white px-4 py-3 text-lg font-bold text-emerald-900 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20 transition pr-16">
                             <span class="absolute inset-y-0 right-4 flex items-center text-sm font-semibold text-slate-400 pointer-events-none">ตร.ม.</span>
