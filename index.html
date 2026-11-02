@@ -42,11 +42,15 @@
         .section-card { transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); }
         .stepper-btn:active { transform: scale(0.92); }
         .swal2-popup { font-family: 'Prompt', sans-serif !important; border-radius: 1.25rem !important; }
+        
+        /* สไตล์สำหรับ Scrollbar ใน Modal สรุป */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
     </style>
 </head>
 <body class="text-slate-800 pb-28">
 
-    <!-- Header -->
     <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-200/80">
         <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
             <div class="flex items-center gap-3">
@@ -63,10 +67,11 @@
                     <p class="text-xs text-slate-500">โครงการจัดสรรพื้นที่อาคารใหม่ โรงพยาบาลกรุงเทพคริสเตียน</p>
                 </div>
             </div>
+            <!-- ปุ่มแสดงสถิติ (แทนที่ปุ่มประวัติเดิม) -->
             <div class="flex items-center gap-1.5">
-                <button type="button" onclick="openHistoryModal()" class="p-2.5 rounded-xl text-slate-600 hover:bg-slate-100 active:bg-slate-200 transition relative" title="ประวัติการส่งข้อมูล">
-                    <i class="fa-solid fa-clock-rotate-left text-lg"></i>
-                    <span id="historyCountBadge" class="hidden absolute top-1 right-1 w-5 h-5 bg-bch-600 text-white text-xs font-bold rounded-full flex items-center justify-center">0</span>
+                <button type="button" onclick="openStatsModal()" class="p-2.5 rounded-xl text-slate-600 hover:bg-slate-100 active:bg-slate-200 transition relative" title="ตรวจสอบสถิติแผนกที่กรอกแล้ว">
+                    <i class="fa-solid fa-list-check text-lg"></i>
+                    <span id="statsCountBadge" class="hidden absolute top-0.5 right-0 w-[22px] h-[22px] bg-emerald-600 text-white text-[11px] font-bold rounded-full flex items-center justify-center border-2 border-white shadow-sm">0</span>
                 </button>
             </div>
         </div>
@@ -387,7 +392,7 @@
                                     <input type="number" id="storageMedRooms" name="storageMedRooms" min="0" value="0" class="w-full text-center font-bold text-base py-1 rounded-lg border border-slate-300 bg-white">
                                     <button type="button" onclick="stepNumber('storageMedRooms', 1)" class="stepper-btn w-8 h-8 rounded-lg bg-violet-600 text-white font-bold">+</button>
                                 </div>
-                                <input type="text" id="storageMedNote" name="storageMedNote" placeholder="เช่น คุมอุณหภูมิ" class="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs focus:outline-none">
+                                <input type="text" id="storageMedNote" name="storageMedNote" placeholder="เช่น คุมอุณหภูมิ" class="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs focus:outline-none focus:border-violet-500 transition">
                             </div>
                             <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2">
                                 <div class="flex items-center justify-between"><span class="text-sm font-semibold text-slate-700">อุปกรณ์การแพทย์</span></div>
@@ -396,7 +401,7 @@
                                     <input type="number" id="storageEquipRooms" name="storageEquipRooms" min="0" value="0" class="w-full text-center font-bold text-base py-1 rounded-lg border border-slate-300 bg-white">
                                     <button type="button" onclick="stepNumber('storageEquipRooms', 1)" class="stepper-btn w-8 h-8 rounded-lg bg-violet-600 text-white font-bold">+</button>
                                 </div>
-                                <input type="text" id="storageEquipNote" name="storageEquipNote" placeholder="ชนิดอุปกรณ์หลัก" class="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs focus:outline-none">
+                                <input type="text" id="storageEquipNote" name="storageEquipNote" placeholder="ชนิดอุปกรณ์หลัก" class="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs focus:outline-none focus:border-violet-500 transition">
                             </div>
                             <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2">
                                 <div class="flex items-center justify-between"><span class="text-sm font-semibold text-slate-700">ห้อง/ตู้เก็บเอกสาร</span></div>
@@ -405,7 +410,7 @@
                                     <input type="number" id="storageDocRooms" name="storageDocRooms" min="0" value="0" class="w-full text-center font-bold text-base py-1 rounded-lg border border-slate-300 bg-white">
                                     <button type="button" onclick="stepNumber('storageDocRooms', 1)" class="stepper-btn w-8 h-8 rounded-lg bg-violet-600 text-white font-bold">+</button>
                                 </div>
-                                <input type="text" id="storageDocNote" name="storageDocNote" placeholder="ชนิดแฟ้ม/เอกสาร" class="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs focus:outline-none">
+                                <input type="text" id="storageDocNote" name="storageDocNote" placeholder="ชนิดแฟ้ม/เอกสาร" class="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs focus:outline-none focus:border-violet-500 transition">
                             </div>
                         </div>
                     </div>
@@ -597,17 +602,12 @@
         </form>
     </main>
 
-    <!-- Bottom Submit Bar -->
-    <div class="fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-lg px-4 py-3">
-        <div class="max-w-3xl mx-auto flex items-center justify-between gap-3">
-            <div class="hidden sm:block">
-                <p id="selectedDeptFooter" class="text-sm font-semibold text-slate-700 truncate max-w-xs">ยังไม่ได้เลือกหน่วยงาน</p>
-                <p class="text-xs text-slate-400">ตรวจสอบข้อมูลก่อนกดบันทึก</p>
-            </div>
-            <div class="flex items-center gap-2.5 w-full sm:w-auto">
-                <button type="button" onclick="previewSummary()" class="px-4 py-3 rounded-xl text-base font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 active:scale-95 transition flex items-center justify-center gap-1.5 shrink-0"><i class="fa-solid fa-eye text-bch-600"></i> ตรวจทาน</button>
-                <button type="button" onclick="triggerSubmit()" class="w-full sm:w-64 py-3 px-6 rounded-xl text-base font-bold text-white bg-gradient-to-r from-bch-600 to-indigo-600 hover:from-bch-700 hover:to-indigo-700 shadow-md shadow-bch-600/25 active:scale-95 transition flex items-center justify-center gap-2"><i class="fa-solid fa-paper-plane"></i> บันทึก / อัปเดต</button>
-            </div>
+    <!-- Bottom Submit Bar (อัปเดตเหลือปุ่มเดียวเต็มจอ) -->
+    <div class="fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-[0_-4px_15px_rgba(0,0,0,0.05)] p-4">
+        <div class="max-w-3xl mx-auto">
+            <button type="button" onclick="triggerSubmit()" class="w-full py-3.5 px-6 rounded-xl text-lg font-bold text-white bg-gradient-to-r from-bch-600 to-indigo-600 hover:from-bch-700 hover:to-indigo-700 shadow-md shadow-bch-600/30 active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+                <i class="fa-solid fa-file-contract text-xl"></i> ตรวจสอบข้อมูลเพื่อบันทึก
+            </button>
         </div>
     </div>
 
@@ -625,7 +625,7 @@
 
         window.addEventListener('DOMContentLoaded', () => {
             loadDraft();
-            updateHistoryBadge();
+            fetchStatsCount(); // โหลดจำนวนสถิติมาแสดงบน Badge ตอนเปิดเว็บ
             document.getElementById('bchSurveyForm').addEventListener('input', () => { saveDraft(); updateProgressBar(); });
         });
 
@@ -638,7 +638,7 @@
                 deptSelect.disabled = true;
                 deptSelect.classList.add('bg-slate-100');
                 deptSelect.innerHTML = '<option value="">-- กรุณาเลือกสายงานก่อน --</option>';
-                updateFooterDept(); return;
+                return;
             }
             deptSelect.disabled = false;
             deptSelect.classList.remove('bg-slate-100');
@@ -647,15 +647,7 @@
             BCH_DEPARTMENTS[division].forEach(dept => {
                 deptSelect.innerHTML += `<option value="${dept}" ${dept === selectedDept ? 'selected' : ''}>${dept}</option>`;
             });
-            deptSelect.addEventListener('change', updateFooterDept);
-            updateFooterDept(); saveDraft(); updateProgressBar();
-        }
-
-        function updateFooterDept() {
-            const div = document.getElementById('division').value;
-            const dept = document.getElementById('department').value;
-            const footerEl = document.getElementById('selectedDeptFooter');
-            footerEl.innerHTML = (div && dept) ? `<i class="fa-solid fa-circle-check text-emerald-500 mr-1"></i>${div} &rsaquo; <span class="text-bch-700">${dept}</span>` : 'ยังไม่ได้เลือกสายงานและหน่วยงาน';
+            saveDraft(); updateProgressBar();
         }
 
         async function openDepartmentSearchModal() {
@@ -717,18 +709,15 @@
             document.getElementById('formProgressBar').style.width = `${Math.min(100, Math.max(12, Math.round((filled / totalChecks) * 100)))}%`;
         }
 
-        // -------------------------------------------------------------
-        // ระบบดึงข้อมูลใหม่ ฉลาดและทนทานต่อการลบ/เพิ่มฟิลด์ (ดัก Null 100%)
-        // -------------------------------------------------------------
-        const getV = (id) => document.getElementById(id)?.value || '';
+        const getV = (id) => document.getElementById(id)?.value || '0';
         const getT = (id) => document.getElementById(id)?.value?.trim() || '';
         const getC = (id) => document.getElementById(id)?.checked || false;
 
         function collectFormData() {
             return {
                 timestamp: new Date().toLocaleString('th-TH'),
-                division: getV('division'),
-                department: getV('department'),
+                division: getT('division'),
+                department: getT('department'),
                 respondentName: getT('respondentName'),
                 respondentPhone: getT('respondentPhone'),
                 operatingHours: getT('operatingHours'),
@@ -817,7 +806,7 @@
         }
 
         async function fetchDataForEdit() {
-            const dept = getV('department');
+            const dept = getT('department');
             if (!dept) return Swal.fire({ icon: 'warning', title: 'กรุณาเลือกหน่วยงานก่อน' });
             Swal.fire({ title: 'กำลังดึงข้อมูล...', didOpen: () => { Swal.showLoading(); } });
             try {
@@ -843,46 +832,195 @@
             if (missing.length > 0) { Swal.fire({ icon: 'warning', title: 'กรอกข้อมูลไม่ครบ', text: missing.join(', ')}).then(()=>document.getElementById('sec-1').scrollIntoView({behavior:'smooth'})); return false; } return true;
         }
 
-        function previewSummary() {
-            if(!validateRequiredFields()) return;
-            const d = collectFormData();
-            const html = `<div class="text-left text-sm space-y-2 p-1 max-h-80 overflow-y-auto"><div class="p-3 bg-bch-50 border rounded-xl"><div class="font-bold">${d.division} &rsaquo; ${d.department}</div><div>ผู้กรอก: ${d.respondentName} (${d.respondentPhone})</div></div><div class="grid grid-cols-2 gap-2"><div class="p-2 border rounded-lg bg-slate-50"><span class="text-[11px] text-slate-500 block">บุคลากร / โต๊ะทำงาน</span><b>${d.staffTotal} คน / ${d.fixedDesks} โต๊ะ</b></div><div class="p-2 border rounded-lg bg-slate-50"><span class="text-[11px] text-slate-500 block">ห้องตรวจ / หัตถการ</span><b>${d.examRooms || 0} / ${d.treatmentRooms || 0} ห้อง</b></div><div class="p-2 border rounded-lg bg-slate-50"><span class="text-[11px] text-slate-500 block">ผู้ป่วย / ที่นั่ง</span><b>${d.hasPatients ? d.patientsPerDay+' คน' : 'ไม่มี'}</b></div><div class="p-2 border rounded-lg bg-slate-50"><span class="text-[11px] text-slate-500 block">คอม PC / ปลั๊ก</span><b>${d.itPCs || 0} / ${d.powerOutlets || 0}</b></div></div></div>`;
-            Swal.fire({ title: 'ตรวจสอบข้อมูล', html, showCancelButton: true, confirmButtonText: 'ยืนยันบันทึก', confirmButtonColor: '#6d38ee' }).then(res => { if(res.isConfirmed) triggerSubmit(true); });
+        function buildDetailedSummaryHtml(d) {
+            return `
+            <div class="text-left text-sm space-y-4 p-2 max-h-[65vh] overflow-y-auto w-full custom-scrollbar">
+                
+                <!-- หมวด 1 -->
+                <div>
+                    <h4 class="font-bold text-bch-700 bg-bch-50 px-2 py-1 rounded mb-2 border-l-4 border-bch-500">1. ข้อมูลทั่วไป</h4>
+                    <div class="grid grid-cols-2 gap-x-2 gap-y-1 text-slate-700 px-2 text-[13px] sm:text-sm">
+                        <div class="col-span-2 text-base font-bold text-bch-900 leading-tight mb-1">${d.division} <br>&rsaquo; ${d.department}</div>
+                        <div class="col-span-2"><b>ผู้ให้ข้อมูล:</b> ${d.respondentName} (${d.respondentPhone})</div>
+                        <div class="col-span-2"><b>เวลาทำการ:</b> ${d.operatingHours}</div>
+                        <div class="col-span-2"><b>เชื่อมโยงแผนก:</b> <span class="text-xs text-slate-600">${d.adjacency || '-'}</span></div>
+                    </div>
+                </div>
+                
+                <!-- หมวด 2 -->
+                <div>
+                    <h4 class="font-bold text-indigo-700 bg-indigo-50 px-2 py-1 rounded mb-2 border-l-4 border-indigo-500">2. ข้อมูลบุคลากร</h4>
+                    <div class="grid grid-cols-2 gap-x-2 gap-y-1 text-slate-700 px-2 text-[13px] sm:text-sm">
+                        <div><b>รวมบุคลากร:</b> ${d.staffTotal} คน</div>
+                        <div><b>สูงสุด/กะ:</b> ${d.staffPeakShift} คน</div>
+                        <div class="col-span-2 text-xs text-slate-500">(แพทย์ ${d.staffDoctors}, พยาบาล ${d.staffNurses}, สนับสนุน ${d.staffSupport})</div>
+                        <hr class="col-span-2 my-1 border-slate-100">
+                        <div><b>โต๊ะประจำ:</b> ${d.fixedDesks}</div>
+                        <div><b>โต๊ะส่วนกลาง:</b> ${d.sharedDesks}</div>
+                        <div class="col-span-2"><b>ตู้ล็อกเกอร์:</b> ${d.staffLockers}</div>
+                        <div class="col-span-2"><b>พักเบรก/เปลี่ยนชุด:</b> <span class="text-xs text-slate-600">${d.breakChangingRoom || '-'}</span></div>
+                    </div>
+                </div>
+
+                <!-- หมวด 3 -->
+                <div>
+                    <h4 class="font-bold text-med-700 bg-med-50 px-2 py-1 rounded mb-2 border-l-4 border-med-500">3. ผู้รับบริการ</h4>
+                    <div class="grid grid-cols-2 gap-x-2 gap-y-1 text-slate-700 px-2 text-[13px] sm:text-sm">
+                        ${d.hasPatients ? `
+                            <div><b>ผู้ป่วยเฉลี่ย:</b> ${d.patientsPerDay} คน/วัน</div>
+                            <div><b>ที่นั่งรอ:</b> ${d.waitingSeats}</div>
+                            <div class="col-span-2"><b>ช่วงเวลา Peak:</b> ${d.peakHours || '-'}</div>
+                            <hr class="col-span-2 my-1 border-slate-100">
+                            <div><b>จอดรถเข็น:</b> ${d.wheelchairParking} คัน</div>
+                            <div><b>จอดเตียง:</b> ${d.stretcherParking} เตียง</div>
+                            ${d.mobilityParkingNote ? `<div class="col-span-2 text-xs text-slate-500">หมายเหตุ: ${d.mobilityParkingNote}</div>` : ''}
+                        ` : `<div class="col-span-2 text-slate-500">ไม่มีผู้รับบริการโดยตรง</div>`}
+                    </div>
+                </div>
+
+                <!-- หมวด 4 -->
+                <div>
+                    <h4 class="font-bold text-violet-700 bg-violet-50 px-2 py-1 rounded mb-2 border-l-4 border-violet-500">4. พื้นที่ใช้สอย & สุขอนามัย</h4>
+                    <div class="grid grid-cols-2 gap-x-2 gap-y-1 text-slate-700 px-2 text-[13px] sm:text-sm">
+                        <div><b>ห้องตรวจ:</b> ${d.examRooms}</div>
+                        <div><b>ห้องหัตถการ:</b> ${d.treatmentRooms}</div>
+                        <hr class="col-span-2 my-1 border-slate-100">
+                        <div><b>เก็บยา:</b> ${d.storageMedRooms} <span class="text-[10px] text-slate-400">${d.storageMedNote}</span></div>
+                        <div><b>เก็บอุปกรณ์:</b> ${d.storageEquipRooms} <span class="text-[10px] text-slate-400">${d.storageEquipNote}</span></div>
+                        <div class="col-span-2"><b>เก็บเอกสาร:</b> ${d.storageDocRooms} <span class="text-[10px] text-slate-400">${d.storageDocNote}</span></div>
+                        <hr class="col-span-2 my-1 border-slate-100">
+                        <div><b>ซักล้าง:</b> ${d.washingZones}</div>
+                        <div><b>ขยะทั่วไป:</b> ${d.generalWastePoints}</div>
+                        <div class="col-span-2"><b>ขยะติดเชื้อ:</b> ${d.infectiousWastePoints}</div>
+                    </div>
+                </div>
+
+                <!-- หมวด 5 -->
+                <div>
+                    <h4 class="font-bold text-amber-700 bg-amber-50 px-2 py-1 rounded mb-2 border-l-4 border-amber-500">5. ครุภัณฑ์</h4>
+                    <div class="grid grid-cols-2 gap-x-2 gap-y-1 text-slate-700 px-2 text-[13px] sm:text-sm">
+                        <div><b>ตู้ใหญ่:</b> ${d.largeCabinets}</div>
+                        <div><b>ชั้นวาง:</b> ${d.shelves}</div>
+                        <div class="col-span-2"><b>เตียงตรวจ:</b> ${d.examBeds}</div>
+                        <hr class="col-span-2 my-1 border-slate-100">
+                        <div><b>สแกนเนอร์:</b> ${d.scanners}</div>
+                        <div><b>เครื่องพิมพ์:</b> ${d.printers}</div>
+                        ${d.otherEquipmentNote ? `<div class="col-span-2"><b>หมายเหตุ:</b> <span class="text-xs text-slate-500">${d.otherEquipmentNote}</span></div>` : ''}
+                    </div>
+                </div>
+
+                <!-- หมวด 6 -->
+                <div>
+                    <h4 class="font-bold text-sky-700 bg-sky-50 px-2 py-1 rounded mb-2 border-l-4 border-sky-500">6. โครงสร้างพื้นฐาน & IT</h4>
+                    <div class="grid grid-cols-2 gap-x-2 gap-y-1 text-slate-700 px-2 text-[13px] sm:text-sm">
+                        <div><b>คอม PC:</b> ${d.itPCs} เครื่อง</div>
+                        <div><b>ก๊าซแพทย์:</b> ${d.medicalGasPoints} จุด</div>
+                        <hr class="col-span-2 my-1 border-slate-100">
+                        <div><b>ปลั๊กไฟ:</b> ${d.powerOutlets} จุด</div>
+                        <div><b>สาย LAN:</b> ${d.lanPorts} จุด</div>
+                        <div class="col-span-2"><b>Wi-Fi:</b> ${d.wifiPoints} จุด</div>
+                        ${d.infrastructureNote ? `<div class="col-span-2"><b>หมายเหตุ:</b> <span class="text-xs text-slate-500">${d.infrastructureNote}</span></div>` : ''}
+                    </div>
+                </div>
+
+                <!-- หมวด 7 -->
+                <div>
+                    <h4 class="font-bold text-emerald-700 bg-emerald-50 px-2 py-1 rounded mb-2 border-l-4 border-emerald-500">7. ข้อเสนอแนะ</h4>
+                    <div class="text-slate-700 px-2 space-y-1.5 text-[13px] sm:text-sm">
+                        <div><b class="block">ปัญหาปัจจุบัน:</b> <span class="text-xs">${d.currentIssues || '-'}</span></div>
+                        <div><b class="block">แผนอนาคต:</b> <span class="text-xs">${d.futureProjects || '-'}</span></div>
+                    </div>
+                </div>
+            </div>
+            `;
         }
 
+        // ==========================================
+        // เปลี่ยนแปลง: นำข้อมูลมาแสดงเพื่อตรวจสอบก่อน แล้วค่อยบันทึก
+        // ==========================================
         function triggerSubmit(skipValidation = false) {
             if (!skipValidation && !validateRequiredFields()) return;
             const d = collectFormData();
-            submitDataToBackend(d);
+            
+            Swal.fire({
+                title: 'ตรวจสอบข้อมูล',
+                html: buildDetailedSummaryHtml(d),
+                showCancelButton: true,
+                confirmButtonText: '<i class="fa-solid fa-paper-plane mr-1"></i> ยืนยันบันทึกข้อมูล',
+                cancelButtonText: 'กลับไปแก้ไข',
+                confirmButtonColor: '#6d38ee',
+                cancelButtonColor: '#64748b',
+                width: '600px'
+            }).then((res) => {
+                if (res.isConfirmed) {
+                    submitDataToBackend(d);
+                }
+            });
         }
 
         function handleFormSubmit(e) { e.preventDefault(); triggerSubmit(); }
 
         async function submitDataToBackend(data) {
-            Swal.fire({ title: 'กำลังบันทึก...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
-            saveToLocalHistory(data);
+            Swal.fire({ title: 'กำลังบันทึก...', html: 'กรุณารอสักครู่ ระบบกำลังส่งข้อมูล...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
             try {
                 await fetch(DEFAULT_GAS_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(data) });
                 localStorage.removeItem('bch_survey_draft');
-                Swal.fire({ icon: 'success', title: 'บันทึกข้อมูลสำเร็จ!', confirmButtonColor: '#6d38ee' });
+                Swal.fire({ icon: 'success', title: 'บันทึกข้อมูลสำเร็จ!', confirmButtonColor: '#6d38ee' }).then(() => {
+                    fetchStatsCount(); // อัปเดตตัวเลขสถิติใหม่หลังบันทึกเสร็จ
+                });
             } catch (error) { Swal.fire({ icon: 'error', title: 'เกิดข้อผิดพลาด', text: error.message }); }
         }
 
-        function saveToLocalHistory(entry) { try { const list = JSON.parse(localStorage.getItem('bch_survey_history') || '[]'); list.unshift(entry); localStorage.setItem('bch_survey_history', JSON.stringify(list.slice(0, 50))); updateHistoryBadge(); } catch (e) {} }
-        function updateHistoryBadge() { try { const list = JSON.parse(localStorage.getItem('bch_survey_history') || '[]'); const badge = document.getElementById('historyCountBadge'); if (list.length > 0) { badge.textContent = list.length; badge.classList.remove('hidden'); } else { badge.classList.add('hidden'); } } catch (e) {} }
-
-        function openHistoryModal() {
-            const list = JSON.parse(localStorage.getItem('bch_survey_history') || '[]');
-            if (list.length === 0) return Swal.fire({ icon: 'info', title: 'ไม่มีประวัติ' });
-            const html = list.map((item, idx) => `<div class="p-3 bg-slate-50 border rounded-xl flex items-center justify-between"><div><div class="font-bold text-sm">${idx + 1}. ${item.department}</div><div class="text-xs text-slate-500">${item.timestamp}</div></div><span class="px-2 py-0.5 rounded-full text-[10px] bg-emerald-100 text-emerald-700">สำเร็จ</span></div>`).join('');
-            Swal.fire({ title: `ประวัติ (${list.length})`, html: `<div class="space-y-2 text-left max-h-72 overflow-y-auto my-2">${html}</div>`, showCancelButton: true, confirmButtonText: 'ดาวน์โหลด CSV', confirmButtonColor: '#0d9488' }).then(res => { if(res.isConfirmed) exportHistoryToCSV(list); });
+        // ==========================================
+        // ระบบสถิติแผนกที่กรอกแล้ว (แทนที่ระบบประวัติแบบเดิม)
+        // ==========================================
+        async function fetchStatsCount() {
+            try {
+                const response = await fetch(`${DEFAULT_GAS_URL}?action=stats`);
+                const result = await response.json();
+                if (result.status === 'success') {
+                    const badge = document.getElementById('statsCountBadge');
+                    if (result.count > 0) {
+                        badge.textContent = result.count;
+                        badge.classList.remove('hidden');
+                    } else {
+                        badge.classList.add('hidden');
+                    }
+                }
+            } catch (e) { console.error('Failed to fetch stats count', e); }
         }
 
-        function exportHistoryToCSV(list) {
-            if (!list || list.length === 0) return; const keys = Object.keys(list[0]);
-            const csvRows = [keys.join(','), ...list.map(row => keys.map(k => `"${String(row[k] ?? '').replace(/"/g, '""')}"`).join(','))];
-            const blob = new Blob(['\uFEFF' + csvRows.join('\n')], { type: 'text/csv;charset=utf-8;' });
-            const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `BCH_Survey_${new Date().toISOString().slice(0,10)}.csv`; a.click();
+        async function openStatsModal() {
+            Swal.fire({ title: 'กำลังโหลดสถิติ...', didOpen: () => { Swal.showLoading(); } });
+            try {
+                const response = await fetch(`${DEFAULT_GAS_URL}?action=stats`);
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    if (result.count === 0) {
+                        Swal.fire({ icon: 'info', title: 'ยังไม่มีข้อมูล', text: 'ยังไม่มีแผนกใดส่งข้อมูลเข้ามาในระบบ', confirmButtonColor: '#0d9488' });
+                        return;
+                    }
+
+                    const listHtml = result.data.map((dept, idx) => `
+                        <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-left flex items-center justify-between">
+                            <span class="text-sm font-semibold text-slate-700">${idx + 1}. ${dept}</span>
+                            <i class="fa-solid fa-check-circle text-emerald-500"></i>
+                        </div>
+                    `).join('');
+
+                    Swal.fire({
+                        title: `แผนกที่กรอกแล้ว (${result.count} หน่วยงาน)`,
+                        html: `<div class="space-y-2 max-h-72 overflow-y-auto mt-2 custom-scrollbar pr-1">${listHtml}</div>`,
+                        confirmButtonText: 'รับทราบ',
+                        confirmButtonColor: '#0d9488'
+                    });
+                } else {
+                    Swal.fire({ icon: 'error', title: 'ดึงข้อมูลไม่สำเร็จ' });
+                }
+            } catch (error) {
+                Swal.fire({ icon: 'error', title: 'ไม่สามารถเชื่อมต่อฐานข้อมูลได้', text: error.message });
+            }
         }
     </script>
 </body>
