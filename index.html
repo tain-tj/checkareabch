@@ -67,7 +67,6 @@
                     <p class="text-xs text-slate-500">โครงการจัดสรรพื้นที่อาคารใหม่ โรงพยาบาลกรุงเทพคริสเตียน</p>
                 </div>
             </div>
-            <!-- ปุ่มแสดงสถิติ (แทนที่ปุ่มประวัติเดิม) -->
             <div class="flex items-center gap-1.5">
                 <button type="button" onclick="openStatsModal()" class="p-2.5 rounded-xl text-slate-600 hover:bg-slate-100 active:bg-slate-200 transition relative" title="ตรวจสอบสถิติแผนกที่กรอกแล้ว">
                     <i class="fa-solid fa-list-check text-lg"></i>
@@ -87,7 +86,7 @@
             <a href="#sec-4" onclick="setActivePill(4)" id="pill-4" class="nav-pill shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-white text-slate-600 border border-slate-200 hover:border-bch-300 transition"><i class="fa-solid fa-door-open"></i> 4. พื้นที่ใช้สอย</a>
             <a href="#sec-5" onclick="setActivePill(5)" id="pill-5" class="nav-pill shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-white text-slate-600 border border-slate-200 hover:border-bch-300 transition"><i class="fa-solid fa-couch"></i> 5. ครุภัณฑ์</a>
             <a href="#sec-6" onclick="setActivePill(6)" id="pill-6" class="nav-pill shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-white text-slate-600 border border-slate-200 hover:border-bch-300 transition"><i class="fa-solid fa-network-wired"></i> 6. ระบบ IT</a>
-            <a href="#sec-7" onclick="setActivePill(7)" id="pill-7" class="nav-pill shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-white text-slate-600 border border-slate-200 hover:border-bch-300 transition"><i class="fa-solid fa-lightbulb"></i> 7. ข้อเสนอแนะ</a>
+            <a href="#sec-7" onclick="setActivePill(7)" id="pill-7" class="nav-pill shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-white text-slate-600 border border-slate-200 hover:border-bch-300 transition"><i class="fa-solid fa-lightbulb"></i> 7. พื้นที่และข้อเสนอแนะ</a>
         </div>
     </header>
 
@@ -95,9 +94,6 @@
         <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-bch-800 via-bch-700 to-indigo-900 text-white p-5 shadow-lg">
             <div class="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div class="space-y-1.5">
-                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold bg-white/15 backdrop-blur-sm text-bch-100">
-                        <i class="fa-solid fa-wand-magic-sparkles text-amber-300"></i> แบบสำรวจออนไลน์สำหรับมือถือ
-                    </span>
                     <h2 class="text-lg sm:text-xl font-bold">สำรวจความต้องการพื้นที่และสิ่งอำนวยความสะดวก</h2>
                     <p class="text-xs sm:text-sm text-bch-100/90 leading-relaxed">ข้อมูลของท่านจะถูกนำไปใช้วางผังและออกแบบพื้นที่ใช้สอยของแต่ละหน่วยงานในอาคารใหม่</p>
                 </div>
@@ -118,7 +114,7 @@
                     <div class="flex items-center gap-3">
                         <div class="w-9 h-9 rounded-xl bg-bch-600 text-white flex items-center justify-center font-bold shadow-sm"><i class="fa-solid fa-building-user"></i></div>
                         <div>
-                            <h3 class="font-bold text-slate-800 text-base">1. หมวดข้อมูลทั่วไปของแผนก</h3>
+                            <h3 class="font-bold text-slate-800 text-base">1. หมวดข้อมูลทั่วไป</h3>
                             <p class="text-xs text-slate-500">ระบุสายงาน หน่วยงาน และข้อมูลผู้ประสานงาน</p>
                         </div>
                     </div>
@@ -197,7 +193,7 @@
                     <div class="flex items-center gap-3">
                         <div class="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-bold shadow-sm"><i class="fa-solid fa-user-doctor"></i></div>
                         <div>
-                            <h3 class="font-bold text-slate-800 text-base">2. หมวดข้อมูลบุคลากร (Personnel Data)</h3>
+                            <h3 class="font-bold text-slate-800 text-base">2. หมวดข้อมูลบุคลากร </h3>
                             <p class="text-xs text-slate-500">จำนวนผู้ปฏิบัติงานและความต้องการพื้นที่ทำงาน</p>
                         </div>
                     </div>
@@ -239,7 +235,7 @@
                     </div>
                     <div class="p-3.5 rounded-xl bg-indigo-50/60 border border-indigo-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                         <div>
-                            <label for="staffPeakShift" class="block text-base font-semibold text-slate-800"><i class="fa-solid fa-people-group text-indigo-600 mr-1"></i> บุคลากรสูงสุดใน 1 กะ (Peak Shift)</label>
+                            <label for="staffPeakShift" class="block text-base font-semibold text-slate-800"><i class="fa-solid fa-people-group text-indigo-600 mr-1"></i> บุคลากรสูงสุดใน 1 กะ </label>
                             <p class="text-xs text-slate-500">เพื่อคำนวณพื้นที่ทำงาน ณ ช่วงเวลาที่มีคนเยอะที่สุด</p>
                         </div>
                         <div class="flex items-center gap-1.5 w-36 shrink-0 self-end sm:self-center">
@@ -452,7 +448,7 @@
                     <div class="w-9 h-9 rounded-xl bg-amber-500 text-white flex items-center justify-center font-bold shadow-sm"><i class="fa-solid fa-couch"></i></div>
                     <div>
                         <h3 class="font-bold text-slate-800 text-base">5. หมวดครุภัณฑ์</h3>
-                        <p class="text-xs text-slate-500">เฟอร์นิเจอร์หลักและอุปกรณ์สำนักงานส่วนกลาง</p>
+                        <p class="text-xs text-slate-500">เฟอร์นิเจอร์หลัก (ไม่รวมอุปกรณ์ IT)</p>
                     </div>
                 </div>
                 <div class="p-4 sm:p-5 space-y-5">
@@ -485,27 +481,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="space-y-3">
-                        <label class="block text-base font-semibold text-slate-700"><i class="fa-solid fa-print text-amber-600 mr-1"></i> อุปกรณ์สำนักงานส่วนกลาง</label>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex sm:flex-col items-center sm:items-start justify-between gap-2">
-                                <span class="text-sm font-semibold text-slate-700 block">เครื่องสแกนเนอร์</span>
-                                <div class="flex items-center gap-1.5 w-28 sm:w-full">
-                                    <button type="button" onclick="stepNumber('scanners', -1)" class="stepper-btn w-9 h-9 rounded-lg bg-white border border-slate-300 text-slate-700 font-bold">-</button>
-                                    <input type="number" id="scanners" name="scanners" min="0" value="0" class="w-full text-center font-bold text-base py-1 rounded-lg border border-slate-300 bg-white">
-                                    <button type="button" onclick="stepNumber('scanners', 1)" class="stepper-btn w-9 h-9 rounded-lg bg-amber-500 text-white font-bold">+</button>
-                                </div>
-                            </div>
-                            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex sm:flex-col items-center sm:items-start justify-between gap-2">
-                                <span class="text-sm font-semibold text-slate-700 block">เครื่องพิมพ์ (Printer)</span>
-                                <div class="flex items-center gap-1.5 w-28 sm:w-full">
-                                    <button type="button" onclick="stepNumber('printers', -1)" class="stepper-btn w-9 h-9 rounded-lg bg-white border border-slate-300 text-slate-700 font-bold">-</button>
-                                    <input type="number" id="printers" name="printers" min="0" value="0" class="w-full text-center font-bold text-base py-1 rounded-lg border border-slate-300 bg-white">
-                                    <button type="button" onclick="stepNumber('printers', 1)" class="stepper-btn w-9 h-9 rounded-lg bg-amber-500 text-white font-bold">+</button>
-                                </div>
-                            </div>
-                        </div>
-                        <input type="text" id="otherEquipmentNote" name="otherEquipmentNote" placeholder="ระบุเครื่องมือแพทย์ขนาดใหญ่ ที่ต้องเผื่อพื้นที่ติดตั้ง..." class="w-full rounded-xl border border-slate-300 bg-slate-50/50 px-3.5 py-2.5 text-base focus:border-amber-500 focus:outline-none transition">
+                    <div>
+                        <input type="text" id="otherEquipmentNote" name="otherEquipmentNote" placeholder="ระบุเครื่องมือแพทย์ขนาดใหญ่ หรืออื่นๆ ที่ต้องเผื่อพื้นที่..." class="w-full rounded-xl border border-slate-300 bg-slate-50/50 px-3.5 py-2.5 text-base focus:border-amber-500 focus:outline-none transition">
                     </div>
                 </div>
             </section>
@@ -516,19 +493,38 @@
                     <div class="w-9 h-9 rounded-xl bg-sky-600 text-white flex items-center justify-center font-bold shadow-sm"><i class="fa-solid fa-network-wired"></i></div>
                     <div>
                         <h3 class="font-bold text-slate-800 text-base">6. หมวดระบบโครงสร้างพื้นฐานและ IT</h3>
-                        <p class="text-xs text-slate-500">คอมพิวเตอร์ จุดเชื่อมต่อเครือข่าย ปลั๊กไฟ ก๊าซทางการแพทย์</p>
+                        <p class="text-xs text-slate-500">คอมพิวเตอร์ อุปกรณ์พิมพ์ จุดปลั๊กไฟ และก๊าซแพทย์</p>
                     </div>
                 </div>
                 <div class="p-4 sm:p-5 space-y-5">
                     <div class="space-y-2.5">
-                        <label class="block text-base font-semibold text-slate-700"><i class="fa-solid fa-computer text-sky-600 mr-1"></i> อุปกรณ์คอมพิวเตอร์ PC</label>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <label class="block text-base font-semibold text-slate-700"><i class="fa-solid fa-computer text-sky-600 mr-1"></i> อุปกรณ์คอมพิวเตอร์และเครื่องพิมพ์</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <!-- คอมพิวเตอร์ -->
                             <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex sm:flex-col items-center sm:items-start justify-between gap-2">
-                                <span class="text-sm font-semibold text-slate-700 block">คอมพิวเตอร์ PC (เครื่อง)</span>
-                                <div class="flex items-center gap-1.5 w-32 sm:w-full">
-                                    <button type="button" onclick="stepNumber('itPCs', -1)" class="stepper-btn w-9 h-9 rounded-lg bg-white border border-slate-300 text-slate-700 font-bold">-</button>
+                                <span class="text-sm font-semibold text-slate-700 block">คอมพิวเตอร์ PC</span>
+                                <div class="flex items-center gap-1.5 w-28 sm:w-full">
+                                    <button type="button" onclick="stepNumber('itPCs', -1)" class="stepper-btn w-8 h-8 rounded-lg bg-white border border-slate-300 text-slate-700 font-bold">-</button>
                                     <input type="number" id="itPCs" name="itPCs" min="0" value="0" class="w-full text-center font-bold text-base py-1 rounded-lg border border-slate-300 bg-white">
-                                    <button type="button" onclick="stepNumber('itPCs', 1)" class="stepper-btn w-9 h-9 rounded-lg bg-sky-600 text-white font-bold">+</button>
+                                    <button type="button" onclick="stepNumber('itPCs', 1)" class="stepper-btn w-8 h-8 rounded-lg bg-sky-600 text-white font-bold">+</button>
+                                </div>
+                            </div>
+                            <!-- ย้าย Scanner มาที่นี่ -->
+                            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex sm:flex-col items-center sm:items-start justify-between gap-2">
+                                <span class="text-sm font-semibold text-slate-700 block">สแกนเนอร์</span>
+                                <div class="flex items-center gap-1.5 w-28 sm:w-full">
+                                    <button type="button" onclick="stepNumber('scanners', -1)" class="stepper-btn w-8 h-8 rounded-lg bg-white border border-slate-300 text-slate-700 font-bold">-</button>
+                                    <input type="number" id="scanners" name="scanners" min="0" value="0" class="w-full text-center font-bold text-base py-1 rounded-lg border border-slate-300 bg-white">
+                                    <button type="button" onclick="stepNumber('scanners', 1)" class="stepper-btn w-8 h-8 rounded-lg bg-sky-600 text-white font-bold">+</button>
+                                </div>
+                            </div>
+                            <!-- ย้าย Printer มาที่นี่ -->
+                            <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex sm:flex-col items-center sm:items-start justify-between gap-2">
+                                <span class="text-sm font-semibold text-slate-700 block">เครื่องพิมพ์ (Printer)</span>
+                                <div class="flex items-center gap-1.5 w-28 sm:w-full">
+                                    <button type="button" onclick="stepNumber('printers', -1)" class="stepper-btn w-8 h-8 rounded-lg bg-white border border-slate-300 text-slate-700 font-bold">-</button>
+                                    <input type="number" id="printers" name="printers" min="0" value="0" class="w-full text-center font-bold text-base py-1 rounded-lg border border-slate-300 bg-white">
+                                    <button type="button" onclick="stepNumber('printers', 1)" class="stepper-btn w-8 h-8 rounded-lg bg-sky-600 text-white font-bold">+</button>
                                 </div>
                             </div>
                         </div>
@@ -584,11 +580,24 @@
                 <div class="bg-gradient-to-r from-emerald-50 to-teal-50/50 px-4 py-3.5 border-b border-slate-200/70 flex items-center gap-3">
                     <div class="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold shadow-sm"><i class="fa-solid fa-lightbulb"></i></div>
                     <div>
-                        <h3 class="font-bold text-slate-800 text-base">7. หมวดข้อเสนอแนะและการพัฒนา</h3>
-                        <p class="text-xs text-slate-500">ปัญหาพื้นที่เดิมและแผนการขยายบริการในอนาคต</p>
+                        <h3 class="font-bold text-slate-800 text-base">7. พื้นที่และข้อเสนอแนะ</h3>
+                        <p class="text-xs text-slate-500">สรุปขนาดพื้นที่ ปัญหาเดิม และแผนในอนาคต</p>
                     </div>
                 </div>
-                <div class="p-4 sm:p-5 space-y-4">
+                <div class="p-4 sm:p-5 space-y-5">
+                    
+                    <!-- ส่วนพื้นที่รวมที่เพิ่มใหม่ -->
+                    <div class="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200">
+                        <label for="totalAreaSqm" class="block text-base font-bold text-emerald-800 mb-1">
+                            <i class="fa-solid fa-ruler-combined mr-1"></i> ขนาดพื้นที่รวมที่ต้องการ (ตารางเมตร)
+                        </label>
+                        <p class="text-xs text-emerald-600/80 mb-3">โปรดประเมินขนาดพื้นที่รวมทั้งหมดของแผนกในอาคารใหม่</p>
+                        <div class="relative">
+                            <input type="number" id="totalAreaSqm" name="totalAreaSqm" min="0" placeholder="ตัวอย่าง: 150" class="w-full rounded-xl border border-emerald-300 bg-white px-4 py-3 text-lg font-bold text-emerald-900 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-500/20 transition pr-16">
+                            <span class="absolute inset-y-0 right-4 flex items-center text-sm font-semibold text-slate-400 pointer-events-none">ตร.ม.</span>
+                        </div>
+                    </div>
+
                     <div>
                         <label for="currentIssues" class="block text-base font-semibold text-slate-700 mb-1"><i class="fa-solid fa-triangle-exclamation text-amber-500 mr-1"></i> ปัญหาในปัจจุบันที่ต้องการให้แก้ไข</label>
                         <textarea id="currentIssues" name="currentIssues" rows="3" placeholder="ระบุข้อจำกัดของพื้นที่ปัจจุบัน..." class="w-full rounded-xl border border-slate-300 bg-slate-50/50 p-3 text-base focus:border-emerald-600 focus:outline-none transition"></textarea>
@@ -602,7 +611,7 @@
         </form>
     </main>
 
-    <!-- Bottom Submit Bar (อัปเดตเหลือปุ่มเดียวเต็มจอ) -->
+    <!-- Bottom Submit Bar -->
     <div class="fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-[0_-4px_15px_rgba(0,0,0,0.05)] p-4">
         <div class="max-w-3xl mx-auto">
             <button type="button" onclick="triggerSubmit()" class="w-full py-3.5 px-6 rounded-xl text-lg font-bold text-white bg-gradient-to-r from-bch-600 to-indigo-600 hover:from-bch-700 hover:to-indigo-700 shadow-md shadow-bch-600/30 active:scale-[0.98] transition-all flex items-center justify-center gap-2">
@@ -625,7 +634,7 @@
 
         window.addEventListener('DOMContentLoaded', () => {
             loadDraft();
-            fetchStatsCount(); // โหลดจำนวนสถิติมาแสดงบน Badge ตอนเปิดเว็บ
+            fetchStatsCount();
             document.getElementById('bchSurveyForm').addEventListener('input', () => { saveDraft(); updateProgressBar(); });
         });
 
@@ -709,15 +718,15 @@
             document.getElementById('formProgressBar').style.width = `${Math.min(100, Math.max(12, Math.round((filled / totalChecks) * 100)))}%`;
         }
 
-        const getV = (id) => document.getElementById(id)?.value || '0';
+        const getV = (id) => document.getElementById(id)?.value || '';
         const getT = (id) => document.getElementById(id)?.value?.trim() || '';
         const getC = (id) => document.getElementById(id)?.checked || false;
 
         function collectFormData() {
             return {
                 timestamp: new Date().toLocaleString('th-TH'),
-                division: getT('division'),
-                department: getT('department'),
+                division: getV('division'),
+                department: getV('department'),
                 respondentName: getT('respondentName'),
                 respondentPhone: getT('respondentPhone'),
                 operatingHours: getT('operatingHours'),
@@ -756,17 +765,18 @@
                 largeCabinets: getV('largeCabinets'),
                 shelves: getV('shelves'),
                 examBeds: getV('examBeds'),
-                scanners: getV('scanners'),
-                printers: getV('printers'),
                 otherEquipmentNote: getT('otherEquipmentNote'),
                 
                 itPCs: getV('itPCs'),
+                scanners: getV('scanners'), // Moved here
+                printers: getV('printers'), // Moved here
                 powerOutlets: getV('powerOutlets'),
                 lanPorts: getV('lanPorts'),
                 wifiPoints: getV('wifiPoints'),
                 medicalGasPoints: getV('medicalGasPoints'),
                 infrastructureNote: getT('infrastructureNote'),
                 
+                totalAreaSqm: getV('totalAreaSqm'), // New Field
                 currentIssues: getT('currentIssues'),
                 futureProjects: getT('futureProjects')
             };
@@ -806,7 +816,7 @@
         }
 
         async function fetchDataForEdit() {
-            const dept = getT('department');
+            const dept = getV('department');
             if (!dept) return Swal.fire({ icon: 'warning', title: 'กรุณาเลือกหน่วยงานก่อน' });
             Swal.fire({ title: 'กำลังดึงข้อมูล...', didOpen: () => { Swal.showLoading(); } });
             try {
@@ -853,11 +863,11 @@
                     <div class="grid grid-cols-2 gap-x-2 gap-y-1 text-slate-700 px-2 text-[13px] sm:text-sm">
                         <div><b>รวมบุคลากร:</b> ${d.staffTotal} คน</div>
                         <div><b>สูงสุด/กะ:</b> ${d.staffPeakShift} คน</div>
-                        <div class="col-span-2 text-xs text-slate-500">(แพทย์ ${d.staffDoctors}, พยาบาล ${d.staffNurses}, สนับสนุน ${d.staffSupport})</div>
+                        <div class="col-span-2 text-xs text-slate-500">(แพทย์ ${d.staffDoctors || 0}, พยาบาล ${d.staffNurses || 0}, สนับสนุน ${d.staffSupport || 0})</div>
                         <hr class="col-span-2 my-1 border-slate-100">
-                        <div><b>โต๊ะประจำ:</b> ${d.fixedDesks}</div>
-                        <div><b>โต๊ะส่วนกลาง:</b> ${d.sharedDesks}</div>
-                        <div class="col-span-2"><b>ตู้ล็อกเกอร์:</b> ${d.staffLockers}</div>
+                        <div><b>โต๊ะประจำ:</b> ${d.fixedDesks || 0}</div>
+                        <div><b>โต๊ะส่วนกลาง:</b> ${d.sharedDesks || 0}</div>
+                        <div class="col-span-2"><b>ตู้ล็อกเกอร์:</b> ${d.staffLockers || 0}</div>
                         <div class="col-span-2"><b>พักเบรก/เปลี่ยนชุด:</b> <span class="text-xs text-slate-600">${d.breakChangingRoom || '-'}</span></div>
                     </div>
                 </div>
@@ -867,12 +877,12 @@
                     <h4 class="font-bold text-med-700 bg-med-50 px-2 py-1 rounded mb-2 border-l-4 border-med-500">3. ผู้รับบริการ</h4>
                     <div class="grid grid-cols-2 gap-x-2 gap-y-1 text-slate-700 px-2 text-[13px] sm:text-sm">
                         ${d.hasPatients ? `
-                            <div><b>ผู้ป่วยเฉลี่ย:</b> ${d.patientsPerDay} คน/วัน</div>
-                            <div><b>ที่นั่งรอ:</b> ${d.waitingSeats}</div>
+                            <div><b>ผู้ป่วยเฉลี่ย:</b> ${d.patientsPerDay || 0} คน/วัน</div>
+                            <div><b>ที่นั่งรอ:</b> ${d.waitingSeats || 0}</div>
                             <div class="col-span-2"><b>ช่วงเวลา Peak:</b> ${d.peakHours || '-'}</div>
                             <hr class="col-span-2 my-1 border-slate-100">
-                            <div><b>จอดรถเข็น:</b> ${d.wheelchairParking} คัน</div>
-                            <div><b>จอดเตียง:</b> ${d.stretcherParking} เตียง</div>
+                            <div><b>จอดรถเข็น:</b> ${d.wheelchairParking || 0} คัน</div>
+                            <div><b>จอดเตียง:</b> ${d.stretcherParking || 0} เตียง</div>
                             ${d.mobilityParkingNote ? `<div class="col-span-2 text-xs text-slate-500">หมายเหตุ: ${d.mobilityParkingNote}</div>` : ''}
                         ` : `<div class="col-span-2 text-slate-500">ไม่มีผู้รับบริการโดยตรง</div>`}
                     </div>
@@ -882,16 +892,16 @@
                 <div>
                     <h4 class="font-bold text-violet-700 bg-violet-50 px-2 py-1 rounded mb-2 border-l-4 border-violet-500">4. พื้นที่ใช้สอย & สุขอนามัย</h4>
                     <div class="grid grid-cols-2 gap-x-2 gap-y-1 text-slate-700 px-2 text-[13px] sm:text-sm">
-                        <div><b>ห้องตรวจ:</b> ${d.examRooms}</div>
-                        <div><b>ห้องหัตถการ:</b> ${d.treatmentRooms}</div>
+                        <div><b>ห้องตรวจ:</b> ${d.examRooms || 0}</div>
+                        <div><b>ห้องหัตถการ:</b> ${d.treatmentRooms || 0}</div>
                         <hr class="col-span-2 my-1 border-slate-100">
-                        <div><b>เก็บยา:</b> ${d.storageMedRooms} <span class="text-[10px] text-slate-400">${d.storageMedNote}</span></div>
-                        <div><b>เก็บอุปกรณ์:</b> ${d.storageEquipRooms} <span class="text-[10px] text-slate-400">${d.storageEquipNote}</span></div>
-                        <div class="col-span-2"><b>เก็บเอกสาร:</b> ${d.storageDocRooms} <span class="text-[10px] text-slate-400">${d.storageDocNote}</span></div>
+                        <div><b>เก็บยา:</b> ${d.storageMedRooms || 0} <span class="text-[10px] text-slate-400">${d.storageMedNote}</span></div>
+                        <div><b>เก็บอุปกรณ์:</b> ${d.storageEquipRooms || 0} <span class="text-[10px] text-slate-400">${d.storageEquipNote}</span></div>
+                        <div class="col-span-2"><b>เก็บเอกสาร:</b> ${d.storageDocRooms || 0} <span class="text-[10px] text-slate-400">${d.storageDocNote}</span></div>
                         <hr class="col-span-2 my-1 border-slate-100">
-                        <div><b>ซักล้าง:</b> ${d.washingZones}</div>
-                        <div><b>ขยะทั่วไป:</b> ${d.generalWastePoints}</div>
-                        <div class="col-span-2"><b>ขยะติดเชื้อ:</b> ${d.infectiousWastePoints}</div>
+                        <div><b>ซักล้าง:</b> ${d.washingZones || 0}</div>
+                        <div><b>ขยะทั่วไป:</b> ${d.generalWastePoints || 0}</div>
+                        <div class="col-span-2"><b>ขยะติดเชื้อ:</b> ${d.infectiousWastePoints || 0}</div>
                     </div>
                 </div>
 
@@ -899,13 +909,10 @@
                 <div>
                     <h4 class="font-bold text-amber-700 bg-amber-50 px-2 py-1 rounded mb-2 border-l-4 border-amber-500">5. ครุภัณฑ์</h4>
                     <div class="grid grid-cols-2 gap-x-2 gap-y-1 text-slate-700 px-2 text-[13px] sm:text-sm">
-                        <div><b>ตู้ใหญ่:</b> ${d.largeCabinets}</div>
-                        <div><b>ชั้นวาง:</b> ${d.shelves}</div>
-                        <div class="col-span-2"><b>เตียงตรวจ:</b> ${d.examBeds}</div>
-                        <hr class="col-span-2 my-1 border-slate-100">
-                        <div><b>สแกนเนอร์:</b> ${d.scanners}</div>
-                        <div><b>เครื่องพิมพ์:</b> ${d.printers}</div>
-                        ${d.otherEquipmentNote ? `<div class="col-span-2"><b>หมายเหตุ:</b> <span class="text-xs text-slate-500">${d.otherEquipmentNote}</span></div>` : ''}
+                        <div><b>ตู้ใหญ่:</b> ${d.largeCabinets || 0}</div>
+                        <div><b>ชั้นวาง:</b> ${d.shelves || 0}</div>
+                        <div class="col-span-2"><b>เตียงตรวจ:</b> ${d.examBeds || 0}</div>
+                        ${d.otherEquipmentNote ? `<div class="col-span-2 mt-1"><b>หมายเหตุอื่นๆ:</b> <span class="text-xs text-slate-500">${d.otherEquipmentNote}</span></div>` : ''}
                     </div>
                 </div>
 
@@ -913,20 +920,25 @@
                 <div>
                     <h4 class="font-bold text-sky-700 bg-sky-50 px-2 py-1 rounded mb-2 border-l-4 border-sky-500">6. โครงสร้างพื้นฐาน & IT</h4>
                     <div class="grid grid-cols-2 gap-x-2 gap-y-1 text-slate-700 px-2 text-[13px] sm:text-sm">
-                        <div><b>คอม PC:</b> ${d.itPCs} เครื่อง</div>
-                        <div><b>ก๊าซแพทย์:</b> ${d.medicalGasPoints} จุด</div>
+                        <div><b>คอม PC:</b> ${d.itPCs || 0} เครื่อง</div>
+                        <div><b>สแกนเนอร์:</b> ${d.scanners || 0}</div>
+                        <div class="col-span-2"><b>เครื่องพิมพ์:</b> ${d.printers || 0}</div>
                         <hr class="col-span-2 my-1 border-slate-100">
-                        <div><b>ปลั๊กไฟ:</b> ${d.powerOutlets} จุด</div>
-                        <div><b>สาย LAN:</b> ${d.lanPorts} จุด</div>
-                        <div class="col-span-2"><b>Wi-Fi:</b> ${d.wifiPoints} จุด</div>
-                        ${d.infrastructureNote ? `<div class="col-span-2"><b>หมายเหตุ:</b> <span class="text-xs text-slate-500">${d.infrastructureNote}</span></div>` : ''}
+                        <div><b>ปลั๊กไฟ:</b> ${d.powerOutlets || 0} จุด</div>
+                        <div><b>สาย LAN:</b> ${d.lanPorts || 0} จุด</div>
+                        <div><b>Wi-Fi:</b> ${d.wifiPoints || 0} จุด</div>
+                        <div><b>ก๊าซแพทย์:</b> ${d.medicalGasPoints || 0} จุด</div>
+                        ${d.infrastructureNote ? `<div class="col-span-2 mt-1"><b>หมายเหตุวิศวกรรม:</b> <span class="text-xs text-slate-500">${d.infrastructureNote}</span></div>` : ''}
                     </div>
                 </div>
 
                 <!-- หมวด 7 -->
                 <div>
-                    <h4 class="font-bold text-emerald-700 bg-emerald-50 px-2 py-1 rounded mb-2 border-l-4 border-emerald-500">7. ข้อเสนอแนะ</h4>
+                    <h4 class="font-bold text-emerald-700 bg-emerald-50 px-2 py-1 rounded mb-2 border-l-4 border-emerald-500">7. พื้นที่และข้อเสนอแนะ</h4>
                     <div class="text-slate-700 px-2 space-y-1.5 text-[13px] sm:text-sm">
+                        <div class="bg-emerald-100/50 p-2 rounded border border-emerald-200">
+                            <b>พื้นที่รวมที่ต้องการ:</b> <span class="text-base font-bold text-emerald-700">${d.totalAreaSqm || '-'} ตร.ม.</span>
+                        </div>
                         <div><b class="block">ปัญหาปัจจุบัน:</b> <span class="text-xs">${d.currentIssues || '-'}</span></div>
                         <div><b class="block">แผนอนาคต:</b> <span class="text-xs">${d.futureProjects || '-'}</span></div>
                     </div>
@@ -935,9 +947,6 @@
             `;
         }
 
-        // ==========================================
-        // เปลี่ยนแปลง: นำข้อมูลมาแสดงเพื่อตรวจสอบก่อน แล้วค่อยบันทึก
-        // ==========================================
         function triggerSubmit(skipValidation = false) {
             if (!skipValidation && !validateRequiredFields()) return;
             const d = collectFormData();
@@ -966,14 +975,11 @@
                 await fetch(DEFAULT_GAS_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(data) });
                 localStorage.removeItem('bch_survey_draft');
                 Swal.fire({ icon: 'success', title: 'บันทึกข้อมูลสำเร็จ!', confirmButtonColor: '#6d38ee' }).then(() => {
-                    fetchStatsCount(); // อัปเดตตัวเลขสถิติใหม่หลังบันทึกเสร็จ
+                    fetchStatsCount(); 
                 });
             } catch (error) { Swal.fire({ icon: 'error', title: 'เกิดข้อผิดพลาด', text: error.message }); }
         }
 
-        // ==========================================
-        // ระบบสถิติแผนกที่กรอกแล้ว (แทนที่ระบบประวัติแบบเดิม)
-        // ==========================================
         async function fetchStatsCount() {
             try {
                 const response = await fetch(`${DEFAULT_GAS_URL}?action=stats`);
