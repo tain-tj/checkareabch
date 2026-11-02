@@ -46,6 +46,7 @@
 </head>
 <body class="text-slate-800 pb-28">
 
+    <!-- Header -->
     <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-200/80">
         <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
             <div class="flex items-center gap-3">
@@ -80,7 +81,7 @@
             <a href="#sec-3" onclick="setActivePill(3)" id="pill-3" class="nav-pill shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-white text-slate-600 border border-slate-200 hover:border-bch-300 transition"><i class="fa-solid fa-hospital-user"></i> 3. ผู้รับบริการ</a>
             <a href="#sec-4" onclick="setActivePill(4)" id="pill-4" class="nav-pill shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-white text-slate-600 border border-slate-200 hover:border-bch-300 transition"><i class="fa-solid fa-door-open"></i> 4. พื้นที่ใช้สอย</a>
             <a href="#sec-5" onclick="setActivePill(5)" id="pill-5" class="nav-pill shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-white text-slate-600 border border-slate-200 hover:border-bch-300 transition"><i class="fa-solid fa-couch"></i> 5. ครุภัณฑ์</a>
-            <a href="#sec-6" onclick="setActivePill(6)" id="pill-6" class="nav-pill shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-white text-slate-600 border border-slate-200 hover:border-bch-300 transition"><i class="fa-solid fa-network-wired"></i> 6. ระบบ IT/โครงสร้าง</a>
+            <a href="#sec-6" onclick="setActivePill(6)" id="pill-6" class="nav-pill shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-white text-slate-600 border border-slate-200 hover:border-bch-300 transition"><i class="fa-solid fa-network-wired"></i> 6. ระบบ IT</a>
             <a href="#sec-7" onclick="setActivePill(7)" id="pill-7" class="nav-pill shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-white text-slate-600 border border-slate-200 hover:border-bch-300 transition"><i class="fa-solid fa-lightbulb"></i> 7. ข้อเสนอแนะ</a>
         </div>
     </header>
@@ -120,7 +121,6 @@
                 </div>
                 <div class="p-4 sm:p-5 space-y-4">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <!-- สายงาน -->
                         <div>
                             <label for="division" class="block text-base font-semibold text-slate-700 mb-1.5"><i class="fa-solid fa-sitemap text-bch-600 mr-1"></i> สายงาน <span class="text-rose-500">*</span></label>
                             <div class="relative">
@@ -134,7 +134,6 @@
                                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-slate-400"><i class="fa-solid fa-chevron-down text-base"></i></div>
                             </div>
                         </div>
-                        <!-- หน่วยงาน -->
                         <div>
                             <div class="flex items-center justify-between mb-1.5">
                                 <label for="department" class="block text-base font-semibold text-slate-700"><i class="fa-solid fa-hospital text-bch-600 mr-1"></i> หน่วยงาน/แผนก <span class="text-rose-500">*</span></label>
@@ -151,7 +150,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- ผู้ให้ข้อมูล & เบอร์โทร -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label for="respondentName" class="block text-base font-semibold text-slate-700 mb-1.5"><i class="fa-solid fa-user-pen text-bch-600 mr-1"></i> ชื่อผู้ให้ข้อมูล <span class="text-rose-500">*</span></label>
@@ -162,7 +160,6 @@
                             <input type="tel" id="respondentPhone" name="respondentPhone" required placeholder="เช่น ต่อ 1234 หรือ 08x-xxx-xxxx" class="w-full rounded-xl border border-slate-300 bg-slate-50/50 px-3.5 py-2.5 text-base focus:border-bch-600 focus:bg-white focus:outline-none focus:ring-2 focus:ring-bch-500/20 transition">
                         </div>
                     </div>
-                    <!-- เวลาทำการ -->
                     <div>
                         <label for="operatingHours" class="block text-base font-semibold text-slate-700 mb-1.5"><i class="fa-solid fa-clock text-bch-600 mr-1"></i> เวลาทำการของแผนก <span class="text-rose-500">*</span></label>
                         <div class="flex flex-wrap gap-1.5 mb-2">
@@ -173,7 +170,6 @@
                         </div>
                         <input type="text" id="operatingHours" name="operatingHours" required placeholder="ระบุเวลาทำการ เช่น 24 ชั่วโมง หรือ 08:00-17:00 น." class="w-full rounded-xl border border-slate-300 bg-slate-50/50 px-3.5 py-2.5 text-base focus:border-bch-600 focus:bg-white focus:outline-none focus:ring-2 focus:ring-bch-500/20 transition">
                     </div>
-                    <!-- ความเชื่อมโยง -->
                     <div>
                         <label for="adjacency" class="block text-base font-semibold text-slate-700 mb-1"><i class="fa-solid fa-diagram-project text-bch-600 mr-1"></i> ความเชื่อมโยงกับแผนกอื่น (Adjacency)</label>
                         <p class="text-xs text-slate-500 mb-2">แผนกใดที่ต้องติดต่อประสานงานบ่อย หรือจำเป็นต้องมีพื้นที่ตั้งอยู่ใกล้เคียงกัน</p>
@@ -391,6 +387,7 @@
                                     <input type="number" id="storageMedRooms" name="storageMedRooms" min="0" value="0" class="w-full text-center font-bold text-base py-1 rounded-lg border border-slate-300 bg-white">
                                     <button type="button" onclick="stepNumber('storageMedRooms', 1)" class="stepper-btn w-8 h-8 rounded-lg bg-violet-600 text-white font-bold">+</button>
                                 </div>
+                                <input type="text" id="storageMedNote" name="storageMedNote" placeholder="เช่น คุมอุณหภูมิ" class="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs focus:outline-none">
                             </div>
                             <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2">
                                 <div class="flex items-center justify-between"><span class="text-sm font-semibold text-slate-700">อุปกรณ์การแพทย์</span></div>
@@ -399,6 +396,7 @@
                                     <input type="number" id="storageEquipRooms" name="storageEquipRooms" min="0" value="0" class="w-full text-center font-bold text-base py-1 rounded-lg border border-slate-300 bg-white">
                                     <button type="button" onclick="stepNumber('storageEquipRooms', 1)" class="stepper-btn w-8 h-8 rounded-lg bg-violet-600 text-white font-bold">+</button>
                                 </div>
+                                <input type="text" id="storageEquipNote" name="storageEquipNote" placeholder="ชนิดอุปกรณ์หลัก" class="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs focus:outline-none">
                             </div>
                             <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2">
                                 <div class="flex items-center justify-between"><span class="text-sm font-semibold text-slate-700">ห้อง/ตู้เก็บเอกสาร</span></div>
@@ -407,6 +405,7 @@
                                     <input type="number" id="storageDocRooms" name="storageDocRooms" min="0" value="0" class="w-full text-center font-bold text-base py-1 rounded-lg border border-slate-300 bg-white">
                                     <button type="button" onclick="stepNumber('storageDocRooms', 1)" class="stepper-btn w-8 h-8 rounded-lg bg-violet-600 text-white font-bold">+</button>
                                 </div>
+                                <input type="text" id="storageDocNote" name="storageDocNote" placeholder="ชนิดแฟ้ม/เอกสาร" class="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs focus:outline-none">
                             </div>
                         </div>
                     </div>
@@ -718,78 +717,95 @@
             document.getElementById('formProgressBar').style.width = `${Math.min(100, Math.max(12, Math.round((filled / totalChecks) * 100)))}%`;
         }
 
-        // โค้ดดึงข้อมูลได้รับการปรับใหม่ 100% ไม่มีการเรียกใช้ id ที่โดนลบออกไปแล้ว
+        // -------------------------------------------------------------
+        // ระบบดึงข้อมูลใหม่ ฉลาดและทนทานต่อการลบ/เพิ่มฟิลด์ (ดัก Null 100%)
+        // -------------------------------------------------------------
+        const getV = (id) => document.getElementById(id)?.value || '';
+        const getT = (id) => document.getElementById(id)?.value?.trim() || '';
+        const getC = (id) => document.getElementById(id)?.checked || false;
+
         function collectFormData() {
             return {
                 timestamp: new Date().toLocaleString('th-TH'),
-                division: document.getElementById('division').value,
-                department: document.getElementById('department').value,
-                respondentName: document.getElementById('respondentName').value.trim(),
-                respondentPhone: document.getElementById('respondentPhone').value.trim(),
-                operatingHours: document.getElementById('operatingHours').value.trim(),
-                adjacency: document.getElementById('adjacency').value.trim(),
+                division: getV('division'),
+                department: getV('department'),
+                respondentName: getT('respondentName'),
+                respondentPhone: getT('respondentPhone'),
+                operatingHours: getT('operatingHours'),
+                adjacency: getT('adjacency'),
                 
-                staffDoctors: document.getElementById('staffDoctors').value,
-                staffNurses: document.getElementById('staffNurses').value,
-                staffSupport: document.getElementById('staffSupport').value,
-                staffTotal: document.getElementById('staffTotal').value,
-                staffPeakShift: document.getElementById('staffPeakShift').value,
-                fixedDesks: document.getElementById('fixedDesks').value,
-                sharedDesks: document.getElementById('sharedDesks').value,
-                staffLockers: document.getElementById('staffLockers').value,
-                breakChangingRoom: document.getElementById('breakChangingRoom').value.trim(),
+                staffDoctors: getV('staffDoctors'),
+                staffNurses: getV('staffNurses'),
+                staffSupport: getV('staffSupport'),
+                staffTotal: getV('staffTotal'),
+                staffPeakShift: getV('staffPeakShift'),
+                fixedDesks: getV('fixedDesks'),
+                sharedDesks: getV('sharedDesks'),
+                staffLockers: getV('staffLockers'),
+                breakChangingRoom: getT('breakChangingRoom'),
                 
-                hasPatients: document.getElementById('hasPatientsToggle').checked,
-                patientsPerDay: document.getElementById('patientsPerDay').value,
-                peakHours: document.getElementById('peakHours').value.trim(),
-                waitingSeats: document.getElementById('waitingSeats').value,
-                wheelchairParking: document.getElementById('wheelchairParking').value,
-                stretcherParking: document.getElementById('stretcherParking').value,
-                mobilityParkingNote: document.getElementById('mobilityParkingNote').value.trim(),
+                hasPatients: getC('hasPatientsToggle'),
+                patientsPerDay: getV('patientsPerDay'),
+                peakHours: getT('peakHours'),
+                waitingSeats: getV('waitingSeats'),
+                wheelchairParking: getV('wheelchairParking'),
+                stretcherParking: getV('stretcherParking'),
+                mobilityParkingNote: getT('mobilityParkingNote'),
                 
-                examRooms: document.getElementById('examRooms').value,
-                treatmentRooms: document.getElementById('treatmentRooms').value,
-                storageMedRooms: document.getElementById('storageMedRooms').value,
-                storageMedNote: document.getElementById('storageMedNote').value.trim(),
-                storageEquipRooms: document.getElementById('storageEquipRooms').value,
-                storageEquipNote: document.getElementById('storageEquipNote').value.trim(),
-                storageDocRooms: document.getElementById('storageDocRooms').value,
-                storageDocNote: document.getElementById('storageDocNote').value.trim(),
-                washingZones: document.getElementById('washingZones').value,
-                generalWastePoints: document.getElementById('generalWastePoints').value,
-                infectiousWastePoints: document.getElementById('infectiousWastePoints').value,
+                examRooms: getV('examRooms'),
+                treatmentRooms: getV('treatmentRooms'),
+                storageMedRooms: getV('storageMedRooms'),
+                storageMedNote: getT('storageMedNote'),
+                storageEquipRooms: getV('storageEquipRooms'),
+                storageEquipNote: getT('storageEquipNote'),
+                storageDocRooms: getV('storageDocRooms'),
+                storageDocNote: getT('storageDocNote'),
+                washingZones: getV('washingZones'),
+                generalWastePoints: getV('generalWastePoints'),
+                infectiousWastePoints: getV('infectiousWastePoints'),
                 
-                largeCabinets: document.getElementById('largeCabinets').value,
-                shelves: document.getElementById('shelves').value,
-                examBeds: document.getElementById('examBeds').value,
-                scanners: document.getElementById('scanners').value,
-                printers: document.getElementById('printers').value,
-                otherEquipmentNote: document.getElementById('otherEquipmentNote').value.trim(),
+                largeCabinets: getV('largeCabinets'),
+                shelves: getV('shelves'),
+                examBeds: getV('examBeds'),
+                scanners: getV('scanners'),
+                printers: getV('printers'),
+                otherEquipmentNote: getT('otherEquipmentNote'),
                 
-                itPCs: document.getElementById('itPCs').value,
-                powerOutlets: document.getElementById('powerOutlets').value,
-                lanPorts: document.getElementById('lanPorts').value,
-                wifiPoints: document.getElementById('wifiPoints').value,
-                medicalGasPoints: document.getElementById('medicalGasPoints').value,
-                infrastructureNote: document.getElementById('infrastructureNote').value.trim(),
+                itPCs: getV('itPCs'),
+                powerOutlets: getV('powerOutlets'),
+                lanPorts: getV('lanPorts'),
+                wifiPoints: getV('wifiPoints'),
+                medicalGasPoints: getV('medicalGasPoints'),
+                infrastructureNote: getT('infrastructureNote'),
                 
-                currentIssues: document.getElementById('currentIssues').value.trim(),
-                futureProjects: document.getElementById('futureProjects').value.trim()
+                currentIssues: getT('currentIssues'),
+                futureProjects: getT('futureProjects')
             };
         }
 
         function saveDraft() {
-            try { localStorage.setItem('bch_survey_draft', JSON.stringify(collectFormData())); document.getElementById('draftStatusBadge').innerHTML = `<i class="fa-solid fa-check text-[10px]"></i> บันทึกร่างอัตโนมัติ`; } catch (e) { console.error(e); }
+            try { localStorage.setItem('bch_survey_draft', JSON.stringify(collectFormData())); document.getElementById('draftStatusBadge').innerHTML = `<i class="fa-solid fa-check text-[10px]"></i> บันทึกร่างอัตโนมัติ`; } catch (e) {}
         }
 
         function loadDraft() {
             try {
                 const raw = localStorage.getItem('bch_survey_draft'); if (!raw) return;
                 const data = JSON.parse(raw);
-                if (data.division) { document.getElementById('division').value = data.division; handleDivisionChange(data.department || ''); }
-                const textFields = ['respondentName', 'respondentPhone', 'operatingHours', 'adjacency', 'staffDoctors', 'staffNurses', 'staffSupport', 'staffPeakShift', 'fixedDesks', 'sharedDesks', 'staffLockers', 'breakChangingRoom', 'patientsPerDay', 'peakHours', 'waitingSeats', 'wheelchairParking', 'stretcherParking', 'mobilityParkingNote', 'examRooms', 'treatmentRooms', 'storageMedRooms', 'storageMedNote', 'storageEquipRooms', 'storageEquipNote', 'storageDocRooms', 'storageDocNote', 'washingZones', 'generalWastePoints', 'infectiousWastePoints', 'largeCabinets', 'shelves', 'examBeds', 'scanners', 'printers', 'otherEquipmentNote', 'itPCs', 'powerOutlets', 'lanPorts', 'wifiPoints', 'medicalGasPoints', 'infrastructureNote', 'currentIssues', 'futureProjects'];
-                textFields.forEach(id => { if (data[id] !== undefined && document.getElementById(id)) document.getElementById(id).value = data[id]; });
-                if (typeof data.hasPatients === 'boolean') { document.getElementById('hasPatientsToggle').checked = data.hasPatients; togglePatientSection(); }
+                if (data.division && document.getElementById('division')) { 
+                    document.getElementById('division').value = data.division; 
+                    handleDivisionChange(data.department || ''); 
+                }
+                const allKeys = Object.keys(data);
+                allKeys.forEach(key => { 
+                    const el = document.getElementById(key); 
+                    if (el && key !== 'division' && key !== 'department' && key !== 'hasPatients') {
+                        el.value = data[key]; 
+                    } 
+                });
+                if (typeof data.hasPatients === 'boolean' && document.getElementById('hasPatientsToggle')) { 
+                    document.getElementById('hasPatientsToggle').checked = data.hasPatients; 
+                    togglePatientSection(); 
+                }
                 calculateTotalStaff(); updateProgressBar();
             } catch (e) {}
         }
@@ -801,14 +817,20 @@
         }
 
         async function fetchDataForEdit() {
-            const dept = document.getElementById('department').value;
+            const dept = getV('department');
             if (!dept) return Swal.fire({ icon: 'warning', title: 'กรุณาเลือกหน่วยงานก่อน' });
             Swal.fire({ title: 'กำลังดึงข้อมูล...', didOpen: () => { Swal.showLoading(); } });
             try {
                 const response = await fetch(`${DEFAULT_GAS_URL}?action=fetch&department=${encodeURIComponent(dept)}`);
                 const result = await response.json();
                 if (result.status === 'success' && result.data) {
-                    Object.keys(result.data).forEach(key => { const el = document.getElementById(key); if (el) { if (el.type === 'checkbox') el.checked = result.data[key]; else el.value = result.data[key]; } });
+                    Object.keys(result.data).forEach(key => { 
+                        const el = document.getElementById(key); 
+                        if (el) { 
+                            if (el.type === 'checkbox') el.checked = result.data[key]; 
+                            else el.value = result.data[key]; 
+                        } 
+                    });
                     calculateTotalStaff(); togglePatientSection(); updateProgressBar(); saveDraft();
                     Swal.fire({ icon: 'success', title: 'ดึงข้อมูลสำเร็จ' });
                 } else { Swal.fire({ icon: 'info', title: 'ไม่พบข้อมูลเดิมของแผนกนี้' }); }
@@ -824,7 +846,7 @@
         function previewSummary() {
             if(!validateRequiredFields()) return;
             const d = collectFormData();
-            const html = `<div class="text-left text-sm space-y-2 p-1 max-h-80 overflow-y-auto"><div class="p-3 bg-bch-50 border rounded-xl"><div class="font-bold">${d.division} &rsaquo; ${d.department}</div><div>ผู้กรอก: ${d.respondentName} (${d.respondentPhone})</div></div><div class="grid grid-cols-2 gap-2"><div class="p-2 border rounded-lg bg-slate-50"><span class="text-[11px] text-slate-500 block">บุคลากร / โต๊ะทำงาน</span><b>${d.staffTotal} คน / ${d.fixedDesks} โต๊ะ</b></div><div class="p-2 border rounded-lg bg-slate-50"><span class="text-[11px] text-slate-500 block">ห้องตรวจ / หัตถการ</span><b>${d.examRooms} / ${d.treatmentRooms} ห้อง</b></div><div class="p-2 border rounded-lg bg-slate-50"><span class="text-[11px] text-slate-500 block">ผู้ป่วย / ที่นั่ง</span><b>${d.hasPatients ? d.patientsPerDay+' คน' : 'ไม่มี'}</b></div><div class="p-2 border rounded-lg bg-slate-50"><span class="text-[11px] text-slate-500 block">คอม PC / ปลั๊ก</span><b>${d.itPCs} / ${d.powerOutlets}</b></div></div></div>`;
+            const html = `<div class="text-left text-sm space-y-2 p-1 max-h-80 overflow-y-auto"><div class="p-3 bg-bch-50 border rounded-xl"><div class="font-bold">${d.division} &rsaquo; ${d.department}</div><div>ผู้กรอก: ${d.respondentName} (${d.respondentPhone})</div></div><div class="grid grid-cols-2 gap-2"><div class="p-2 border rounded-lg bg-slate-50"><span class="text-[11px] text-slate-500 block">บุคลากร / โต๊ะทำงาน</span><b>${d.staffTotal} คน / ${d.fixedDesks} โต๊ะ</b></div><div class="p-2 border rounded-lg bg-slate-50"><span class="text-[11px] text-slate-500 block">ห้องตรวจ / หัตถการ</span><b>${d.examRooms || 0} / ${d.treatmentRooms || 0} ห้อง</b></div><div class="p-2 border rounded-lg bg-slate-50"><span class="text-[11px] text-slate-500 block">ผู้ป่วย / ที่นั่ง</span><b>${d.hasPatients ? d.patientsPerDay+' คน' : 'ไม่มี'}</b></div><div class="p-2 border rounded-lg bg-slate-50"><span class="text-[11px] text-slate-500 block">คอม PC / ปลั๊ก</span><b>${d.itPCs || 0} / ${d.powerOutlets || 0}</b></div></div></div>`;
             Swal.fire({ title: 'ตรวจสอบข้อมูล', html, showCancelButton: true, confirmButtonText: 'ยืนยันบันทึก', confirmButtonColor: '#6d38ee' }).then(res => { if(res.isConfirmed) triggerSubmit(true); });
         }
 
